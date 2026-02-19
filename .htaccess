@@ -1,49 +1,60 @@
-RewriteEngine On
-RewriteBase /
+# Akrasia – Apache URL Rewriting
+# Vyžaduje mod_rewrite a AllowOverride All (nebo FileInfo)
 
-# Protect includes and pages directories from direct access
-RewriteRule ^includes/ - [F,L]
-RewriteRule ^pages/ - [F,L]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# Don't rewrite admin, assets, uploads, api
-RewriteRule ^admin/ - [L]
-RewriteRule ^assets/ - [L]
-RewriteRule ^uploads/ - [L]
-RewriteRule ^api/ - [L]
+    # ── Ochrana interních složek ───────────────────────────────────
+    RewriteRule ^includes(/.*)?$ - [F,L]
+    RewriteRule ^pages(/.*)?$    - [F,L]
 
-# Sitemap and robots
-RewriteRule ^sitemap\.xml$ sitemap.xml [L]
-RewriteRule ^robots\.txt$ robots.txt [L]
+    # ── Průchodné složky a soubory (nerewritovat) ─────────────────
+    RewriteRule ^admin(/.*)?$    - [L]
+    RewriteRule ^cms(/.*)?$      - [L]
+    RewriteRule ^assets(/.*)?$   - [L]
+    RewriteRule ^uploads(/.*)?$  - [L]
+    RewriteRule ^api(/.*)?$      - [L]
 
-# Blog
-RewriteRule ^blog$ index.php?route=blog [L,QSA]
-RewriteRule ^blog/stranka/([0-9]+)$ index.php?route=blog&page=$1 [L,QSA]
+    # ── Statické soubory (nerewritovat) ───────────────────────────
+    RewriteRule ^sitemap\.xml$   - [L]
+    RewriteRule ^robots\.txt$    - [L]
+    RewriteRule ^favicon\.ico$   - [L]
 
-# Article / Category / Tag (blog)
-RewriteRule ^clanek/([a-z0-9-]+)$ index.php?route=article&slug=$1 [L,QSA]
-RewriteRule ^kategorie/([a-z0-9-]+)$ index.php?route=category&slug=$1 [L,QSA]
-RewriteRule ^tag/([a-z0-9-]+)$ index.php?route=tag&slug=$1 [L,QSA]
-RewriteRule ^stranka/([0-9]+)$ index.php?route=blog&page=$1 [L,QSA]
+    # ── Existující soubory a složky nechej projít ─────────────────
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
 
-# Static pages
-RewriteRule ^kdo-jsme$ index.php?route=kdo-jsme [L,QSA]
-RewriteRule ^pribeh$ index.php?route=pribeh [L,QSA]
-RewriteRule ^mise$ index.php?route=mise [L,QSA]
-RewriteRule ^tym$ index.php?route=tym [L,QSA]
-RewriteRule ^spolupracujeme$ index.php?route=spolupracujeme [L,QSA]
-RewriteRule ^hledam-podporu$ index.php?route=hledam-podporu [L,QSA]
-RewriteRule ^vase-pribehy$ index.php?route=vase-pribehy [L,QSA]
-RewriteRule ^pro-firmy$ index.php?route=pro-firmy [L,QSA]
-RewriteRule ^pro-skoly$ index.php?route=pro-skoly [L,QSA]
-RewriteRule ^zapojte-se$ index.php?route=zapojte-se [L,QSA]
-RewriteRule ^staz$ index.php?route=staz [L,QSA]
-RewriteRule ^dobrovolnictvi$ index.php?route=dobrovolnictvi [L,QSA]
-RewriteRule ^stante-se-clenem$ index.php?route=stante-se-clenem [L,QSA]
-RewriteRule ^darujte$ index.php?route=darujte [L,QSA]
-RewriteRule ^terapeuti$ index.php?route=terapeuti [L,QSA]
-RewriteRule ^gdpr$ index.php?route=gdpr [L,QSA]
+    # ── Blog ──────────────────────────────────────────────────────
+    RewriteRule ^blog$                        index.php?route=blog [L,QSA]
+    RewriteRule ^blog/stranka/([0-9]+)$       index.php?route=blog&page=$1 [L,QSA]
+    RewriteRule ^stranka/([0-9]+)$            index.php?route=blog&page=$1 [L,QSA]
 
-# Don't rewrite existing files/dirs
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ index.php [L,QSA]
+    # ── Článek / Kategorie / Tag ──────────────────────────────────
+    RewriteRule ^clanek/([a-z0-9-]+)$         index.php?route=article&slug=$1 [L,QSA]
+    RewriteRule ^kategorie/([a-z0-9-]+)$      index.php?route=category&slug=$1 [L,QSA]
+    RewriteRule ^tag/([a-z0-9-]+)$            index.php?route=tag&slug=$1 [L,QSA]
+
+    # ── Statické stránky ──────────────────────────────────────────
+    RewriteRule ^kdo-jsme$          index.php?route=kdo-jsme [L,QSA]
+    RewriteRule ^pribeh$            index.php?route=pribeh [L,QSA]
+    RewriteRule ^mise$              index.php?route=mise [L,QSA]
+    RewriteRule ^tym$               index.php?route=tym [L,QSA]
+    RewriteRule ^spolupracujeme$    index.php?route=spolupracujeme [L,QSA]
+    RewriteRule ^hledam-podporu$    index.php?route=hledam-podporu [L,QSA]
+    RewriteRule ^vase-pribehy$      index.php?route=vase-pribehy [L,QSA]
+    RewriteRule ^pro-firmy$         index.php?route=pro-firmy [L,QSA]
+    RewriteRule ^pro-skoly$         index.php?route=pro-skoly [L,QSA]
+    RewriteRule ^zapojte-se$        index.php?route=zapojte-se [L,QSA]
+    RewriteRule ^staz$              index.php?route=staz [L,QSA]
+    RewriteRule ^dobrovolnictvi$    index.php?route=dobrovolnictvi [L,QSA]
+    RewriteRule ^stante-se-clenem$  index.php?route=stante-se-clenem [L,QSA]
+    RewriteRule ^darujte$           index.php?route=darujte [L,QSA]
+    RewriteRule ^terapeuti$         index.php?route=terapeuti [L,QSA]
+    RewriteRule ^gdpr$              index.php?route=gdpr [L,QSA]
+
+    # ── Fallback – vše ostatní na index.php ───────────────────────
+    RewriteRule ^(.+)$ index.php [L,QSA]
+
+</IfModule>
