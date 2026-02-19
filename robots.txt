@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Nepřístupné administrativní části
+Disallow: /admin/
+Disallow: /api/
+Disallow: /includes/
+Disallow: /pages/
+
+# Sitemap
+Sitemap: https://akrasia.cz/sitemap.xml

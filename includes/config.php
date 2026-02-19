@@ -22,8 +22,19 @@ define('ADMIN_URL', SITE_URL . '/admin');
 define('UPLOADS_URL', SITE_URL . '/uploads');
 
 // Site
-define('SITE_NAME', 'Můj web');
-define('ARTICLES_PER_PAGE', 10);
+define('SITE_NAME', 'Akrasia');
+define('SITE_TAGLINE', 'PROSTOR, KTERÝ ADHD ROZUMÍ.');
+define('SITE_DESCRIPTION', 'Nezisková organizace zvyšující povědomí o ADHD a propojující lidi s ověřenými terapeuty.');
+define('ARTICLES_PER_PAGE', 9);
+
+// Social media (editable here or extend to admin settings)
+define('SOCIAL_FACEBOOK', '');
+define('SOCIAL_INSTAGRAM', '');
+define('SOCIAL_LINKEDIN', '');
+define('SOCIAL_YOUTUBE', '');
+
+// Google Sheets CSV URL for therapist directory
+define('TERAPEUTI_CSV_URL', '');
 
 // Session
 define('SESSION_LIFETIME', 3600); // 1 hour

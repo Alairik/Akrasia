@@ -1,298 +1,155 @@
-<?php if ($route === 'home' && (!isset($page) || $page === 1)): ?>
+<?php
+/* ── Blog / Kategorie / Tag listing ─────────────────────────── */
 
-<!-- ============================================================
-     HOMEPAGE — Showcase Layout
-     ============================================================ -->
+// Titulek stránky
+if (isset($category)) {
+    $pageTitle       = 'Kategorie: ' . $category['name'];
+    $metaDescription = 'Články v kategorii ' . $category['name'] . ' – Akrasia blog o ADHD.';
+    $listingTitle    = 'Kategorie: ' . $category['name'];
+    $breadcrumbLabel = $category['name'];
+} elseif (isset($tag)) {
+    $pageTitle       = 'Tag: ' . $tag['name'];
+    $metaDescription = 'Články se štítkem ' . $tag['name'] . ' – Akrasia blog o ADHD.';
+    $listingTitle    = 'Štítek: ' . $tag['name'];
+    $breadcrumbLabel = $tag['name'];
+} else {
+    $pageTitle       = 'Blog';
+    $metaDescription = 'Blog Akrasie – články o ADHD, tipech pro každodenní život a zkušenostech komunity.';
+    $listingTitle    = 'Blog';
+    $breadcrumbLabel = 'Blog';
+}
+?>
 
-<!-- Hero Section -->
-<section class="hero">
+<section class="page-hero">
     <div class="container">
-        <div class="hero-badge fade-in-up">Redakční systém</div>
-        <h1 class="fade-in-up"><?= h(SITE_NAME) ?></h1>
-        <p class="hero-subtitle fade-in-up">Moderní CMS pro tvorbu a správu webového obsahu. Elegantní, rychlý a plně přizpůsobitelný.</p>
-        <div class="hero-stats fade-in-up">
-            <div class="stat-item">
-                <div class="stat-number"><?= $total ?></div>
-                <div class="stat-label">Článků</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number"><?= count($allCategories) ?></div>
-                <div class="stat-label">Kategorií</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number"><?= count($allTags) ?></div>
-                <div class="stat-label">Tagů</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Featured Article (first article, large card) -->
-<?php if (!empty($articles)): ?>
-<section class="section">
-    <div class="container">
-        <?php $featured = $articles[0]; ?>
-        <article class="featured-article fade-in-up">
-            <?php if (!empty($featured['featured_image'])): ?>
-            <div class="featured-article-image-wrapper">
-                <a href="<?= SITE_URL ?>/clanek/<?= h($featured['slug']) ?>">
-                    <img src="<?= UPLOADS_URL . '/' . h($featured['featured_image']) ?>"
-                         alt="<?= h($featured['title']) ?>" class="featured-article-image">
-                </a>
-            </div>
+        <nav class="breadcrumb" aria-label="Drobečková navigace">
+            <a href="<?= SITE_URL ?>/">Domů</a>
+            <span class="breadcrumb-sep" aria-hidden="true">›</span>
+            <?php if (isset($category) || isset($tag)): ?>
+                <a href="<?= SITE_URL ?>/blog">Blog</a>
+                <span class="breadcrumb-sep" aria-hidden="true">›</span>
             <?php endif; ?>
-            <div class="featured-article-body">
-                <?php if ($featured['category_name']): ?>
-                <a href="<?= SITE_URL ?>/kategorie/<?= h($featured['category_slug'] ?? '') ?>" class="category-label"><?= h($featured['category_name']) ?></a>
-                <?php endif; ?>
-                <h2><a href="<?= SITE_URL ?>/clanek/<?= h($featured['slug']) ?>"><?= h($featured['title']) ?></a></h2>
-                <div class="article-meta">
-                    <span><?= format_date($featured['created_at']) ?></span>
-                    <span class="meta-divider"></span>
-                    <span><?= h($featured['author_name']) ?></span>
-                </div>
-                <p class="article-excerpt"><?= h($featured['excerpt'] ?: excerpt($featured['content'], 250)) ?></p>
-                <a href="<?= SITE_URL ?>/clanek/<?= h($featured['slug']) ?>" class="read-more">Číst článek &rarr;</a>
-            </div>
-        </article>
+            <span><?= h($breadcrumbLabel) ?></span>
+        </nav>
+        <h1><?= h($listingTitle) ?></h1>
+        <?php if (!isset($category) && !isset($tag)): ?>
+            <p>Čtěte o ADHD, tipy pro každodenní život a zkušenosti naší komunity.</p>
+        <?php endif; ?>
     </div>
 </section>
-<?php endif; ?>
 
-<!-- Articles Grid (remaining articles) -->
-<?php if (count($articles) > 1): ?>
-<section class="section section--alt">
+<section class="section section--sm">
     <div class="container">
-        <div class="section-header fade-in-up">
-            <h2>Nejnovější články</h2>
-            <p>Aktuální obsah z našeho redakčního systému</p>
-            <span class="accent-line"></span>
+
+        <?php if (!empty($allCategories) && !isset($category) && !isset($tag)): ?>
+        <!-- Filtry kategorií -->
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-8);" role="navigation" aria-label="Kategorie blogu">
+            <a href="<?= SITE_URL ?>/blog" class="tag-pill<?= (!isset($category) && !isset($tag)) ? ' active' : '' ?>">Vše</a>
+            <?php foreach ($allCategories as $cat): ?>
+                <a href="<?= SITE_URL ?>/kategorie/<?= h($cat['slug']) ?>" class="tag-pill">
+                    <?= h($cat['name']) ?>
+                    <span style="opacity:.65;font-size:.8em;margin-left:.25em;"><?= (int)$cat['article_count'] ?></span>
+                </a>
+            <?php endforeach; ?>
         </div>
-        <div class="articles-grid">
-            <?php foreach (array_slice($articles, 1) as $a): ?>
-            <article class="article-card fade-in-up">
+        <?php endif; ?>
+
+        <?php if (empty($articles)): ?>
+            <div style="text-align:center;padding:var(--space-16) 0;">
+                <p style="font-size:var(--text-xl);margin-bottom:var(--space-3);">📝</p>
+                <p style="color:var(--text-muted);">Zatím zde nejsou žádné články.</p>
+                <a href="<?= SITE_URL ?>/blog" class="btn btn-secondary" style="margin-top:var(--space-4);">Zpět na blog</a>
+            </div>
+        <?php else: ?>
+
+        <!-- Grid článků -->
+        <div class="blog-grid">
+            <?php foreach ($articles as $a): ?>
+            <article class="blog-card fade-up">
                 <?php if (!empty($a['featured_image'])): ?>
-                <div class="image-wrapper">
-                    <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>">
-                        <img src="<?= UPLOADS_URL . '/' . h($a['featured_image']) ?>"
-                             alt="<?= h($a['title']) ?>" class="article-card-image">
-                    </a>
-                </div>
+                <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>" class="blog-card-image" tabindex="-1" aria-hidden="true">
+                    <img src="<?= UPLOADS_URL . '/' . h($a['featured_image']) ?>"
+                         alt="<?= h($a['title']) ?>" loading="lazy">
+                </a>
                 <?php endif; ?>
-                <div class="article-card-body">
+                <div class="blog-card-body">
                     <?php if ($a['category_name']): ?>
-                    <a href="<?= SITE_URL ?>/kategorie/<?= h($a['category_slug'] ?? '') ?>" class="category-label"><?= h($a['category_name']) ?></a>
+                    <a href="<?= SITE_URL ?>/kategorie/<?= h($a['category_slug'] ?? '') ?>" class="blog-card-category"><?= h($a['category_name']) ?></a>
                     <?php endif; ?>
-                    <h2><a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>"><?= h($a['title']) ?></a></h2>
-                    <div class="article-meta">
+                    <h2 class="blog-card-title">
+                        <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>"><?= h($a['title']) ?></a>
+                    </h2>
+                    <div class="blog-card-meta">
                         <span><?= format_date($a['created_at']) ?></span>
-                        <span class="meta-divider"></span>
+                        <span aria-hidden="true">·</span>
                         <span><?= h($a['author_name']) ?></span>
                     </div>
-                    <p class="article-excerpt"><?= h($a['excerpt'] ?: excerpt($a['content'])) ?></p>
-                    <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>" class="read-more">Číst dále &rarr;</a>
+                    <?php if ($a['excerpt'] || $a['content']): ?>
+                    <p class="blog-card-excerpt"><?= h($a['excerpt'] ?: excerpt($a['content'], 150)) ?></p>
+                    <?php endif; ?>
+                    <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>" class="blog-card-link" aria-label="Číst článek: <?= h($a['title']) ?>">
+                        Číst článek →
+                    </a>
                 </div>
             </article>
             <?php endforeach; ?>
         </div>
-    </div>
-</section>
-<?php endif; ?>
 
-<!-- Categories Showcase -->
-<?php if (!empty($allCategories)): ?>
-<section class="section">
-    <div class="container">
-        <div class="section-header fade-in-up">
-            <h2>Kategorie</h2>
-            <p>Prozkoumejte obsah podle témat</p>
-            <span class="accent-line"></span>
-        </div>
-        <div class="categories-showcase">
-            <?php foreach ($allCategories as $cat): ?>
-            <a href="<?= SITE_URL ?>/kategorie/<?= h($cat['slug']) ?>" class="category-card fade-in-up">
-                <div class="category-count"><?= $cat['article_count'] ?></div>
-                <div class="category-name"><?= h($cat['name']) ?></div>
-                <div class="category-desc">článků</div>
-            </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-<?php endif; ?>
-
-<!-- Tag Cloud -->
-<?php if (!empty($allTags)): ?>
-<section class="section section--alt">
-    <div class="container">
-        <div class="section-header fade-in-up">
-            <h2>Tagy</h2>
-            <p>Klíčová slova napříč obsahem</p>
-            <span class="accent-line"></span>
-        </div>
-        <div class="tag-cloud-showcase fade-in-up">
-            <?php
-            $maxCount = max(array_column($allTags, 'article_count') ?: [1]);
-            foreach ($allTags as $t):
-                $ratio = $maxCount > 0 ? $t['article_count'] / $maxCount : 0;
-                $sizeClass = $ratio > 0.7 ? 'tag-pill--xl' : ($ratio > 0.4 ? 'tag-pill--lg' : '');
-            ?>
-            <a href="<?= SITE_URL ?>/tag/<?= h($t['slug']) ?>" class="tag-pill <?= $sizeClass ?>">
-                <?= h($t['name']) ?>
-                <span class="tag-count"><?= $t['article_count'] ?></span>
-            </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-<?php endif; ?>
-
-<!-- Homepage Pagination (if more than one page) -->
-<?php if ($pag['total_pages'] > 1): ?>
-<section class="section">
-    <div class="container">
-        <nav class="pagination">
+        <!-- Paginace -->
+        <?php if ($pag['total_pages'] > 1): ?>
+        <?php
+        if (isset($category)) {
+            $pagBase = SITE_URL . '/kategorie/' . h($category['slug']) . '?page=';
+        } elseif (isset($tag)) {
+            $pagBase = SITE_URL . '/tag/' . h($tag['slug']) . '?page=';
+        } else {
+            $pagBase = SITE_URL . '/blog/stranka/';
+        }
+        ?>
+        <nav class="pagination" aria-label="Stránkování">
             <?php if ($pag['current_page'] > 1): ?>
-                <a href="<?= SITE_URL ?>/stranka/<?= $pag['current_page'] - 1 ?>" class="pagination-prev">&laquo; Předchozí</a>
+                <a href="<?= $pagBase ?><?= $pag['current_page'] - 1 ?>" class="pagination-prev" aria-label="Předchozí stránka">← Předchozí</a>
             <?php endif; ?>
-            <?php for ($i = 1; $i <= $pag['total_pages']; $i++): ?>
-                <?php if ($i === $pag['current_page']): ?>
-                    <span class="active"><?= $i ?></span>
+
+            <?php
+            $cur   = $pag['current_page'];
+            $total = $pag['total_pages'];
+            $pages = array_unique(array_filter(array_merge(
+                [1, 2],
+                range(max(1, $cur - 1), min($total, $cur + 1)),
+                [$total - 1, $total]
+            )));
+            sort($pages);
+            $prev = 0;
+            foreach ($pages as $i):
+                if ($prev && $i - $prev > 1): ?><span class="pagination-ellipsis" aria-hidden="true">…</span><?php endif;
+                if ($i === $cur): ?>
+                    <span class="active" aria-current="page"><?= $i ?></span>
                 <?php else: ?>
-                    <a href="<?= SITE_URL ?>/stranka/<?= $i ?>"><?= $i ?></a>
-                <?php endif; ?>
-            <?php endfor; ?>
+                    <a href="<?= $pagBase ?><?= $i ?>"><?= $i ?></a>
+                <?php endif;
+                $prev = $i;
+            endforeach; ?>
+
             <?php if ($pag['current_page'] < $pag['total_pages']): ?>
-                <a href="<?= SITE_URL ?>/stranka/<?= $pag['current_page'] + 1 ?>" class="pagination-next">Další &raquo;</a>
+                <a href="<?= $pagBase ?><?= $pag['current_page'] + 1 ?>" class="pagination-next" aria-label="Další stránka">Další →</a>
             <?php endif; ?>
         </nav>
+        <?php endif; ?>
+
+        <?php endif; ?>
+
+        <!-- Sidebar tagy -->
+        <?php if (!empty($allTags)): ?>
+        <div style="margin-top:var(--space-12);padding-top:var(--space-8);border-top:1px solid rgba(78,86,153,.15);">
+            <h3 style="font-family:var(--font-body);font-size:var(--text-sm);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4);">Tagy</h3>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+                <?php foreach ($allTags as $t): ?>
+                <a href="<?= SITE_URL ?>/tag/<?= h($t['slug']) ?>" class="tag-pill"><?= h($t['name']) ?></a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
     </div>
 </section>
-<?php endif; ?>
-
-<?php else: ?>
-
-<!-- ============================================================
-     CATEGORY / TAG / PAGINATED LISTING — Sidebar Layout
-     ============================================================ -->
-
-<div class="container">
-    <div class="main-layout">
-        <div class="main-content">
-            <?php if (isset($category)): ?>
-                <div class="page-title-bar fade-in-up">
-                    <h1>Kategorie: <?= h($category['name']) ?></h1>
-                </div>
-            <?php elseif (isset($tag)): ?>
-                <div class="page-title-bar fade-in-up">
-                    <h1>Tag: <?= h($tag['name']) ?></h1>
-                </div>
-            <?php elseif ($route === 'home' && $page > 1): ?>
-                <div class="page-title-bar fade-in-up">
-                    <h1>Články — stránka <?= $page ?></h1>
-                </div>
-            <?php endif; ?>
-
-            <?php if (empty($articles)): ?>
-                <div class="empty-state fade-in-up">
-                    <p>Zatím zde nejsou žádné články.</p>
-                </div>
-            <?php else: ?>
-                <div class="articles-grid articles-grid--2col">
-                    <?php foreach ($articles as $a): ?>
-                    <article class="article-card fade-in-up">
-                        <?php if (!empty($a['featured_image'])): ?>
-                        <div class="image-wrapper">
-                            <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>">
-                                <img src="<?= UPLOADS_URL . '/' . h($a['featured_image']) ?>"
-                                     alt="<?= h($a['title']) ?>" class="article-card-image">
-                            </a>
-                        </div>
-                        <?php endif; ?>
-                        <div class="article-card-body">
-                            <?php if ($a['category_name']): ?>
-                            <a href="<?= SITE_URL ?>/kategorie/<?= h($a['category_slug'] ?? '') ?>" class="category-label"><?= h($a['category_name']) ?></a>
-                            <?php endif; ?>
-                            <h2><a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>"><?= h($a['title']) ?></a></h2>
-                            <div class="article-meta">
-                                <span><?= format_date($a['created_at']) ?></span>
-                                <span class="meta-divider"></span>
-                                <span><?= h($a['author_name']) ?></span>
-                            </div>
-                            <p class="article-excerpt"><?= h($a['excerpt'] ?: excerpt($a['content'])) ?></p>
-                            <a href="<?= SITE_URL ?>/clanek/<?= h($a['slug']) ?>" class="read-more">Číst dále &rarr;</a>
-                        </div>
-                    </article>
-                    <?php endforeach; ?>
-                </div>
-
-                <?php if ($pag['total_pages'] > 1): ?>
-                <?php
-                // Build pagination base URL
-                if (isset($category)) {
-                    $pagBaseUrl = SITE_URL . '/kategorie/' . h($category['slug']);
-                } elseif (isset($tag)) {
-                    $pagBaseUrl = SITE_URL . '/tag/' . h($tag['slug']);
-                } else {
-                    $pagBaseUrl = SITE_URL . '/stranka';
-                }
-                ?>
-                <nav class="pagination">
-                    <?php if ($pag['current_page'] > 1): ?>
-                        <?php if (isset($category) || isset($tag)): ?>
-                            <a href="<?= $pagBaseUrl ?>?page=<?= $pag['current_page'] - 1 ?>" class="pagination-prev">&laquo; Předchozí</a>
-                        <?php else: ?>
-                            <a href="<?= SITE_URL ?>/stranka/<?= $pag['current_page'] - 1 ?>" class="pagination-prev">&laquo; Předchozí</a>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                    <?php for ($i = 1; $i <= $pag['total_pages']; $i++): ?>
-                        <?php if ($i === $pag['current_page']): ?>
-                            <span class="active"><?= $i ?></span>
-                        <?php else: ?>
-                            <?php if (isset($category) || isset($tag)): ?>
-                                <a href="<?= $pagBaseUrl ?>?page=<?= $i ?>"><?= $i ?></a>
-                            <?php else: ?>
-                                <a href="<?= SITE_URL ?>/stranka/<?= $i ?>"><?= $i ?></a>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    <?php endfor; ?>
-                    <?php if ($pag['current_page'] < $pag['total_pages']): ?>
-                        <?php if (isset($category) || isset($tag)): ?>
-                            <a href="<?= $pagBaseUrl ?>?page=<?= $pag['current_page'] + 1 ?>" class="pagination-next">Další &raquo;</a>
-                        <?php else: ?>
-                            <a href="<?= SITE_URL ?>/stranka/<?= $pag['current_page'] + 1 ?>" class="pagination-next">Další &raquo;</a>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </nav>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
-
-        <aside class="sidebar">
-            <div class="widget">
-                <h3>Kategorie</h3>
-                <ul>
-                    <?php foreach ($allCategories as $cat): ?>
-                        <li>
-                            <a href="<?= SITE_URL ?>/kategorie/<?= h($cat['slug']) ?>"><?= h($cat['name']) ?></a>
-                            <span class="count-badge"><?= $cat['article_count'] ?></span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-
-            <?php if (!empty($allTags)): ?>
-            <div class="widget">
-                <h3>Tagy</h3>
-                <div class="tag-cloud">
-                    <?php foreach ($allTags as $t): ?>
-                        <a href="<?= SITE_URL ?>/tag/<?= h($t['slug']) ?>" class="tag-badge"><?= h($t['name']) ?></a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php endif; ?>
-        </aside>
-    </div>
-</div>
-
-<?php endif; ?>
