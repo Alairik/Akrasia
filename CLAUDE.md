@@ -6,9 +6,21 @@
 - Apache s mod_rewrite
 
 ## Hosting
-- Produkční server: **ztvelebil.online** (Wedos)
-- Nasazení: manuálně přes FTP / Wedos File Manager
+- Produkční server: **zvelebil.online** (Wedos NoLimit)
+- Web Akrasie běží na aliasu: **akrasia.zvelebil.online** → složka `/www/akrasia/`
+- FTP přihlašovací údaje jsou uloženy v GitHub Secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`
 - GitHub větev: `claude/akrasia-website-setup-etol2`
+
+## Autodeploy
+
+**Pokud není řečeno jinak, Claude má právo použít GitHub Actions autodeploy na server.**
+
+- Workflow: `.github/workflows/deploy.yml`
+- Spustí se automaticky při každém push na větev `claude/akrasia-website-setup-etol2`
+- Nasazuje do `/www/akrasia/` přes FTP
+- Excluduje: `.git`, `.github/`, `uploads/`, `Akrasia/` (brand assets), `CLAUDE.md`
+
+Po prvním nasazení spusť `install.php` přes prohlížeč pro vytvoření DB tabulek, poté ho **smaž ze serveru** (nebo přidej do exclude v deploy.yml).
 
 ---
 

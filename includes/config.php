@@ -17,7 +17,7 @@ define('UPLOADS_PATH', BASE_PATH . '/uploads');
 define('ADMIN_PATH', BASE_PATH . '/admin');
 
 // URL - adjust to your domain
-define('SITE_URL', 'https://zvelebil.online/cms');
+define('SITE_URL', 'https://akrasia.zvelebil.online');
 define('ADMIN_URL', SITE_URL . '/admin');
 define('UPLOADS_URL', SITE_URL . '/uploads');
 
