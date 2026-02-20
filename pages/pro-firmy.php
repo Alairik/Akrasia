@@ -61,7 +61,14 @@
             <p>
                 Napište nám a společně navrhneme řešení na míru vaší organizaci.
             </p>
-            <!-- TODO: doplnit kontaktní e-mail nebo formulář -->
+            <?php
+            $cf_id = 'firmy';
+            $cf_subject = 'Pro firmy – poptávka';
+            $cf_btn = 'Odeslat poptávku';
+            $cf_msg_label = 'Co potřebujete?';
+            $cf_msg_placeholder = 'Popište vaše potřeby nebo otázky. Ozveme se vám co nejdříve.';
+            require __DIR__ . '/../templates/contact-form.php';
+            ?>
         </div>
     </div>
 </section>

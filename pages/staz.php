@@ -39,9 +39,16 @@
 
             <h2>Jak se přihlásit</h2>
             <p>
-                Napište nám na níže uvedený e-mail, představte se a řekněte nám, čím byste chtěli přispět.
+                Představte se a řekněte nám, čím byste chtěli přispět. Ozveme se vám s dalšími informacemi.
             </p>
-            <!-- TODO: doplnit kontaktní e-mail -->
+            <?php
+            $cf_id = 'staz';
+            $cf_subject = 'Stáž – přihláška';
+            $cf_btn = 'Odeslat přihlášku';
+            $cf_msg_label = 'Představte se';
+            $cf_msg_placeholder = 'Řekněte nám o sobě, jakou oblast vás zajímá a kdy byste mohli nastoupit.';
+            require __DIR__ . '/../templates/contact-form.php';
+            ?>
         </div>
     </div>
 </section>

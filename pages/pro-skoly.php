@@ -60,7 +60,14 @@
                 Napište nám a domluvíme se na bezplatné úvodní konzultaci, kde zjistíme, co vaše škola
                 nejvíce potřebuje.
             </p>
-            <!-- TODO: doplnit kontaktní e-mail nebo formulář -->
+            <?php
+            $cf_id = 'skoly';
+            $cf_subject = 'Pro školy – poptávka';
+            $cf_btn = 'Odeslat poptávku';
+            $cf_msg_label = 'Co potřebujete?';
+            $cf_msg_placeholder = 'Popište situaci vaší školy nebo třídy. Ozveme se vám co nejdříve.';
+            require __DIR__ . '/../templates/contact-form.php';
+            ?>
         </div>
     </div>
 </section>

@@ -44,7 +44,14 @@
                 Napište nám, kdo jste a jak byste rádi pomohli. Nezáleží na tom, kolik času máte –
                 každá pomoc se počítá.
             </p>
-            <!-- TODO: doplnit kontaktní e-mail nebo formulář -->
+            <?php
+            $cf_id = 'dobrovolnictvi';
+            $cf_subject = 'Dobrovolnictví';
+            $cf_btn = 'Mám zájem dobrovolničit';
+            $cf_msg_label = 'Jak byste rádi pomohli?';
+            $cf_msg_placeholder = 'Řekněte nám o sobě a v čem byste se rádi zapojili. Každá pomoc se počítá.';
+            require __DIR__ . '/../templates/contact-form.php';
+            ?>
         </div>
     </div>
 </section>

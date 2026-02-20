@@ -80,13 +80,20 @@
             </article>
         </div>
 
-        <!-- TODO: přidat formulář pro sdílení vlastního příběhu -->
         <div style="text-align:center;margin-top:var(--space-16);padding:var(--space-10);background:var(--vanilla);border-radius:var(--radius-lg);">
             <h2 style="font-family:var(--font-display);color:var(--navy);margin-bottom:var(--space-4);">Sdílejte svůj příběh</h2>
             <p style="color:var(--text-muted);max-width:500px;margin:0 auto var(--space-6);">
                 Váš příběh může pomoci ostatním. Pokud se chcete podělit o svoji zkušenost s ADHD, napište nám.
             </p>
-            <!-- TODO: doplnit e-mail nebo formulář -->
+            <?php
+            $cf_id = 'pribeh';
+            $cf_subject = 'Sdílení příběhu';
+            $cf_btn = 'Odeslat příběh';
+            $cf_msg_label = 'Váš příběh';
+            $cf_msg_placeholder = 'Popište svoji zkušenost s ADHD. Váš příběh může pomoci ostatním.';
+            $cf_center = true;
+            require __DIR__ . '/../templates/contact-form.php';
+            ?>
         </div>
     </div>
 </section>
