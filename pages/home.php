@@ -60,7 +60,7 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 3. NAŠE HODNOTY ========== -->
 <section class="section section--logo-bg" aria-label="Naše hodnoty" style="position:relative;overflow:hidden">
-    <img src="<?= SITE_URL ?>/Akrasia/prvek_vertical.svg" class="prvek-v prvek-v--right" aria-hidden="true" alt="">
+    <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--right" aria-hidden="true" alt="">
     <div class="container">
         <div class="section-header">
             <h2>Naše <span class="heading-highlight">hodnoty</span></h2>
@@ -177,7 +177,7 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 5. ROZCESTNÍK ========== -->
 <section class="section section--logo-bg section--logo-bg-left" aria-label="Kdo jste?" style="position:relative;overflow:hidden">
-    <img src="<?= SITE_URL ?>/Akrasia/prvek_vertical.svg" class="prvek-v prvek-v--right" aria-hidden="true" alt="">
+    <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--right" aria-hidden="true" alt="">
     <div class="container">
         <div class="section-header">
             <h2>Kdo <span class="heading-highlight">jste?</span></h2>
