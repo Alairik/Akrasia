@@ -78,6 +78,13 @@ function nav_active(string $route, string $current): string {
         <!-- Navigace -->
         <nav class="site-nav" id="main-nav" aria-label="Hlavní navigace">
 
+            <!-- Logo v mobilním menu (první třetina obrazovky) -->
+            <a href="<?= SITE_URL ?>/" class="nav-mobile-logo" aria-label="Akrasia – domovská stránka">
+                <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo_rect.png"
+                     alt="Akrasia"
+                     onerror="this.src='<?= SITE_URL ?>/assets/brand/akrasia_logo_rect.svg'">
+            </a>
+
             <!-- Domů -->
             <div class="nav-item">
                 <a href="<?= SITE_URL ?>/" class="nav-link<?= nav_active('home', $currentRoute) ?>" aria-label="Domovská stránka">
