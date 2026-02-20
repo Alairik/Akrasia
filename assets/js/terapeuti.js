@@ -85,7 +85,7 @@
     function renderCard(t) {
         const avatar = t.foto
             ? `<img src="${escHtml(t.foto)}" alt="Foto – ${escHtml(t.jmeno)}" loading="lazy">`
-            : `<span aria-hidden="true">👤</span>`;
+            : `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)" aria-hidden="true"><path d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>`;
 
         const kontakt = [];
         if (t.email) kontakt.push(`<a href="mailto:${escHtml(t.email)}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Napsat e-mail</a>`);

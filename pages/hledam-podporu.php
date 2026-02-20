@@ -58,19 +58,25 @@
 
         <div class="cards-grid" style="margin-top:var(--space-10);">
             <a href="<?= SITE_URL ?>/terapeuti" class="card" style="text-decoration:none;">
-                <div class="card-icon card-icon--petrol" aria-hidden="true">🩺</div>
+                <div class="card-icon card-icon--petrol" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+                </div>
                 <h3>Adresář terapeutů</h3>
                 <p>Ověření odborníci specializovaní na ADHD ve vašem okolí.</p>
                 <span class="read-more" style="margin-top:var(--space-4);">Najít terapeuta →</span>
             </a>
             <a href="<?= SITE_URL ?>/vase-pribehy" class="card" style="text-decoration:none;">
-                <div class="card-icon card-icon--old-rose" aria-hidden="true">💬</div>
+                <div class="card-icon card-icon--old-rose" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg>
+                </div>
                 <h3>Vaše příběhy</h3>
                 <p>Přečtěte si, jak ostatní zvládají ADHD v každodenním životě.</p>
                 <span class="read-more" style="margin-top:var(--space-4);">Číst příběhy →</span>
             </a>
             <a href="<?= SITE_URL ?>/blog" class="card" style="text-decoration:none;">
-                <div class="card-icon card-icon--mint" aria-hidden="true">📚</div>
+                <div class="card-icon card-icon--mint" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+                </div>
                 <h3>Blog</h3>
                 <p>Informace, tipy a inspirace pro život s ADHD.</p>
                 <span class="read-more" style="margin-top:var(--space-4);">Číst blog →</span>

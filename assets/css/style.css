@@ -284,14 +284,14 @@ ul  { list-style: none; }
 
 /* CTA tlačítko v navigaci (Darujte) */
 .nav-link--donate {
-    background: var(--navy);
+    background: linear-gradient(135deg, var(--navy) 0%, var(--petrol) 100%);
     color: var(--powder) !important;
     padding: var(--space-2) var(--space-5);
     border-radius: var(--radius-full);
     margin-left: var(--space-2);
 }
 .nav-link--donate:hover {
-    background: var(--petrol);
+    background: linear-gradient(135deg, var(--petrol) 0%, var(--navy) 100%);
     color: var(--powder) !important;
 }
 
@@ -339,13 +339,13 @@ ul  { list-style: none; }
 }
 
 .btn-primary {
-    background: var(--navy);
+    background: linear-gradient(135deg, var(--navy) 0%, var(--petrol) 100%);
     color: var(--powder) !important;
-    border-color: var(--navy);
+    border-color: transparent;
 }
 .btn-primary:hover {
-    background: var(--petrol);
-    border-color: var(--petrol);
+    background: linear-gradient(135deg, var(--petrol) 0%, var(--navy) 100%);
+    border-color: transparent;
     color: var(--powder) !important;
     transform: translateY(-2px);
     box-shadow: var(--shadow);
@@ -586,23 +586,29 @@ ul  { list-style: none; }
 .section--mint .card { background: var(--powder); }
 
 .card-icon {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     border-radius: var(--radius);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.75rem;
     margin-bottom: var(--space-5);
     background: rgba(78,86,153,0.08);
+    color: var(--navy);
+    flex-shrink: 0;
+}
+.card-icon svg {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
 }
 
-.card-icon--navy   { background: rgba(78,86,153,0.1); }
-.card-icon--petrol { background: rgba(66,138,161,0.1); }
-.card-icon--pear   { background: rgba(202,214,54,0.2); }
-.card-icon--old-rose { background: rgba(241,222,235,0.6); }
-.card-icon--mint   { background: rgba(221,251,210,0.6); }
-.card-icon--lilac  { background: rgba(235,159,239,0.2); }
+.card-icon--navy     { background: rgba(78,86,153,0.10); color: var(--navy); }
+.card-icon--petrol   { background: rgba(66,138,161,0.10); color: var(--petrol); }
+.card-icon--pear     { background: rgba(202,214,54,0.18); color: #6a7400; }
+.card-icon--old-rose { background: rgba(241,222,235,0.65); color: var(--purple); }
+.card-icon--mint     { background: rgba(221,251,210,0.70); color: #2d7a50; }
+.card-icon--lilac    { background: rgba(235,159,239,0.20); color: var(--purple); }
 
 .card h3 {
     font-family: var(--font-body);
@@ -644,12 +650,26 @@ ul  { list-style: none; }
     text-decoration: none;
 }
 
-.junction-card--support { background: linear-gradient(135deg, #f1deeb, #f8d5e9); color: var(--text); border-color: rgba(181,83,151,0.2); }
-.junction-card--company { background: linear-gradient(135deg, #ddfbd2, #c8f4bc); color: var(--text); border-color: rgba(202,214,54,0.3); }
-.junction-card--school  { background: linear-gradient(135deg, #ddfbd2, #b8eeee); color: var(--text); border-color: rgba(66,138,161,0.2); }
-.junction-card--involve { background: linear-gradient(135deg, #f7f0c1, #ffe8a0); color: var(--text); border-color: rgba(255,155,66,0.2); }
+.junction-card--support { background: var(--powder); color: var(--text); border-color: rgba(78,86,153,0.08); border-top: 3px solid var(--purple); }
+.junction-card--company { background: var(--powder); color: var(--text); border-color: rgba(78,86,153,0.08); border-top: 3px solid var(--petrol); }
+.junction-card--school  { background: var(--powder); color: var(--text); border-color: rgba(78,86,153,0.08); border-top: 3px solid #5bbfcd; }
+.junction-card--involve { background: var(--powder); color: var(--text); border-color: rgba(78,86,153,0.08); border-top: 3px solid var(--orange); }
 
-.junction-icon { font-size: 2.5rem; margin-bottom: var(--space-4); }
+.junction-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-5);
+}
+.junction-icon svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+.junction-card--support .junction-icon { background: rgba(181,83,151,0.08);  color: var(--purple); }
+.junction-card--company .junction-icon { background: rgba(66,138,161,0.08);  color: var(--petrol); }
+.junction-card--school  .junction-icon { background: rgba(91,191,205,0.08);  color: #3e9eb5; }
+.junction-card--involve .junction-icon { background: rgba(255,155,66,0.10);  color: #cc7000; }
 
 .junction-card h3 {
     font-size: var(--text-2xl);
@@ -1497,6 +1517,114 @@ ul  { list-style: none; }
 
 
 /* ============================================================
+   HODNOTY – flat 2-sloupec layout (bez karet/boxů)
+   ============================================================ */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10) var(--space-16);
+}
+
+.value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+}
+
+.value-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.value-icon svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.value-icon--navy     { background: rgba(78,86,153,0.10); color: var(--navy); }
+.value-icon--petrol   { background: rgba(66,138,161,0.10); color: var(--petrol); }
+.value-icon--pear     { background: rgba(202,214,54,0.18); color: #6a7400; }
+.value-icon--old-rose { background: rgba(241,222,235,0.70); color: var(--purple); }
+.value-icon--mint     { background: rgba(221,251,210,0.70); color: #2d7a50; }
+.value-icon--lilac    { background: rgba(235,159,239,0.25); color: var(--purple); }
+
+.value-body h3 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+}
+.value-body p {
+    color: var(--text-muted);
+    line-height: 1.65;
+    font-size: 0.95rem;
+}
+
+
+/* ============================================================
+   LOGO WATERMARK (průhledné logo na pozadí sekcí)
+   ============================================================ */
+.section--logo-bg {
+    position: relative;
+    overflow: hidden;
+}
+.section--logo-bg > .container {
+    position: relative;
+    z-index: 1;
+}
+.section--logo-bg::after {
+    content: '';
+    position: absolute;
+    width: 340px;
+    height: 362px;
+    background: url('../../Akrasia/akrasia_logo2025_symbol.svg') no-repeat center / contain;
+    opacity: 0.045;
+    right: -60px;
+    bottom: -70px;
+    pointer-events: none;
+    z-index: 0;
+}
+.section--logo-bg-left::after {
+    right: auto;
+    left: -50px;
+}
+/* Na tmavém pozadí – invertovat na bílou */
+.donate-section.section--logo-bg::after {
+    filter: brightness(0) invert(1);
+    opacity: 0.07;
+    right: -40px;
+    bottom: -40px;
+}
+
+
+/* ============================================================
+   BRANDOVÝ VERTIKÁLNÍ PRVEK (dekorativní lišta)
+   ============================================================ */
+.prvek-v {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 200px;
+    width: auto;
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+}
+.prvek-v--left  { left: 0; }
+.prvek-v--right { right: 0; transform: translateY(-50%) scaleX(-1); }
+
+@media (max-width: 768px) {
+    .prvek-v { display: none; }
+}
+
+
+/* ============================================================
    ANIMACE
    ============================================================ */
 .fade-up {
@@ -1532,6 +1660,7 @@ ul  { list-style: none; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .cards-grid { grid-template-columns: repeat(2, 1fr); }
     .cards-grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .values-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-8) var(--space-10); }
     .blog-grid { grid-template-columns: repeat(2, 1fr); }
     .terapeuti-grid { grid-template-columns: repeat(2, 1fr); }
     .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1602,6 +1731,7 @@ ul  { list-style: none; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .cards-grid { grid-template-columns: 1fr; }
     .cards-grid--4 { grid-template-columns: 1fr; }
+    .values-grid { grid-template-columns: 1fr; gap: var(--space-8); }
     .junction-grid { grid-template-columns: 1fr; }
     .blog-grid { grid-template-columns: 1fr; }
     .terapeuti-grid { grid-template-columns: 1fr; }
