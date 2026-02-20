@@ -90,9 +90,9 @@ $metaDescription = 'Adresář ověřených terapeutů specializovaných na ADHD.
     </div>
 </section>
 
-<!-- Konfigurace – CSV URL se předá do JS -->
+<!-- Konfigurace – URL proxy API se předá do JS -->
 <script>
-    window.TERAPEUTI_CSV_URL = <?= json_encode(TERAPEUTI_CSV_URL) ?>;
+    window.TERAPEUTI_API_URL = <?= json_encode(SITE_URL . '/api/terapeuti.php') ?>;
     window.SITE_URL = <?= json_encode(SITE_URL) ?>;
 </script>
 
