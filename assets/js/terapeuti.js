@@ -79,20 +79,22 @@
         const typy    = t.typ ? t.typ.split(/[;,]/).map(s => s.trim()).filter(Boolean) : [];
         const tagHtml = typy.map(s => `<span class="terapeutka-tag">${esc(s)}</span>`).join('');
 
+        // Webový odkaz – zvýrazněný s ikonou externího odkazu
+        function webLink(href, label) {
+            return `<a href="${esc(href)}" target="_blank" rel="noopener" class="terapeutka-web-link">${esc(label)}\u202f↗</a>`;
+        }
+
         // Kontakt – auto-detekce typu hodnoty
         function renderKontaktValue(val) {
             if (!val) return '';
             if (val.includes('@'))
-                return `<a href="mailto:${esc(val)}" style="color:var(--navy)">${esc(val)}</a>`;
+                return esc(val);
             if (/^[+0-9][\d\s\-().]{5,}$/.test(val.trim()))
                 return `<a href="tel:${esc(val.replace(/\s/g,''))}" style="color:var(--navy)">${esc(val)}</a>`;
             if (/^https?:\/\/|^www\./i.test(val))
-                return `<a href="${esc(val.startsWith('http') ? val : 'https://'+val)}" target="_blank" rel="noopener" style="color:var(--navy)">${esc(val.replace(/^https?:\/\//,''))}</a>`;
+                return webLink(val.startsWith('http') ? val : 'https://'+val, val.replace(/^https?:\/\//,'').replace(/\/$/,''));
             return esc(val);
         }
-
-        // Footer – e-mail button (vlastní email, nebo kontakt pokud obsahuje @)
-        const emailForBtn = t.email || (t.kontakt && t.kontakt.includes('@') ? t.kontakt : '');
 
         // Webová URL – ujistíme se, že má protokol
         const webHref = t.web
@@ -100,13 +102,6 @@
             : '';
         const webLabel = t.web
             ? t.web.replace(/^https?:\/\//, '').replace(/\/$/, '')
-            : '';
-
-        // Footer – e-mail tlačítko
-        const footerHtml = emailForBtn
-            ? `<div class="terapeutka-footer">
-                <a href="mailto:${esc(emailForBtn)}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Napsat e-mail</a>
-               </div>`
             : '';
 
         return `
@@ -132,12 +127,15 @@
                 ${t.tel ? `
                 <div class="terapeutka-info">
                     <span class="terapeutka-info-label">Telefon:</span>
-                    <a href="tel:${esc(t.tel.replace(/\s/g,''))}" style="color:var(--navy)">${esc(t.tel)}</a>
+                    <span style="display:inline-flex;align-items:center;gap:6px;">
+                        <a href="tel:${esc(t.tel.replace(/\s/g,''))}" style="color:var(--navy)">${esc(t.tel)}</a>
+                        <button class="btn-copy-tel" data-val="${esc(t.tel)}" onclick="var b=this,v=b.dataset.val;navigator.clipboard.writeText(v).then(function(){b.textContent='\u2713';setTimeout(function(){b.textContent='\u29C9'},1500)}).catch(function(){})" aria-label="Kopírovat tel. číslo" title="Kopírovat číslo">&#10697;</button>
+                    </span>
                 </div>` : ''}
                 ${webHref ? `
                 <div class="terapeutka-info">
                     <span class="terapeutka-info-label">Web:</span>
-                    <a href="${esc(webHref)}" target="_blank" rel="noopener" style="color:var(--navy);word-break:break-all;">${esc(webLabel)}</a>
+                    ${webLink(webHref, webLabel)}
                 </div>` : ''}
                 ${t.popis ? `
                 <div class="terapeutka-info" style="flex-direction:column;gap:var(--space-1);">
@@ -146,7 +144,6 @@
                 </div>` : ''}
                 ${tagHtml ? `<div class="terapeutka-tags">${tagHtml}</div>` : ''}
             </div>
-            ${footerHtml}
         </article>`;
     }
 
