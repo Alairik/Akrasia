@@ -1321,11 +1321,9 @@ ul  { list-style: none; }
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: var(--powder);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
     flex-shrink: 0;
     overflow: hidden;
 }
