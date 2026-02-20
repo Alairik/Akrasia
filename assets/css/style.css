@@ -1588,11 +1588,11 @@ ul  { list-style: none; }
     margin-bottom: var(--space-10);
 }
 
-.footer-brand .site-logo-text {
-    color: var(--powder);
-    font-size: var(--text-3xl);
+.footer-logo {
     display: block;
-    margin-bottom: var(--space-3);
+    height: 56px;
+    width: auto;
+    margin-bottom: var(--space-4);
 }
 .footer-brand p {
     color: rgba(255,253,250,0.65);

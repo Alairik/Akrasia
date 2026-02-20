@@ -7,9 +7,12 @@
             <!-- Sloupec 1: Brand -->
             <div class="footer-col footer-brand">
                 <a href="<?= SITE_URL ?>/" aria-label="Akrasia – domovská stránka" style="text-decoration:none">
-                    <span class="site-logo-text">Akrasia</span>
+                    <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo_rect_FULL.png"
+                         alt="Akrasia – prostor, který ADHD rozumí"
+                         class="footer-logo"
+                         loading="lazy">
                 </a>
-                <p><?= h(SITE_TAGLINE) ?><br><br>Nezisková organizace propojující lidi s ADHD s ověřenými odborníky a komunitou.</p>
+                <p>Nezisková organizace propojující lidi s ADHD s ověřenými odborníky a komunitou.</p>
                 <?php $hasSocial = SOCIAL_FACEBOOK || SOCIAL_INSTAGRAM || SOCIAL_LINKEDIN || SOCIAL_YOUTUBE; ?>
                 <?php if ($hasSocial): ?>
                 <div class="footer-social">
