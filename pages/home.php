@@ -266,7 +266,7 @@ $latestArticles = articles_list(3, 0, 'published');
     <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
 <?= deco_html([3, 7]) ?>
     <div class="deco-layer" aria-hidden="true">
-        <div class="deco-item" style="bottom:0;right:0;opacity:0.7">
+        <div class="deco-item" style="bottom:-10px;right:-10px;opacity:0.7">
             <img src="<?= SITE_URL ?>/assets/brand/photo-3.png" width="220" alt="">
         </div>
     </div>
