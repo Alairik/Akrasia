@@ -1,0 +1,74 @@
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Block access to sensitive files
+<FilesMatch "\.(env|log|sql|bak)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory listing
+Options -Indexes
+
+# Enable RewriteEngine
+RewriteEngine On
+RewriteBase /
+
+# ── Subdoménové aliasy ─────────────────────────────────────────────
+# akrasia.zvelebil.online → složka /akrasia/
+RewriteCond %{HTTP_HOST} ^akrasia\.zvelebil\.online$ [NC]
+RewriteCond %{REQUEST_URI} !^/akrasia/
+RewriteRule ^(.*)$ /akrasia/$1 [L]
+
+# Remove trailing slash (except for directories)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Redirect old URLs with pages/blog/ to /blog/slug
+RewriteCond %{THE_REQUEST} /pages/blog/([^.]+)\.html [NC]
+RewriteRule ^ /blog/%1 [R=301,L]
+
+# Redirect old URLs with pages/ to clean URLs
+RewriteCond %{THE_REQUEST} /pages/([^.]+)\.html [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# Prevent direct access to .html files in pages/
+RewriteCond %{THE_REQUEST} \.html [NC]
+RewriteCond %{REQUEST_URI} ^/pages/ [NC]
+RewriteRule ^pages/blog/(.+)\.html$ /blog/$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} \.html [NC]
+RewriteCond %{REQUEST_URI} ^/pages/ [NC]
+RewriteRule ^pages/(.+)\.html$ /$1 [R=301,L]
+
+# Redirect old root-level article URLs to /blog/slug
+# (for articles that were previously at /jak-vybrat-spravny-typ-webu-pro-vas-byznys)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/pages/blog/%{REQUEST_URI}.html -f
+RewriteRule ^(.+)$ /blog/$1 [R=301,L]
+
+# Blog article: /blog/slug
+# First try static HTML file, then CMS template
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/pages/blog/%1.html -f
+RewriteRule ^blog/(.+)$ /pages/blog/$1.html [L]
+
+# Blog article: if no static file, use CMS template
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/pages/blog/%1.html !-f
+RewriteRule ^blog/(.+)$ /pages/blog/cms-article.php?article_slug=$1 [L,QSA]
+
+# Rewrite clean URLs to pages/ folder
+# /proc-ja -> /pages/proc-ja.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/pages/%{REQUEST_URI}.html -f
+RewriteRule ^(.+)$ /pages/$1.html [L]

@@ -13,7 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Upload via FTP
+      - name: Upload root .htaccess via FTP
+        run: |
+          curl -s -T _server/.htaccess \
+            "ftp://${{ secrets.FTP_SERVER }}/www/.htaccess" \
+            --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}"
+
+      - name: Upload Akrasia files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -24,6 +30,7 @@ jobs:
             **/.git*
             **/.git*/**
             .github/**
+            _server/**
             uploads/**
             Akrasia/**
             CLAUDE.md
