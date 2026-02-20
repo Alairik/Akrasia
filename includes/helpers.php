@@ -114,7 +114,9 @@ function deco_html(array $picks): string {
     foreach ($picks as $i) {
         if (!isset($combos[$i])) continue;
         [$asset, $pos, $rot, $w, $op] = $combos[$i];
-        $html .= "    <div class=\"deco-item\" style=\"{$pos};transform:{$rot};opacity:{$op}\">"
+        $isPunct = str_contains($asset, 'punct');
+        $cls = $isPunct ? 'deco-item deco-item--punct' : 'deco-item';
+        $html .= "    <div class=\"{$cls}\" style=\"{$pos};transform:{$rot};opacity:{$op}\">"
                . "<img src=\"{$base}{$asset}\" width=\"{$w}\" alt=\"\" aria-hidden=\"true\"></div>\n";
     }
     $html .= '</div>';

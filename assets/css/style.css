@@ -354,6 +354,10 @@ ul  { list-style: none; }
     opacity: 0.12;
 }
 .deco-item img { display: block; }
+/* punct-1/punct-2 mají světlé barvy – filter je přebarví do navy/fialového tónu */
+.deco-item--punct img {
+    filter: invert(34%) sepia(28%) saturate(900%) hue-rotate(203deg) brightness(0.55);
+}
 
 /* Hamburger (mobil) */
 .nav-toggle {
@@ -1868,19 +1872,17 @@ ul  { list-style: none; }
     .nav-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
     .nav-toggle.active span:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
 
-    /* Organický blob – vlnovitý tvar (waist = zúžení v místě buttonu) */
+    /* Blob z SVG souboru – vizuální pozadí za tlačítkem */
     .nav-blob {
         display: block;
         position: fixed;
-        right: 0;
-        bottom: calc(25vh - 110px);
-        width: 120px;
-        height: 300px;
-        background: var(--lilac);
-        opacity: 0.8;
-        clip-path: path('M 120,0 C 120,35 8,35 8,75 C 8,115 86,115 86,150 C 86,185 8,185 8,225 C 8,265 120,265 120,300 Z');
+        right: -36px;
+        bottom: calc(25vh - 44px);
+        width: 160px;
+        height: 160px;
         z-index: 190;
         pointer-events: none;
+        opacity: 0.92;
     }
 
     /* Mobilní menu – vysouvá se zdola (fix: swipe doprava nekoliduje) */

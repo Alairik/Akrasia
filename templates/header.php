@@ -174,6 +174,6 @@ function nav_active(string $route, string $current): string {
     <span></span>
     <span></span>
 </button>
-<div class="nav-blob" aria-hidden="true"></div>
+<img class="nav-blob" src="<?= SITE_URL ?>/assets/brand/burger-blob.svg" aria-hidden="true" alt="">
 
 <main id="main-content">
