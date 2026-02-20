@@ -3,11 +3,12 @@ $pageTitle = 'Dashboard';
 require_once __DIR__ . '/includes/header.php';
 auth_require();
 
-$totalArticles = articles_count();
+$totalArticles     = articles_count();
 $publishedArticles = articles_count('published');
-$draftArticles = articles_count('draft');
-$categories = categories_list();
-$recentArticles = articles_list(5, 0);
+$draftArticles     = articles_count('draft');
+$categories        = categories_list();
+$recentArticles    = articles_list(5, 0);
+$unreadMessages    = messages_unread_count();
 ?>
 
 <h1>Dashboard</h1>
@@ -28,6 +29,10 @@ $recentArticles = articles_list(5, 0);
     <div class="stat-card">
         <div class="stat-number"><?= count($categories) ?></div>
         <div class="stat-label">Kategorie</div>
+    </div>
+    <div class="stat-card" style="<?= $unreadMessages ? 'border:2px solid #e63946;' : '' ?>">
+        <div class="stat-number" style="<?= $unreadMessages ? 'color:#e63946;' : '' ?>"><?= $unreadMessages ?></div>
+        <div class="stat-label"><a href="<?= ADMIN_URL ?>/messages.php">Nové zprávy</a></div>
     </div>
 </div>
 

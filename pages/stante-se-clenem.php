@@ -49,26 +49,14 @@
             <p>
                 Vyplňte přihlášku a my se vám ozveme s dalšími informacemi.
             </p>
-            <!-- TODO: doplnit skutečný formulář nebo odkaz na přihlášku -->
-            <form style="max-width:500px;margin-top:var(--space-6);" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="member-name">Jméno a příjmení</label>
-                    <input type="text" id="member-name" name="name" placeholder="Jana Nováková" autocomplete="name">
-                </div>
-                <div class="form-group">
-                    <label for="member-email">E-mail</label>
-                    <input type="email" id="member-email" name="email" placeholder="jana@example.cz" autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <label for="member-message">Proč se chcete stát členem? (nepovinné)</label>
-                    <textarea id="member-message" name="message" placeholder="Váš příběh nebo motivace..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Odeslat přihlášku</button>
-                <p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--space-3);">
-                    Odesláním formuláře souhlasíte se zpracováním osobních údajů dle našich
-                    <a href="<?= SITE_URL ?>/gdpr">zásad ochrany osobních údajů</a>.
-                </p>
-            </form>
+            <?php
+            $cf_id              = 'clenem';
+            $cf_subject         = 'Přihláška za člena';
+            $cf_btn             = 'Odeslat přihlášku';
+            $cf_msg_label       = 'Proč se chcete stát členem? (nepovinné)';
+            $cf_msg_placeholder = 'Váš příběh nebo motivace...';
+            require __DIR__ . '/../templates/contact-form.php';
+            ?>
         </div>
     </div>
 </section>

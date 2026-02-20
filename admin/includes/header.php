@@ -5,6 +5,7 @@ require_once INCLUDES_PATH . '/auth.php';
 require_once INCLUDES_PATH . '/helpers.php';
 require_once INCLUDES_PATH . '/articles.php';
 require_once INCLUDES_PATH . '/categories.php';
+require_once INCLUDES_PATH . '/messages.php';
 
 auth_start_session();
 
@@ -38,6 +39,14 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'], '.php');
             </li>
             <li class="<?= $currentPage === 'tags' ? 'active' : '' ?>">
                 <a href="<?= ADMIN_URL ?>/tags.php">Tagy</a>
+            </li>
+            <li class="<?= $currentPage === 'messages' ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/messages.php">
+                    Zprávy
+                    <?php $__unread = messages_unread_count(); if ($__unread): ?>
+                        <span style="background:#e63946;color:#fff;border-radius:10px;padding:0 6px;font-size:.7rem;margin-left:4px;font-weight:700;"><?= $__unread ?></span>
+                    <?php endif; ?>
+                </a>
             </li>
             <?php if (auth_is_admin()): ?>
             <li class="<?= $currentPage === 'users' ? 'active' : '' ?>">
