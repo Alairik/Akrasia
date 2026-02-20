@@ -7,7 +7,7 @@
             <!-- Sloupec 1: Brand -->
             <div class="footer-col footer-brand">
                 <a href="<?= SITE_URL ?>/" aria-label="Akrasia – domovská stránka" style="text-decoration:none">
-                    <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo_rect_FULL.png"
+                    <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo_rect_FULL_Svetle.png"
                          alt="Akrasia – prostor, který ADHD rozumí"
                          class="footer-logo"
                          loading="lazy">
