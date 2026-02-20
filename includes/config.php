@@ -36,6 +36,12 @@ define('SOCIAL_YOUTUBE',   '');
 // Google Sheets CSV URL for therapist directory
 define('TERAPEUTI_CSV_URL', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTu1W8jU-XpCb5oJxK56TP4C5Fi5YnjusZrICL284wT-H48apuJsMNaTYexpWun4SvQ3qzo7TUP7ugB/pub?gid=0&single=true&output=csv');
 
+// Tracking IDs – doplňte dle projektu, prázdný řetězec = tracker se nenačte
+define('TRACKER_GA_ID',          '');   // Google Analytics 4, např. 'G-XXXXXXXXXX'
+define('TRACKER_CLARITY_ID',     '');   // Microsoft Clarity, např. 'abcde12345'
+define('TRACKER_META_PIXEL_ID',  '');   // Meta Pixel, např. '123456789012345'
+define('TRACKER_TIKTOK_PIXEL_ID','');   // TikTok Pixel, např. 'CXXXXXXXXXXXXXXXXX'
+
 // Session
 define('SESSION_LIFETIME', 3600); // 1 hour
 

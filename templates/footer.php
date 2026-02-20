@@ -73,9 +73,14 @@
         <div class="footer-bottom">
             <span>&copy; <?= date('Y') ?> Akrasia, z.s. Všechna práva vyhrazena.</span>
             <a href="<?= SITE_URL ?>/gdpr">Ochrana osobních údajů</a>
+            <button class="footer-cookie-btn" onclick="CookieConsent.reset()" aria-label="Změnit nastavení cookies">
+                Nastavení cookies
+            </button>
         </div>
     </div>
 </footer>
+
+<?php require __DIR__ . '/cookie-banner.php'; ?>
 
 <script src="<?= SITE_URL ?>/assets/js/main.js" defer></script>
 <?php if (!empty($extraScript)): ?>

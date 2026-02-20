@@ -47,6 +47,17 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/style.css">
+
+    <!-- Cookie Consent engine (musí být před jakýmkoli trackerem) -->
+    <script src="<?= SITE_URL ?>/assets/js/cookie-consent.js"></script>
+    <script>
+    CookieConsent.init({
+        gaId:          '<?= defined('TRACKER_GA_ID')           ? addslashes(TRACKER_GA_ID)           : '' ?>',
+        clarityId:     '<?= defined('TRACKER_CLARITY_ID')      ? addslashes(TRACKER_CLARITY_ID)      : '' ?>',
+        metaPixelId:   '<?= defined('TRACKER_META_PIXEL_ID')   ? addslashes(TRACKER_META_PIXEL_ID)   : '' ?>',
+        tiktokPixelId: '<?= defined('TRACKER_TIKTOK_PIXEL_ID') ? addslashes(TRACKER_TIKTOK_PIXEL_ID) : '' ?>'
+    });
+    </script>
 </head>
 <body>
 
