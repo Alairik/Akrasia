@@ -207,16 +207,18 @@
             const raw  = parseCSV(text);
             allTerapeuti = raw.map(normalizeTerapeut);
 
-            elLoading.hidden = true;
+            // Skrýt skeleton loader
+            elLoading.style.display = 'none';
             populateFilters(allTerapeuti);
             renderGrid(allTerapeuti);
 
         } catch (err) {
             console.error('Nelze načíst adresář terapeutů:', err);
             elLoading.innerHTML = `
-                <p>Adresář se nepodařilo načíst. Zkuste to prosím za chvíli.</p>
-                <button class="btn btn-secondary btn-sm" onclick="location.reload()" style="margin-top:1rem;">Zkusit znovu</button>
-            `;
+                <div style="grid-column:1/-1;text-align:center;padding:var(--space-16);color:var(--text-muted)">
+                    <p>Adresář se nepodařilo načíst. Zkuste to prosím za chvíli.</p>
+                    <button class="btn btn-secondary btn-sm" onclick="location.reload()" style="margin-top:1rem;">Zkusit znovu</button>
+                </div>`;
         }
     }
 

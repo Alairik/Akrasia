@@ -49,22 +49,40 @@ $metaDescription = 'Adresář ověřených terapeutů specializovaných na ADHD.
         <!-- Počet výsledků -->
         <p class="terapeuti-count" id="terapeuti-count" aria-live="polite"></p>
 
-        <!-- Grid terapeutů -->
-        <div id="terapeuti-grid" class="terapeuti-grid" aria-label="Seznam terapeutů">
-            <!-- Načítá se přes JavaScript -->
-            <div class="terapeuti-loading" id="terapeuti-loading">
-                <div class="spinner" aria-hidden="true"></div>
-                <p>Načítám seznam terapeutů…</p>
+        <!-- Skeleton loader – zobrazí se při načítání -->
+        <div class="terapeuti-skeleton" id="terapeuti-loading" aria-label="Načítám terapeuti…">
+            <?php for ($i = 0; $i < 6; $i++): ?>
+            <div class="skeleton-card">
+                <div class="skeleton-header"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton-line skeleton-line--short"></div>
+                    <div class="skeleton-line skeleton-line--full"></div>
+                    <div class="skeleton-line skeleton-line--medium"></div>
+                    <div class="skeleton-line skeleton-line--full"></div>
+                    <div class="skeleton-line skeleton-line--short" style="margin-top:var(--space-3)"></div>
+                </div>
             </div>
+            <?php endfor; ?>
         </div>
+
+        <!-- Grid terapeutů -->
+        <div id="terapeuti-grid" class="terapeuti-grid" aria-label="Seznam terapeutů"></div>
 
         <!-- Prázdný stav (skrytý) -->
         <div class="terapeuti-empty" id="terapeuti-empty" hidden aria-live="polite">
-            <p style="font-size:var(--text-xl);margin-bottom:var(--space-3);">🔍</p>
+            <!-- Lupa v brandových barvách -->
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="url(#search-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:var(--space-4)" aria-hidden="true">
+                <defs>
+                    <linearGradient id="search-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#4e5699"/>
+                        <stop offset="100%" stop-color="#b55397"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <p style="font-size:var(--text-lg);font-weight:600;color:var(--navy);margin-bottom:var(--space-2);">Žádný výsledek</p>
             <p>Žádný terapeut neodpovídá zvoleným filtrům.</p>
-            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('filter-reset').click()" style="margin-top:var(--space-4);">
-                Zrušit filtry
-            </button>
         </div>
 
     </div>

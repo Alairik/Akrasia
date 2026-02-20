@@ -65,14 +65,14 @@ function nav_active(string $route, string $current): string {
 <header class="site-header" id="site-header">
     <div class="container">
 
-        <!-- Logo -->
+        <!-- Logo (obdélníkové – soubor assets/brand/akrasia_logo_rect.svg) -->
         <a href="<?= SITE_URL ?>/" class="site-logo" aria-label="Akrasia – domovská stránka">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 134.89 143.45" height="36" width="auto" aria-hidden="true" focusable="false">
-                <path fill="#4e5699" d="M86.33,28.39l-6.17-2.64L5.68,95.55l-4.87-2.08-.81,1.9,26.23,11.21,.81-1.9-12.22-5.23,16.78-19.22,27.3,11.67-.16,26.32-9.73-4.16-.81,1.9,38.93,16.64,.07-5.32-.86-98.89Zm-53.23,49.96l25.87-29.65-.12,40.66-25.75-11.01Z"/>
-                <path fill="#4e5699" d="M115.53,114.66c-9.16,0-14.33,5.81-14.33,14.33s5.16,14.46,14.33,14.46,14.33-5.81,14.33-14.46-5.16-14.33-14.33-14.33Z"/>
-                <polygon fill="#4e5699" points="128.44 106.59 128.44 0 95.27 11.62 102.63 17.94 102.63 94.58 102.63 106.59 102.63 108.66 134.89 108.66 134.89 106.59 128.44 106.59"/>
-            </svg>
-            <span class="site-logo-text">Akrasia</span>
+            <!-- Obdélníkové logo – prioritně PNG (pokud nahrano), jinak SVG kombinace -->
+            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo_rect.png"
+                 alt="Akrasia"
+                 height="36"
+                 width="auto"
+                 onerror="this.src='<?= SITE_URL ?>/assets/brand/akrasia_logo_rect.svg'">
         </a>
 
         <!-- Navigace -->
@@ -143,6 +143,27 @@ function nav_active(string $route, string $current): string {
             <div class="nav-item">
                 <a href="<?= SITE_URL ?>/darujte" class="nav-link nav-link--donate<?= nav_active('darujte', $currentRoute) ?>">Darujte</a>
             </div>
+
+            <!-- Sociální sítě -->
+            <?php if (SOCIAL_FACEBOOK || SOCIAL_INSTAGRAM || SOCIAL_LINKEDIN): ?>
+            <div class="nav-social">
+                <?php if (SOCIAL_FACEBOOK): ?>
+                <a href="<?= h(SOCIAL_FACEBOOK) ?>" target="_blank" rel="noopener" aria-label="Facebook">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <?php endif; ?>
+                <?php if (SOCIAL_INSTAGRAM): ?>
+                <a href="<?= h(SOCIAL_INSTAGRAM) ?>" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <?php endif; ?>
+                <?php if (SOCIAL_LINKEDIN): ?>
+                <a href="<?= h(SOCIAL_LINKEDIN) ?>" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
         </nav>
     </div>

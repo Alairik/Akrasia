@@ -6,9 +6,13 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 1. HERO ========== -->
 <section class="hero" aria-label="Úvodní sekce">
-    <div class="container">
-        <span class="hero-tagline">Nezisková organizace</span>
+    <!-- Dekorativní foto v hero sekci -->
+    <img src="<?= SITE_URL ?>/assets/img/photo-1.jpg"
+         class="hero-photo"
+         style="position:absolute;right:0;top:0;height:100%;width:45%;object-fit:cover;opacity:0.22;mix-blend-mode:multiply;transform:rotate(1.5deg);pointer-events:none;"
+         aria-hidden="true" alt="" loading="eager">
 
+    <div class="container">
         <h1>Prostor, který<br>ADHD rozumí.</h1>
 
         <p class="hero-subtitle">
@@ -28,7 +32,16 @@ $latestArticles = articles_list(3, 0, 'published');
 
 
 <!-- ========== 2. STATISTIKY ========== -->
-<section class="section section--alt" aria-label="Fakta o ADHD">
+<section class="section section--alt" aria-label="Fakta o ADHD" style="position:relative;overflow:hidden">
+    <!-- Dekorativní prvky – logo + foto rozházeny náhodně -->
+    <div class="deco-layer" aria-hidden="true">
+        <div class="deco-item" style="bottom:10%;right:3%;transform:rotate(14deg)">
+            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="90" alt="" aria-hidden="true">
+        </div>
+        <div class="deco-item" style="top:8%;left:1%;transform:rotate(-22deg);opacity:0.09">
+            <img src="<?= SITE_URL ?>/assets/brand/punct-1.svg" width="60" alt="" aria-hidden="true">
+        </div>
+    </div>
     <div class="container">
         <div class="section-header">
             <h2>ADHD v číslech</h2>
@@ -61,6 +74,14 @@ $latestArticles = articles_list(3, 0, 'published');
 <!-- ========== 3. NAŠE HODNOTY ========== -->
 <section class="section section--logo-bg" aria-label="Naše hodnoty" style="position:relative;overflow:hidden">
     <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
+    <div class="deco-layer" aria-hidden="true">
+        <div class="deco-item" style="top:12%;right:5%;transform:rotate(9deg);opacity:0.1">
+            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="70" alt="">
+        </div>
+        <div class="deco-item" style="bottom:5%;right:18%;transform:rotate(-8deg);opacity:0.09">
+            <img src="<?= SITE_URL ?>/assets/img/photo-2.jpg" width="180" style="border-radius:8px;transform:rotate(-8deg)" alt="">
+        </div>
+    </div>
     <div class="container">
         <div class="section-header">
             <h2>Naše <span class="heading-highlight">hodnoty</span></h2>
@@ -182,9 +203,9 @@ $latestArticles = articles_list(3, 0, 'published');
             <h2>Kdo <span class="heading-highlight">jste?</span></h2>
             <p>Najděte cestu, která je určena právě vám.</p>
         </div>
-        <img src="<?= SITE_URL ?>/assets/brand/prvek_horizontal.svg" class="prvek-h" aria-hidden="true" alt="">
         <div class="junction-grid">
             <a href="<?= SITE_URL ?>/hledam-podporu" class="junction-card junction-card--support fade-up">
+                <img src="<?= SITE_URL ?>/assets/brand/prvek_horizontal.svg" class="junction-card-prvek" aria-hidden="true" alt="">
                 <div class="junction-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
                 </div>
@@ -195,6 +216,7 @@ $latestArticles = articles_list(3, 0, 'published');
                 </span>
             </a>
             <a href="<?= SITE_URL ?>/pro-firmy" class="junction-card junction-card--company fade-up">
+                <img src="<?= SITE_URL ?>/assets/brand/prvek_horizontal.svg" class="junction-card-prvek" aria-hidden="true" alt="">
                 <div class="junction-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
                 </div>
@@ -205,6 +227,7 @@ $latestArticles = articles_list(3, 0, 'published');
                 </span>
             </a>
             <a href="<?= SITE_URL ?>/pro-skoly" class="junction-card junction-card--school fade-up">
+                <img src="<?= SITE_URL ?>/assets/brand/prvek_horizontal.svg" class="junction-card-prvek" aria-hidden="true" alt="">
                 <div class="junction-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 3.741-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
                 </div>
@@ -215,6 +238,7 @@ $latestArticles = articles_list(3, 0, 'published');
                 </span>
             </a>
             <a href="<?= SITE_URL ?>/zapojte-se" class="junction-card junction-card--involve fade-up">
+                <img src="<?= SITE_URL ?>/assets/brand/prvek_horizontal.svg" class="junction-card-prvek" aria-hidden="true" alt="">
                 <div class="junction-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5z"/></svg>
                 </div>
@@ -232,6 +256,17 @@ $latestArticles = articles_list(3, 0, 'published');
 <!-- ========== 6. VAŠE PŘÍBĚHY ========== -->
 <section class="section section--mint" aria-label="Příběhy našich lidí" style="position:relative;overflow:hidden">
     <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
+    <div class="deco-layer" aria-hidden="true">
+        <div class="deco-item" style="top:5%;right:2%;transform:rotate(-17deg);opacity:0.09">
+            <img src="<?= SITE_URL ?>/assets/brand/punct-2.svg" width="55" alt="">
+        </div>
+        <div class="deco-item" style="bottom:8%;left:3%;transform:rotate(12deg);opacity:0.1">
+            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="80" alt="">
+        </div>
+        <div class="deco-item" style="top:15%;right:8%;transform:rotate(-5deg);opacity:0.12">
+            <img src="<?= SITE_URL ?>/assets/img/photo-3.jpg" width="200" style="border-radius:8px" alt="">
+        </div>
+    </div>
     <div class="container">
         <div class="section-header">
             <h2>Vaše <span class="heading-highlight">příběhy</span></h2>

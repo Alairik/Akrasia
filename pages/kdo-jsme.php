@@ -12,17 +12,21 @@
 
 <section class="page-content">
     <div class="container">
-        <div class="page-content-body">
-            <p>
-                Akrasia je česká nezisková organizace zaměřená na zvyšování povědomí o ADHD a na podporu lidí,
-                kteří s tímto neurovývojovým rozdílem žijí. Věříme, že každý člověk si zaslouží prostor,
-                kde bude pochopen, podpořen a kde může naplno rozvinout svůj potenciál.
-            </p>
-            <p>
-                Náš název – Akrasia – pochází z řeckého slova označujícího jednání navzdory vlastnímu úsudku.
-                Pro lidi s ADHD je tato zkušenost velmi blízká: vědí, co chtějí dělat, ale mozek jim to zkomplikuje.
-                Chceme tuto zkušenost pojmenovat, pochopit a překonat.
-            </p>
+        <div class="prvek-v-wrap">
+            <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg"
+                 class="prvek-v-line" aria-hidden="true" alt="">
+            <div class="page-content-body">
+                <p>
+                    Akrasia je česká nezisková organizace zaměřená na zvyšování povědomí o ADHD a na podporu lidí,
+                    kteří s tímto neurovývojovým rozdílem žijí. Věříme, že každý člověk si zaslouží prostor,
+                    kde bude pochopen, podpořen a kde může naplno rozvinout svůj potenciál.
+                </p>
+                <p>
+                    Náš název – Akrasia – pochází z řeckého slova označujícího jednání navzdory vlastnímu úsudku.
+                    Pro lidi s ADHD je tato zkušenost velmi blízká: vědí, co chtějí dělat, ale mozek jim to zkomplikuje.
+                    Chceme tuto zkušenost pojmenovat, pochopit a překonat.
+                </p>
+            </div>
         </div>
 
         <div class="cards-grid" style="margin-top: var(--space-12);">

@@ -27,11 +27,11 @@ define('SITE_TAGLINE', 'PROSTOR, KTERÝ ADHD ROZUMÍ.');
 define('SITE_DESCRIPTION', 'Nezisková organizace zvyšující povědomí o ADHD a propojující lidi s ověřenými terapeuty.');
 define('ARTICLES_PER_PAGE', 9);
 
-// Social media (editable here or extend to admin settings)
-define('SOCIAL_FACEBOOK', '');
-define('SOCIAL_INSTAGRAM', '');
-define('SOCIAL_LINKEDIN', '');
-define('SOCIAL_YOUTUBE', '');
+// Social media – doplňte správné URL
+define('SOCIAL_FACEBOOK',  'https://www.facebook.com/akrasia');
+define('SOCIAL_INSTAGRAM', 'https://www.instagram.com/akrasia');
+define('SOCIAL_LINKEDIN',  'https://www.linkedin.com/company/akrasia');
+define('SOCIAL_YOUTUBE',   '');
 
 // Google Sheets CSV URL for therapist directory
 define('TERAPEUTI_CSV_URL', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTu1W8jU-XpCb5oJxK56TP4C5Fi5YnjusZrICL284wT-H48apuJsMNaTYexpWun4SvQ3qzo7TUP7ugB/pub?gid=0&single=true&output=csv');
