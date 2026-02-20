@@ -449,6 +449,19 @@ ul  { list-style: none; }
     box-shadow: var(--shadow);
 }
 
+.btn-pear {
+    background: var(--pear);
+    color: var(--navy) !important;
+    border-color: var(--pear);
+}
+.btn-pear:hover {
+    background: #b9c230;
+    border-color: #b9c230;
+    color: var(--navy) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
 .btn-sm {
     padding: var(--space-2) var(--space-5);
     font-size: var(--text-sm);
@@ -2096,47 +2109,28 @@ ul  { list-style: none; }
     align-items: center;
 }
 
-/* Tlačítka v banneru */
-.btn--cookie-primary {
-    background: var(--pear);
-    color: var(--navy);
-    font-weight: 700;
-    border: 2px solid var(--pear);
-    padding: .45rem 1.1rem;
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    font-size: var(--text-sm);
-    transition: opacity .15s;
-    white-space: nowrap;
-}
-.btn--cookie-primary:hover { opacity: .85; }
-
+/* Tlačítka v banneru – sdílí základ .btn, pouze barvy se liší */
 .btn--cookie-outline {
     background: transparent;
-    color: #fff;
-    font-weight: 600;
-    border: 2px solid rgba(255,255,255,.5);
-    padding: .45rem 1.1rem;
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    font-size: var(--text-sm);
-    transition: border-color .15s;
-    white-space: nowrap;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.5);
 }
-.btn--cookie-outline:hover { border-color: #fff; }
+.btn--cookie-outline:hover {
+    border-color: #fff;
+    color: #fff !important;
+    transform: translateY(-2px);
+}
 
 .btn--cookie-ghost {
     background: transparent;
-    color: rgba(255,255,255,.7);
-    border: none;
-    padding: .45rem .6rem;
-    cursor: pointer;
-    font-size: var(--text-sm);
+    color: rgba(255,255,255,.7) !important;
+    border-color: transparent;
     text-decoration: underline;
     text-underline-offset: 2px;
-    white-space: nowrap;
 }
-.btn--cookie-ghost:hover { color: #fff; }
+.btn--cookie-ghost:hover {
+    color: #fff !important;
+}
 
 /* --- Panel (modál) --- */
 .cookie-panel {

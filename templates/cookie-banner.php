@@ -17,16 +17,14 @@
         <div class="cookie-banner__text">
             <strong>Tento web používá cookies</strong>
             <p>
-                Používáme analytické (Google Analytics, Microsoft Clarity)
-                a marketingové (Meta Pixel, TikTok) cookies a nástroje
-                e-mailového marketingu.
-                Nezbytné cookies jsou vždy aktivní.
+                Používáme analytické a marketingové cookies pro zlepšení
+                vašeho zážitku a měření výkonu. Nezbytné cookies jsou vždy aktivní.
                 <a href="<?= SITE_URL ?>/gdpr#cookies">Více informací</a>
             </p>
         </div>
 
         <div class="cookie-banner__actions">
-            <button id="cc-accept-all"  class="btn btn--cookie-primary">Přijmout vše</button>
+            <button id="cc-accept-all"  class="btn btn-pear">Přijmout vše</button>
             <button id="cc-reject-all"  class="btn btn--cookie-outline">Odmítnout vše</button>
             <button id="cc-settings"    class="btn btn--cookie-ghost">Nastavit</button>
         </div>
@@ -149,7 +147,7 @@
         </div><!-- /.cookie-panel__body -->
 
         <div class="cookie-panel__footer">
-            <button id="cc-save" class="btn btn--cookie-primary">Uložit nastavení</button>
+            <button id="cc-save" class="btn btn-pear">Uložit nastavení</button>
             <button id="cc-accept-all-panel" class="btn btn--cookie-outline"
                     onclick="document.getElementById('cc-toggle-analytics').checked=true;
                              document.getElementById('cc-toggle-marketing').checked=true;
