@@ -730,8 +730,10 @@ ul  { list-style: none; }
 .junction-card {
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
     border-radius: var(--radius-lg);
-    padding: var(--space-10) var(--space-8);
+    padding: var(--space-5) var(--space-8) var(--space-8);
     text-decoration: none;
     transition: transform var(--ease-slow), box-shadow var(--ease-slow);
     border: 2px solid transparent;
@@ -748,28 +750,46 @@ ul  { list-style: none; }
 .junction-card--school  { background: var(--powder); color: var(--text); border-color: rgba(78,86,153,0.08); }
 .junction-card--involve { background: var(--powder); color: var(--text); border-color: rgba(78,86,153,0.08); }
 
-/* Horizontální brandový prvek v horní části junction karet */
+/* Horizontální brandový prvek – levá horní část karty, částečně zasahuje do textu */
 .junction-card-prvek {
-    display: block;
-    width: 100%;
-    height: 10px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 55%;
+    height: 18px;
     object-fit: fill;
-    opacity: 0.8;
-    border-radius: 3px;
-    flex-shrink: 0;
-    margin-bottom: var(--space-6);
+    opacity: 0.9;
+    border-radius: 0 4px 4px 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Vnitřní layout: text vlevo, ikona vpravo */
+.junction-card__inner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.junction-card__text {
+    flex: 1;
+    min-width: 0;
 }
 
 .junction-icon {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: var(--radius);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--space-5);
+    flex-shrink: 0;
+    margin-top: var(--space-2);
 }
-.junction-icon svg { width: 28px; height: 28px; flex-shrink: 0; }
+.junction-icon svg { width: 30px; height: 30px; flex-shrink: 0; }
 
 .junction-card--support .junction-icon { background: rgba(181,83,151,0.08);  color: var(--purple); }
 .junction-card--company .junction-icon { background: rgba(66,138,161,0.08);  color: var(--petrol); }
@@ -786,7 +806,6 @@ ul  { list-style: none; }
 .junction-card p {
     color: var(--text-muted);
     line-height: 1.5;
-    flex: 1;
     margin-bottom: var(--space-4);
 }
 
