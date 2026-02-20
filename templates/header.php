@@ -81,8 +81,6 @@ function nav_active(string $route, string $current): string {
             <span></span>
             <span></span>
         </button>
-        <!-- Dekorativní blob za burgerem (mobil) -->
-        <div class="nav-blob" aria-hidden="true"></div>
 
         <!-- Navigace -->
         <nav class="site-nav" id="main-nav" aria-label="Hlavní navigace">
@@ -156,5 +154,7 @@ function nav_active(string $route, string $current): string {
         </nav>
     </div>
 </header>
+<!-- Lilac blob za burger tlačítkem – mimo header stacking context -->
+<div class="nav-blob" aria-hidden="true"></div>
 
 <main id="main-content">
