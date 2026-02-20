@@ -98,7 +98,17 @@
 html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    /* Firefox */
+    scrollbar-color: var(--navy) var(--vanilla);
+    scrollbar-width: thin;
 }
+
+/* Scrollbar – brandový styl (Chrome, Safari, Edge) */
+::-webkit-scrollbar              { width: 8px; height: 8px; }
+::-webkit-scrollbar-track        { background: var(--vanilla); }
+::-webkit-scrollbar-thumb        { background: var(--navy); border-radius: 4px; border: 2px solid var(--vanilla); }
+::-webkit-scrollbar-thumb:hover  { background: var(--purple); }
+::-webkit-scrollbar-corner       { background: var(--vanilla); }
 
 body {
     font-family: var(--font-body);
