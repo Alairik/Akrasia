@@ -1910,8 +1910,8 @@ ul  { list-style: none; }
     }
 
     .nav-item { width: 100%; text-align: center; }
-    .nav-link { font-size: 2rem; justify-content: center; padding: var(--space-4) var(--space-8); }
-    .nav-link--donate { margin: var(--space-6) 0 0; padding: var(--space-5) var(--space-12); font-size: 2rem; }
+    .site-nav .nav-link { font-size: 2rem; justify-content: center; padding: var(--space-4) var(--space-8); }
+    .site-nav .nav-link--donate { margin: var(--space-6) 0 0; padding: var(--space-5) var(--space-12); font-size: 2rem; }
 
     .dropdown {
         position: static;
