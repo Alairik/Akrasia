@@ -91,7 +91,6 @@
             $cf_btn = 'Odeslat příběh';
             $cf_msg_label = 'Váš příběh';
             $cf_msg_placeholder = 'Popište svoji zkušenost s ADHD. Váš příběh může pomoci ostatním.';
-            $cf_center = true;
             require __DIR__ . '/../templates/contact-form.php';
             ?>
         </div>
