@@ -7,9 +7,9 @@ $latestArticles = articles_list(3, 0, 'published');
 <!-- ========== 1. HERO ========== -->
 <section class="hero" aria-label="Úvodní sekce">
     <!-- Dekorativní foto v hero sekci -->
-    <img src="<?= SITE_URL ?>/assets/img/photo-1.jpg"
+    <img src="<?= SITE_URL ?>/assets/brand/photo-1.png"
          class="hero-photo"
-         style="position:absolute;right:0;top:0;height:100%;width:45%;object-fit:cover;opacity:0.22;mix-blend-mode:multiply;transform:rotate(1.5deg);pointer-events:none;"
+         style="position:absolute;right:0;top:0;height:100%;width:45%;object-fit:contain;object-position:right bottom;pointer-events:none;"
          aria-hidden="true" alt="" loading="eager">
 
     <div class="container">
@@ -78,8 +78,8 @@ $latestArticles = articles_list(3, 0, 'published');
         <div class="deco-item" style="top:12%;right:5%;transform:rotate(9deg);opacity:0.1">
             <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="70" alt="">
         </div>
-        <div class="deco-item" style="bottom:5%;right:18%;transform:rotate(-8deg);opacity:0.09">
-            <img src="<?= SITE_URL ?>/assets/img/photo-2.jpg" width="180" style="border-radius:8px;transform:rotate(-8deg)" alt="">
+        <div class="deco-item" style="bottom:5%;right:18%;transform:rotate(-8deg);opacity:0.55">
+            <img src="<?= SITE_URL ?>/assets/brand/photo-2.png" width="180" alt="">
         </div>
     </div>
     <div class="container">
@@ -263,8 +263,8 @@ $latestArticles = articles_list(3, 0, 'published');
         <div class="deco-item" style="bottom:8%;left:3%;transform:rotate(12deg);opacity:0.1">
             <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="80" alt="">
         </div>
-        <div class="deco-item" style="top:15%;right:8%;transform:rotate(-5deg);opacity:0.12">
-            <img src="<?= SITE_URL ?>/assets/img/photo-3.jpg" width="200" style="border-radius:8px" alt="">
+        <div class="deco-item" style="top:15%;right:8%;transform:rotate(-5deg);opacity:0.55">
+            <img src="<?= SITE_URL ?>/assets/brand/photo-3.png" width="200" alt="">
         </div>
     </div>
     <div class="container">

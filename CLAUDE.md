@@ -42,3 +42,33 @@ Po prvním nasazení spusť `install.php` přes prohlížeč pro vytvoření DB 
 
 ### Příčina tohoto pravidla
 Při tvorbě Akrasia webu byl vytvořen nový `.htaccess` bez průchodného pravidla pro `/cms/`. To způsobilo, že přestal fungovat celý hlavní web `ztvelebil.online` i administrace CMS, protože `/cms/` bylo přesměrováno na `index.php` místo správné složky.
+
+---
+
+## CMS Architektura – pravidla pro Claude
+
+### Vztah Akrasia ↔ CMS jádro
+
+- Složka `admin/` v tomto repozitáři je **vlastní kopií CMS jádra** (`Alairik/CMS`)
+- Každý projekt má svou kopii – nejsou sdílené instalace
+- Cesta k administraci: `/akrasia/admin`
+
+### Kdy přidat změnu do CMS jádra (`Alairik/CMS`)
+
+**Vždy se zeptej uživatele**, než navrhuješ přidat změnu do jádra. Jádro měň pouze pokud:
+- Změna je obecně užitečná pro všechny budoucí projekty
+- Není projektově-specifická (konkrétní pole, integrace, design Akrasie)
+- Nenarušuje ostatní projekty
+
+### Co NESMÍ jít do jádra
+
+- Formuláře, pole nebo integrace specifické pro Akrasii
+- Design/CSS Akrasia brandu
+- Akrasia-specifické konfigurace
+
+### Postup při zakládání nového projektu
+
+1. Zkopíruj CMS jádro (`Alairik/CMS`) do nové složky
+2. Admin bude na `/<NovýProjekt>/admin`
+3. Spusť `install.php` pro DB
+4. Vytvoř projektový CLAUDE.md s pokyny
