@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         toggle.classList.remove('active');
         nav.classList.remove('active');
         document.body.classList.remove('nav-open');
+        // Zavřít všechna otevřená podmenu
+        document.querySelectorAll('.nav-item.open').forEach(item => item.classList.remove('open'));
     }
 
     // ── Dropdown menu (klávesnice + focus) ───────────────────────
@@ -53,11 +55,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropdown = item.querySelector('.dropdown');
         if (!trigger || !dropdown) return;
 
-        // Hover je řešen CSS; JS zajišťuje Enter/Space a focus-out
+        // Mobil: tap otevírá podmenu (preventDefault, toggle .open)
+        trigger.addEventListener('click', e => {
+            if (window.innerWidth > 768) return;
+            e.preventDefault();
+            document.querySelectorAll('.nav-item.open').forEach(other => {
+                if (other !== item) other.classList.remove('open');
+            });
+            const isOpen = item.classList.toggle('open');
+            trigger.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        // Desktop + klávesnice: Enter/Space otevírá podmenu
         trigger.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                const isOpen = item.classList.toggle('dropdown-open');
+                const isOpen = item.classList.toggle('open');
                 trigger.setAttribute('aria-expanded', String(isOpen));
                 if (isOpen) {
                     const first = dropdown.querySelector('a[role="menuitem"]');

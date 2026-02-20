@@ -318,6 +318,12 @@ ul  { list-style: none; }
 .nav-toggle.active span:nth-child(2) { opacity: 0; }
 .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
+/* Lilac blob za burger tlačítkem na mobilech */
+.nav-blob {
+    display: none;
+    pointer-events: none;
+}
+
 
 /* ============================================================
    TLAČÍTKA
@@ -434,7 +440,7 @@ ul  { list-style: none; }
     color: rgba(255,253,250,0.75);
 }
 
-/* Zvýraznění nadpisu (prvek_horizontal) */
+/* Zvýraznění nadpisu (prvek_horizontal jako podtržení) */
 .heading-highlight {
     position: relative;
     display: inline-block;
@@ -442,13 +448,32 @@ ul  { list-style: none; }
 .heading-highlight::after {
     content: '';
     position: absolute;
-    bottom: 8px;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: url('../brand/prvek_horizontal.svg') repeat-x center / auto 100%;
+    bottom: 3px;
+    left: -3px;
+    right: -3px;
+    height: 48%;
+    background: url('../brand/prvek_horizontal.svg') repeat-x center / 432px 100%;
     z-index: -1;
-    opacity: 0.7;
+    opacity: 1;
+    border-radius: 3px;
+}
+
+/* Horizontální brandový prvek – plnohodnotný vizuální stripe */
+.prvek-h {
+    display: block;
+    width: 100%;
+    height: 14px;
+    object-fit: fill;
+    opacity: 0.75;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-bottom: var(--space-8);
+}
+
+/* Container uvnitř dekorovaných sekcí – zajišťuje viditelnost nad prvkem */
+.section--mint > .container {
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -1620,7 +1645,7 @@ ul  { list-style: none; }
 .prvek-v--right { right: 0; transform: translateY(-50%) scaleX(-1); }
 
 @media (max-width: 768px) {
-    .prvek-v { display: none; }
+    .prvek-v { height: 80px; }
 }
 
 
@@ -1677,10 +1702,42 @@ ul  { list-style: none; }
    RESPONZIVNÍ – Mobil
    ============================================================ */
 @media (max-width: 768px) {
-    /* Hamburger viditelný */
-    .nav-toggle { display: block; }
+    /* Floating burger – sticky ve výšce 1/3 od spodní hrany */
+    .nav-toggle {
+        display: flex;
+        position: fixed;
+        bottom: 33vh;
+        right: 16px;
+        z-index: 200;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--vanilla);
+        box-shadow: 0 4px 20px rgba(181,83,151,0.22), 0 2px 8px rgba(78,86,153,0.1);
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        cursor: pointer;
+        border: none;
+    }
+    .nav-toggle span { background: var(--purple); }
 
-    /* Mobilní menu */
+    /* Lilac blob za tlačítkem */
+    .nav-blob {
+        display: block;
+        position: fixed;
+        right: 0;
+        bottom: calc(33vh - 78px);
+        width: 90px;
+        height: 220px;
+        background: var(--lilac);
+        opacity: 0.6;
+        border-radius: 45% 0 0 45% / 30% 0 0 30%;
+        z-index: 99;
+        pointer-events: none;
+    }
+
+    /* Mobilní menu – vysouvá se zdola (fix: swipe doprava nekoliduje) */
     .site-nav {
         position: fixed;
         inset: 0;
@@ -1691,13 +1748,18 @@ ul  { list-style: none; }
         justify-content: center;
         align-items: center;
         gap: var(--space-2);
-        transform: translateX(100%);
-        transition: transform var(--ease-slow);
+        transform: translateY(100%);
+        visibility: hidden;
+        transition: transform var(--ease-slow), visibility 0s var(--ease-slow);
         z-index: 105;
         overflow-y: auto;
         padding: var(--space-16) var(--space-6);
     }
-    .site-nav.active { transform: translateX(0); }
+    .site-nav.active {
+        transform: translateY(0);
+        visibility: visible;
+        transition: transform var(--ease-slow), visibility 0s;
+    }
 
     .nav-item { width: 100%; text-align: center; }
     .nav-link { font-size: var(--text-xl); justify-content: center; padding: var(--space-3) var(--space-6); }

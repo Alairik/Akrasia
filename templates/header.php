@@ -75,12 +75,14 @@ function nav_active(string $route, string $current): string {
             <span class="site-logo-text">Akrasia</span>
         </a>
 
-        <!-- Hamburger (mobil) -->
+        <!-- Hamburger (mobil) – floating sticky tlačítko -->
         <button class="nav-toggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="main-nav">
             <span></span>
             <span></span>
             <span></span>
         </button>
+        <!-- Dekorativní blob za burgerem (mobil) -->
+        <div class="nav-blob" aria-hidden="true"></div>
 
         <!-- Navigace -->
         <nav class="site-nav" id="main-nav" aria-label="Hlavní navigace">

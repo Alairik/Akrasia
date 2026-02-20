@@ -34,7 +34,7 @@ define('SOCIAL_LINKEDIN', '');
 define('SOCIAL_YOUTUBE', '');
 
 // Google Sheets CSV URL for therapist directory
-define('TERAPEUTI_CSV_URL', '');
+define('TERAPEUTI_CSV_URL', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTu1W8jU-XpCb5oJxK56TP4C5Fi5YnjusZrICL284wT-H48apuJsMNaTYexpWun4SvQ3qzo7TUP7ugB/pub?gid=0&single=true&output=csv');
 
 // Session
 define('SESSION_LIFETIME', 3600); // 1 hour

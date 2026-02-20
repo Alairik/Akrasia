@@ -60,7 +60,7 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 3. NAŠE HODNOTY ========== -->
 <section class="section section--logo-bg" aria-label="Naše hodnoty" style="position:relative;overflow:hidden">
-    <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--right" aria-hidden="true" alt="">
+    <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
     <div class="container">
         <div class="section-header">
             <h2>Naše <span class="heading-highlight">hodnoty</span></h2>
@@ -177,12 +177,12 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 5. ROZCESTNÍK ========== -->
 <section class="section section--logo-bg section--logo-bg-left" aria-label="Kdo jste?" style="position:relative;overflow:hidden">
-    <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--right" aria-hidden="true" alt="">
     <div class="container">
         <div class="section-header">
             <h2>Kdo <span class="heading-highlight">jste?</span></h2>
             <p>Najděte cestu, která je určena právě vám.</p>
         </div>
+        <img src="<?= SITE_URL ?>/assets/brand/prvek_horizontal.svg" class="prvek-h" aria-hidden="true" alt="">
         <div class="junction-grid">
             <a href="<?= SITE_URL ?>/hledam-podporu" class="junction-card junction-card--support fade-up">
                 <div class="junction-icon" aria-hidden="true">
@@ -230,7 +230,8 @@ $latestArticles = articles_list(3, 0, 'published');
 
 
 <!-- ========== 6. VAŠE PŘÍBĚHY ========== -->
-<section class="section section--mint" aria-label="Příběhy našich lidí">
+<section class="section section--mint" aria-label="Příběhy našich lidí" style="position:relative;overflow:hidden">
+    <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
     <div class="container">
         <div class="section-header">
             <h2>Vaše <span class="heading-highlight">příběhy</span></h2>
