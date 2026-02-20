@@ -1302,7 +1302,6 @@ ul  { list-style: none; }
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 320px;
     transition: transform var(--ease-slow), box-shadow var(--ease-slow);
 }
 .terapeutka-card:hover {
@@ -1312,7 +1311,7 @@ ul  { list-style: none; }
 
 .terapeutka-header {
     background: linear-gradient(135deg, var(--old-rose), var(--vanilla));
-    padding: var(--space-6);
+    padding: var(--space-4) var(--space-5);
     display: flex;
     align-items: center;
     gap: var(--space-4);
@@ -1349,11 +1348,11 @@ ul  { list-style: none; }
 }
 
 .terapeutka-body {
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-4) var(--space-5);
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-2);
 }
 
 .terapeutka-info {
@@ -1388,7 +1387,7 @@ ul  { list-style: none; }
 }
 
 .terapeutka-footer {
-    padding: var(--space-4) var(--space-6);
+    padding: var(--space-3) var(--space-5);
     border-top: 1px solid rgba(78,86,153,0.1);
 }
 
@@ -1449,8 +1448,8 @@ ul  { list-style: none; }
     background: var(--powder);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(78,86,153,0.1);
-    min-height: 340px;
-    display: flex;
+    min-height: 260px;
+    display: none; /* JS přepíná na flex */
     flex-direction: column;
     align-items: center;
     justify-content: center;

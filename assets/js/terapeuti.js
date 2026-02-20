@@ -22,7 +22,6 @@
     let allTerapeuti = [];
 
     // ── Flexibilní hledání sloupce ───────────────────────────────────────────
-    // Porovnání bez diakritiky a bez ohledu na velikost písmen.
     function stripDia(s) {
         return s.normalize('NFD').replace(/\p{Mn}/gu, '').toLowerCase();
     }
@@ -45,8 +44,8 @@
             kraj  : findCol(columns, 'kraj', 'region'),
             mesto : findCol(columns, 'mest', 'city', 'obec', 'mist'),
             email : findCol(columns, 'mail', 'email', 'e-mail'),
-            web   : findCol(columns, 'web', 'url', 'site', 'stranka'),
-            tel   : findCol(columns, 'tel', 'phone', 'mobil'),
+            web   : findCol(columns, 'web', 'www', 'url', 'site', 'stranka', 'odkaz'),
+            tel   : findCol(columns, 'tel', 'phone', 'mobil', 'gsm'),
             popis : findCol(columns, 'popis', 'bio', 'desc', 'o mn', 'informac'),
             foto  : findCol(columns, 'foto', 'photo', 'image', 'avatar', 'fotografie'),
         };
@@ -75,12 +74,23 @@
             ? `<img src="${esc(t.foto)}" alt="Foto – ${esc(t.jmeno)}" loading="lazy">`
             : `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)" aria-hidden="true"><path d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>`;
 
-        const kontakt = [];
-        if (t.email) kontakt.push(`<a href="mailto:${esc(t.email)}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Napsat e-mail</a>`);
-        if (t.web)   kontakt.push(`<a href="${esc(t.web)}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="width:100%;justify-content:center;margin-top:var(--space-2);">Web terapeuta</a>`);
-
         const typy    = t.typ ? t.typ.split(/[;,]/).map(s => s.trim()).filter(Boolean) : [];
         const tagHtml = typy.map(s => `<span class="terapeutka-tag">${esc(s)}</span>`).join('');
+
+        // Webová URL – ujistíme se, že má protokol
+        const webHref = t.web
+            ? (t.web.startsWith('http') ? t.web : 'https://' + t.web)
+            : '';
+        const webLabel = t.web
+            ? t.web.replace(/^https?:\/\//, '').replace(/\/$/, '')
+            : '';
+
+        // Footer – jen e-mail jako hlavní CTA tlačítko
+        const footerHtml = t.email
+            ? `<div class="terapeutka-footer">
+                <a href="mailto:${esc(t.email)}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Napsat e-mail</a>
+               </div>`
+            : '';
 
         return `
         <article class="terapeutka-card fade-up">
@@ -97,6 +107,16 @@
                     <span class="terapeutka-info-label">Místo:</span>
                     <span>${[t.mesto, t.kraj].filter(Boolean).map(esc).join(', ')}</span>
                 </div>` : ''}
+                ${t.tel ? `
+                <div class="terapeutka-info">
+                    <span class="terapeutka-info-label">Telefon:</span>
+                    <a href="tel:${esc(t.tel.replace(/\s/g,''))}" style="color:var(--navy)">${esc(t.tel)}</a>
+                </div>` : ''}
+                ${webHref ? `
+                <div class="terapeutka-info">
+                    <span class="terapeutka-info-label">Web:</span>
+                    <a href="${esc(webHref)}" target="_blank" rel="noopener" style="color:var(--navy);word-break:break-all;">${esc(webLabel)}</a>
+                </div>` : ''}
                 ${t.popis ? `
                 <div class="terapeutka-info" style="flex-direction:column;gap:var(--space-1);">
                     <span class="terapeutka-info-label">O mně:</span>
@@ -104,7 +124,7 @@
                 </div>` : ''}
                 ${tagHtml ? `<div class="terapeutka-tags">${tagHtml}</div>` : ''}
             </div>
-            ${kontakt.length ? `<div class="terapeutka-footer">${kontakt.join('')}</div>` : ''}
+            ${footerHtml}
         </article>`;
     }
 
@@ -133,16 +153,46 @@
         });
     }
 
+    // ── Stavy zobrazení ──────────────────────────────────────────────────────
+    function hideEmpty()  { elEmpty.style.display = 'none'; }
+    function showEmpty(title, subtitle) {
+        elEmpty.querySelector
+            ? (elEmpty.innerHTML = `
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#eg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:var(--space-3)" aria-hidden="true">
+                  <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4e5699"/><stop offset="100%" stop-color="#b55397"/></linearGradient></defs>
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <p style="font-size:var(--text-lg);font-weight:600;color:var(--navy);margin-bottom:var(--space-2);">${title}</p>
+                ${subtitle ? `<p>${subtitle}</p>` : ''}`)
+            : null;
+        elEmpty.style.display = 'flex';
+    }
+
+    function showInitialState() {
+        elCount.textContent = '';
+        Array.from(elGrid.querySelectorAll('.terapeutka-card')).forEach(el => el.remove());
+        showEmpty(
+            'Najděte svého terapeuta',
+            'Vyberte kraj, město nebo typ podpory a zobrazíme vám dostupné terapeury.'
+        );
+    }
+
     // ── Filtrování a render ──────────────────────────────────────────────────
     function applyFilters() {
-        const fTyp   = selTyp.value.toLowerCase();
-        const fKraj  = selKraj.value.toLowerCase();
-        const fMesto = selMesto.value.toLowerCase();
+        const fTyp   = selTyp.value;
+        const fKraj  = selKraj.value;
+        const fMesto = selMesto.value;
+
+        // Žádný filtr vybrán → initial stav
+        if (!fTyp && !fKraj && !fMesto) {
+            showInitialState();
+            return;
+        }
 
         const filtered = allTerapeuti.filter(t => {
-            const okTyp   = !fTyp   || t.typ.toLowerCase().includes(fTyp);
-            const okKraj  = !fKraj  || t.kraj.toLowerCase() === fKraj;
-            const okMesto = !fMesto || t.mesto.toLowerCase() === fMesto;
+            const okTyp   = !fTyp   || t.typ.toLowerCase().includes(fTyp.toLowerCase());
+            const okKraj  = !fKraj  || t.kraj.toLowerCase() === fKraj.toLowerCase();
+            const okMesto = !fMesto || t.mesto.toLowerCase() === fMesto.toLowerCase();
             return okTyp && okKraj && okMesto;
         });
 
@@ -153,10 +203,10 @@
         Array.from(elGrid.querySelectorAll('.terapeutka-card')).forEach(el => el.remove());
 
         if (terapeuti.length === 0) {
-            elEmpty.hidden = false;
+            showEmpty('Žádný výsledek', 'Žádný terapeut neodpovídá zvoleným filtrům.');
             elCount.textContent = '';
         } else {
-            elEmpty.hidden = true;
+            hideEmpty();
             const n   = terapeuti.length;
             const lbl = n === 1 ? 'terapeut' : (n < 5 ? 'terapeuti' : 'terapeutů');
             elCount.textContent = `Nalezeno: ${n} ${lbl}`;
@@ -196,8 +246,6 @@
             }
 
             const { columns, data } = json;
-
-            // Výpis do konzole pro snadné ladění názvů sloupců
             console.info('[terapeuti] Sloupce v tabulce:', columns);
 
             const map = buildMapping(columns);
@@ -216,9 +264,10 @@
                 return;
             }
 
+            // Skrýt skeleton, naplnit filtry, zobrazit initial stav
             elLoading.style.display = 'none';
             populateFilters(allTerapeuti);
-            renderGrid(allTerapeuti);
+            showInitialState();
 
         } catch (err) {
             console.error('[terapeuti] Chyba:', err);
