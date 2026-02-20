@@ -1,4 +1,5 @@
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([10,4]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -12,7 +13,8 @@
     </div>
 </section>
 
-<section class="section section--alt">
+<section class="section section--alt" style="position:relative;overflow:hidden">
+<?= deco_html([7,0]) ?>
     <div class="container">
         <div class="section-header">
             <h2>Co členství obnáší</h2>
@@ -39,7 +41,8 @@
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-content" style="position:relative;overflow:hidden">
+<?= deco_html([6,3]) ?>
     <div class="container">
         <div class="page-content-body">
             <h2>Přihláška za člena</h2>

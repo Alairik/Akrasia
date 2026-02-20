@@ -1,4 +1,5 @@
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([6,1]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -12,7 +13,8 @@
     </div>
 </section>
 
-<section class="section">
+<section class="section" style="position:relative;overflow:hidden">
+<?= deco_html([3,0]) ?>
     <div class="container">
         <div class="testimonials-grid">
             <article class="testimonial-card fade-up">

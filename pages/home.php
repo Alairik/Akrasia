@@ -33,15 +33,7 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 2. STATISTIKY ========== -->
 <section class="section section--alt" aria-label="Fakta o ADHD" style="position:relative;overflow:hidden">
-    <!-- Dekorativní prvky – logo + foto rozházeny náhodně -->
-    <div class="deco-layer" aria-hidden="true">
-        <div class="deco-item" style="bottom:10%;right:3%;transform:rotate(14deg)">
-            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="90" alt="" aria-hidden="true">
-        </div>
-        <div class="deco-item" style="top:8%;left:1%;transform:rotate(-22deg);opacity:0.09">
-            <img src="<?= SITE_URL ?>/assets/brand/punct-1.svg" width="60" alt="" aria-hidden="true">
-        </div>
-    </div>
+<?= deco_html([0, 1]) ?>
     <div class="container">
         <div class="section-header">
             <h2>ADHD v číslech</h2>
@@ -74,10 +66,8 @@ $latestArticles = articles_list(3, 0, 'published');
 <!-- ========== 3. NAŠE HODNOTY ========== -->
 <section class="section section--logo-bg" aria-label="Naše hodnoty" style="position:relative;overflow:hidden">
     <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
+<?= deco_html([2, 6]) ?>
     <div class="deco-layer" aria-hidden="true">
-        <div class="deco-item" style="top:12%;right:5%;transform:rotate(9deg);opacity:0.1">
-            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="70" alt="">
-        </div>
         <div class="deco-item" style="bottom:5%;right:18%;transform:rotate(-8deg);opacity:0.55">
             <img src="<?= SITE_URL ?>/assets/brand/photo-2.png" width="180" alt="">
         </div>
@@ -148,7 +138,8 @@ $latestArticles = articles_list(3, 0, 'published');
 
 
 <!-- ========== 4. NAŠE AKTIVITY ========== -->
-<section class="section section--old-rose" aria-label="Naše aktivity">
+<section class="section section--old-rose" aria-label="Naše aktivity" style="position:relative;overflow:hidden">
+<?= deco_html([4, 9]) ?>
     <div class="container">
         <div class="section-header">
             <h2>Co <span class="heading-highlight">děláme</span></h2>
@@ -198,6 +189,7 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 5. ROZCESTNÍK ========== -->
 <section class="section section--logo-bg section--logo-bg-left" aria-label="Kdo jste?" style="position:relative;overflow:hidden">
+<?= deco_html([5, 10]) ?>
     <div class="container">
         <div class="section-header">
             <h2>Kdo <span class="heading-highlight">jste?</span></h2>
@@ -256,13 +248,8 @@ $latestArticles = articles_list(3, 0, 'published');
 <!-- ========== 6. VAŠE PŘÍBĚHY ========== -->
 <section class="section section--mint" aria-label="Příběhy našich lidí" style="position:relative;overflow:hidden">
     <img src="<?= SITE_URL ?>/assets/brand/prvek_vertical.svg" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
+<?= deco_html([3, 7]) ?>
     <div class="deco-layer" aria-hidden="true">
-        <div class="deco-item" style="top:5%;right:2%;transform:rotate(-17deg);opacity:0.09">
-            <img src="<?= SITE_URL ?>/assets/brand/punct-2.svg" width="55" alt="">
-        </div>
-        <div class="deco-item" style="bottom:8%;left:3%;transform:rotate(12deg);opacity:0.1">
-            <img src="<?= SITE_URL ?>/assets/brand/akrasia_logo2025_symbol.svg" width="80" alt="">
-        </div>
         <div class="deco-item" style="top:15%;right:8%;transform:rotate(-5deg);opacity:0.55">
             <img src="<?= SITE_URL ?>/assets/brand/photo-3.png" width="200" alt="">
         </div>
@@ -323,6 +310,7 @@ $latestArticles = articles_list(3, 0, 'published');
 
 <!-- ========== 8. DARUJTE ========== -->
 <section class="donate-section section--logo-bg" aria-label="Podpořte Akrasii">
+<?= deco_html([8, 11]) ?>
     <div class="container">
         <h2>Podpořte nás</h2>
         <p>

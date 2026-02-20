@@ -1,4 +1,5 @@
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([4,10]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -10,7 +11,8 @@
     </div>
 </section>
 
-<section class="section section--alt">
+<section class="section section--alt" style="position:relative;overflow:hidden">
+<?= deco_html([6,1]) ?>
     <div class="container">
         <div class="section-header">
             <h2>Co nabízíme školám</h2>
@@ -42,7 +44,8 @@
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-content" style="position:relative;overflow:hidden">
+<?= deco_html([8,3]) ?>
     <div class="container">
         <div class="page-content-body">
             <h2>Proč je to důležité</h2>

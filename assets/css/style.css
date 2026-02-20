@@ -305,7 +305,7 @@ ul  { list-style: none; }
     background: linear-gradient(135deg, var(--navy) 0%, var(--petrol) 100%);
     color: var(--powder) !important;
     padding: var(--space-2) var(--space-5);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius);
     margin-left: var(--space-2);
 }
 .nav-link--donate:hover {

@@ -1,4 +1,5 @@
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([1,8]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -11,7 +12,8 @@
 </section>
 
 <!-- Hlavní CTA – adresář terapeutů -->
-<section class="section section--old-rose">
+<section class="section section--old-rose" style="position:relative;overflow:hidden">
+<?= deco_html([5,6]) ?>
     <div class="container" style="text-align:center;">
         <h2 style="font-family:var(--font-display);font-size:var(--text-4xl);color:var(--navy);margin-bottom:var(--space-4);">Najděte svého terapeuta</h2>
         <p style="font-size:var(--text-xl);color:var(--text-muted);max-width:600px;margin:0 auto var(--space-8);">
@@ -25,7 +27,8 @@
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-content" style="position:relative;overflow:hidden">
+<?= deco_html([10,2]) ?>
     <div class="container">
         <div class="page-content-body">
             <h2>Kde začít?</h2>

@@ -1,4 +1,5 @@
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([0,9]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -12,7 +13,8 @@
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-content" style="position:relative;overflow:hidden">
+<?= deco_html([11,3]) ?>
     <div class="container">
         <div class="page-content-body">
             <!-- TODO: doplnit obsah – příběh vzniku organizace -->

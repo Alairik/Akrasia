@@ -1,4 +1,5 @@
-<section class="donate-section" style="padding:var(--space-24) 0;" aria-label="Darujte">
+<section class="donate-section" style="position:relative;overflow:hidden;padding:var(--space-24) 0;" aria-label="Darujte">
+<?= deco_html([3,11]) ?>
     <div class="container" style="text-align:center;">
         <h1 style="font-family:var(--font-display);font-size:var(--text-5xl);color:var(--powder);margin-bottom:var(--space-4);">Darujte</h1>
         <p style="font-size:var(--text-xl);color:rgba(255,253,250,0.8);max-width:600px;margin:0 auto;">
@@ -8,7 +9,8 @@
     </div>
 </section>
 
-<section class="section section--alt">
+<section class="section section--alt" style="position:relative;overflow:hidden">
+<?= deco_html([7,0]) ?>
     <div class="container">
         <div class="section-header">
             <h2>Jak můžete podpořit Akrasii</h2>
@@ -46,7 +48,8 @@
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-content" style="position:relative;overflow:hidden">
+<?= deco_html([9,4]) ?>
     <div class="container">
         <div class="page-content-body">
             <h2>Na co jdou vaše peníze?</h2>

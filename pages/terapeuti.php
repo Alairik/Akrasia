@@ -4,7 +4,8 @@ $extraScript = 'terapeuti.js';
 $metaDescription = 'Adresář ověřených terapeutů specializovaných na ADHD. Filtrujte podle kraje, města nebo typu podpory.';
 ?>
 
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([0,7]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -18,7 +19,8 @@ $metaDescription = 'Adresář ověřených terapeutů specializovaných na ADHD.
     </div>
 </section>
 
-<section class="section section--sm">
+<section class="section section--sm" style="position:relative;overflow:hidden">
+<?= deco_html([10,6]) ?>
     <div class="container">
 
         <!-- Filtry -->

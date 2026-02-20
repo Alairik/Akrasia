@@ -1,4 +1,5 @@
-<section class="page-hero">
+<section class="page-hero" style="position:relative;overflow:hidden">
+<?= deco_html([7,0]) ?>
     <div class="container">
         <nav class="breadcrumb" aria-label="Drobečková navigace">
             <a href="<?= SITE_URL ?>/">Domů</a>
@@ -10,7 +11,8 @@
     </div>
 </section>
 
-<section class="section section--alt">
+<section class="section section--alt" style="position:relative;overflow:hidden">
+<?= deco_html([3,9]) ?>
     <div class="container">
         <div class="section-header">
             <h2>Proč investovat do neurodiverzity?</h2>
@@ -42,7 +44,8 @@
     </div>
 </section>
 
-<section class="page-content">
+<section class="page-content" style="position:relative;overflow:hidden">
+<?= deco_html([11,5]) ?>
     <div class="container">
         <div class="page-content-body">
             <h2>Co získáte spoluprací s Akrasií</h2>
