@@ -75,13 +75,6 @@ function nav_active(string $route, string $current): string {
             <span class="site-logo-text">Akrasia</span>
         </a>
 
-        <!-- Hamburger (mobil) – floating sticky tlačítko -->
-        <button class="nav-toggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="main-nav">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
         <!-- Navigace -->
         <nav class="site-nav" id="main-nav" aria-label="Hlavní navigace">
 
@@ -154,7 +147,12 @@ function nav_active(string $route, string $current): string {
         </nav>
     </div>
 </header>
-<!-- Lilac blob za burger tlačítkem – mimo header stacking context -->
+<!-- Burger tlačítko + blob jsou MIMO header (backdrop-filter mění containing block pro fixed) -->
+<button class="nav-toggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="main-nav">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
 <div class="nav-blob" aria-hidden="true"></div>
 
 <main id="main-content">

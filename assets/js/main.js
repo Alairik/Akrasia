@@ -23,9 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', closeMobileNav);
         });
 
-        // Zavřít menu kliknutím mimo header
+        // Zavřít menu kliknutím mimo header a mimo toggle (toggle je teď mimo header)
         document.addEventListener('click', e => {
-            if (nav.classList.contains('active') && !e.target.closest('.site-header')) {
+            if (nav.classList.contains('active')
+                && !e.target.closest('.site-header')
+                && !e.target.closest('.nav-toggle')) {
                 closeMobileNav();
             }
         });
