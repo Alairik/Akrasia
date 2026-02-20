@@ -753,7 +753,7 @@ ul  { list-style: none; }
 /* Horizontální brandový prvek – levá horní část karty, částečně zasahuje do textu */
 .junction-card-prvek {
     position: absolute;
-    top: 20px;
+    top: 40px;
     left: 20px;
     width: 55%;
     height: 12px;
