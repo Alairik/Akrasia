@@ -43,9 +43,10 @@
             typ   : findCol(columns, 'typ', 'type', 'obor', 'specializ', 'podpora'),
             kraj  : findCol(columns, 'kraj', 'region'),
             mesto : findCol(columns, 'mest', 'city', 'obec', 'mist'),
-            email : findCol(columns, 'mail', 'email', 'e-mail'),
-            web   : findCol(columns, 'web', 'www', 'url', 'site', 'stranka', 'odkaz'),
-            tel   : findCol(columns, 'tel', 'phone', 'mobil', 'gsm'),
+            kontakt : findCol(columns, 'kontakt', 'contact'),
+            email   : findCol(columns, 'mail', 'email', 'e-mail'),
+            web     : findCol(columns, 'web', 'www', 'url', 'site', 'stranka', 'odkaz'),
+            tel     : findCol(columns, 'tel', 'phone', 'mobil', 'gsm'),
             popis : findCol(columns, 'popis', 'bio', 'desc', 'o mn', 'informac'),
             foto  : findCol(columns, 'foto', 'photo', 'image', 'avatar', 'fotografie'),
         };
@@ -60,9 +61,10 @@
             typ   : g('typ'),
             kraj  : g('kraj'),
             mesto : g('mesto'),
-            email : g('email'),
-            web   : g('web'),
-            tel   : g('tel'),
+            kontakt : g('kontakt'),
+            email   : g('email'),
+            web     : g('web'),
+            tel     : g('tel'),
             popis : g('popis'),
             foto  : g('foto'),
         };
@@ -77,6 +79,21 @@
         const typy    = t.typ ? t.typ.split(/[;,]/).map(s => s.trim()).filter(Boolean) : [];
         const tagHtml = typy.map(s => `<span class="terapeutka-tag">${esc(s)}</span>`).join('');
 
+        // Kontakt – auto-detekce typu hodnoty
+        function renderKontaktValue(val) {
+            if (!val) return '';
+            if (val.includes('@'))
+                return `<a href="mailto:${esc(val)}" style="color:var(--navy)">${esc(val)}</a>`;
+            if (/^[+0-9][\d\s\-().]{5,}$/.test(val.trim()))
+                return `<a href="tel:${esc(val.replace(/\s/g,''))}" style="color:var(--navy)">${esc(val)}</a>`;
+            if (/^https?:\/\/|^www\./i.test(val))
+                return `<a href="${esc(val.startsWith('http') ? val : 'https://'+val)}" target="_blank" rel="noopener" style="color:var(--navy)">${esc(val.replace(/^https?:\/\//,''))}</a>`;
+            return esc(val);
+        }
+
+        // Footer – e-mail button (vlastní email, nebo kontakt pokud obsahuje @)
+        const emailForBtn = t.email || (t.kontakt && t.kontakt.includes('@') ? t.kontakt : '');
+
         // Webová URL – ujistíme se, že má protokol
         const webHref = t.web
             ? (t.web.startsWith('http') ? t.web : 'https://' + t.web)
@@ -85,10 +102,10 @@
             ? t.web.replace(/^https?:\/\//, '').replace(/\/$/, '')
             : '';
 
-        // Footer – jen e-mail jako hlavní CTA tlačítko
-        const footerHtml = t.email
+        // Footer – e-mail tlačítko
+        const footerHtml = emailForBtn
             ? `<div class="terapeutka-footer">
-                <a href="mailto:${esc(t.email)}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Napsat e-mail</a>
+                <a href="mailto:${esc(emailForBtn)}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Napsat e-mail</a>
                </div>`
             : '';
 
@@ -106,6 +123,11 @@
                 <div class="terapeutka-info">
                     <span class="terapeutka-info-label">Místo:</span>
                     <span>${[t.mesto, t.kraj].filter(Boolean).map(esc).join(', ')}</span>
+                </div>` : ''}
+                ${t.kontakt ? `
+                <div class="terapeutka-info">
+                    <span class="terapeutka-info-label">Kontakt:</span>
+                    <span>${renderKontaktValue(t.kontakt)}</span>
                 </div>` : ''}
                 ${t.tel ? `
                 <div class="terapeutka-info">
