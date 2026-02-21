@@ -83,13 +83,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
             ");
 
-            // Create admin user
+            // Create admin user (update if already exists)
             $hash = password_hash($adminPass, PASSWORD_DEFAULT);
-            $stmt = $db->prepare('INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)');
+            $stmt = $db->prepare('INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE email = VALUES(email), password_hash = VALUES(password_hash), role = VALUES(role)');
             $stmt->execute([$adminUser, $adminEmail, $hash, 'admin']);
 
             // Create default category
-            $db->exec("INSERT INTO categories (name, slug) VALUES ('Obecné', 'obecne')");
+            $db->exec("INSERT IGNORE INTO categories (name, slug) VALUES ('Obecné', 'obecne')");
 
             $success = true;
         } catch (PDOException $e) {
