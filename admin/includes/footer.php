@@ -1,5 +1,6 @@
 <?php if ($currentUser): ?>
-    </main>
+        </main>
+    </div>
 </div>
 <?php endif; ?>
 <script src="<?= ADMIN_URL ?>/assets/script.js"></script>
