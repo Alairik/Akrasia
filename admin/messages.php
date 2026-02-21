@@ -5,6 +5,10 @@ auth_require();
 
 // Handle POST actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_verify()) {
+        flash_set('error', 'Neplatný bezpečnostní token.');
+        redirect(ADMIN_URL . '/messages.php');
+    }
     $action = $_POST['action'] ?? '';
     $id     = (int) ($_POST['id'] ?? 0);
 
@@ -37,6 +41,7 @@ $unread   = messages_unread_count();
     </h1>
     <?php if ($unread): ?>
     <form method="post">
+        <?= csrf_field() ?>
         <input type="hidden" name="action" value="read_all">
         <button type="submit" class="btn btn-secondary btn-sm">Označit vše jako přečtené</button>
     </form>
@@ -82,15 +87,18 @@ $unread   = messages_unread_count();
                 <td style="white-space:nowrap;">
                     <?php if (!$msg['read_at']): ?>
                     <form method="post" style="display:inline;">
+                        <?= csrf_field() ?>
                         <input type="hidden" name="action" value="read">
                         <input type="hidden" name="id" value="<?= $msg['id'] ?>">
                         <button type="submit" class="btn btn-sm btn-success">✓</button>
                     </form>
                     <?php endif; ?>
-                    <form method="post" style="display:inline;" onsubmit="return confirm('Smazat tuto zprávu?');">
+                    <form method="post" style="display:inline;">
+                        <?= csrf_field() ?>
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="id" value="<?= $msg['id'] ?>">
-                        <button type="submit" class="btn btn-sm btn-danger">Smazat</button>
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                data-confirm="Smazat tuto zprávu?">Smazat</button>
                     </form>
                 </td>
             </tr>

@@ -16,6 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Rate limit: max 5 odeslaných zpráv za 10 minut z jedné IP
+$ip = hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+if (!rate_limit_check('contact:' . $ip, 5, 600)) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'error' => 'Příliš mnoho zpráv. Zkuste to za chvíli.']);
+    exit;
+}
+
 // Honeypot – boti pole vyplní, lidé ne
 if (!empty($_POST['website'])) {
     echo json_encode(['success' => true]);

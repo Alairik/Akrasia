@@ -3,11 +3,17 @@ $pageTitle = 'Články';
 require_once __DIR__ . '/includes/header.php';
 auth_require();
 
-// Handle delete
-if (isset($_GET['delete']) && csrf_verify()) {
-    $id = (int) $_GET['delete'];
-    article_delete($id);
-    flash_set('success', 'Článek byl smazán.');
+// Handle delete (POST, ne GET – GET požadavky nesmí měnit stav)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
+    if (!csrf_verify()) {
+        flash_set('error', 'Neplatný bezpečnostní token.');
+    } else {
+        $id = (int) ($_POST['id'] ?? 0);
+        if ($id) {
+            article_delete($id);
+            flash_set('success', 'Článek byl smazán.');
+        }
+    }
     redirect(ADMIN_URL . '/articles.php');
 }
 
@@ -66,9 +72,13 @@ $allCategories = categories_list();
                     <td><?= format_date($article['created_at']) ?></td>
                     <td>
                         <a href="<?= ADMIN_URL ?>/article-edit.php?id=<?= $article['id'] ?>" class="btn btn-sm btn-secondary">Upravit</a>
-                        <a href="<?= ADMIN_URL ?>/articles.php?delete=<?= $article['id'] ?>&csrf_token=<?= h(csrf_token()) ?>"
-                           class="btn btn-sm btn-danger"
-                           data-confirm="Opravdu smazat článek '<?= h($article['title']) ?>'?">Smazat</a>
+                        <form method="post" style="display:inline;">
+                            <?= csrf_field() ?>
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id" value="<?= $article['id'] ?>">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    data-confirm="Opravdu smazat článek '<?= h($article['title']) ?>'?">Smazat</button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

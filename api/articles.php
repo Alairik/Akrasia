@@ -9,11 +9,16 @@
  * GET /cms/api/articles.php?category=abc — filter by category slug
  */
 
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
-
 require_once dirname(__DIR__) . '/includes/config.php';
+
+header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
+// CORS: povolujeme pouze vlastní doménu
+$_rl_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($_rl_origin && parse_url($_rl_origin, PHP_URL_HOST) === parse_url(SITE_URL, PHP_URL_HOST)) {
+    header('Access-Control-Allow-Origin: ' . $_rl_origin);
+}
+header('Access-Control-Allow-Methods: GET');
 require_once INCLUDES_PATH . '/db.php';
 require_once INCLUDES_PATH . '/helpers.php';
 require_once INCLUDES_PATH . '/articles.php';

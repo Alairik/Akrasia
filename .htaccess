@@ -1,9 +1,24 @@
 # Akrasia – Apache URL Rewriting
 # Vyžaduje mod_rewrite a AllowOverride All (nebo FileInfo)
 
+# ── Bezpečnostní HTTP hlavičky ─────────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options  "nosniff"
+    Header always set X-Frame-Options         "SAMEORIGIN"
+    Header always set Referrer-Policy         "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy      "geolocation=(), microphone=(), camera=()"
+    Header always set X-XSS-Protection        "1; mode=block"
+    # Odstraníme verzi PHP z odpovědí
+    Header always unset X-Powered-By
+</IfModule>
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
+
+    # ── HTTPS vynucení ─────────────────────────────────────────────
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # ── Ochrana interních složek ───────────────────────────────────
     RewriteRule ^includes(/.*)?$ - [F,L]

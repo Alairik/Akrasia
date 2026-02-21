@@ -12,12 +12,17 @@ if (auth_check()) {
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrf_verify()) {
+    $ip = hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+
+    if (!rate_limit_check('login:' . $ip, 10, 900)) {
+        $error = 'Příliš mnoho neúspěšných pokusů. Zkuste to znovu za 15 minut.';
+    } elseif (!csrf_verify()) {
         $error = 'Neplatný bezpečnostní token. Zkuste to znovu.';
     } else {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
         if (auth_login($username, $password)) {
+            rate_limit_reset('login:' . $ip);
             redirect(ADMIN_URL . '/');
         } else {
             $error = 'Nesprávné uživatelské jméno nebo heslo.';

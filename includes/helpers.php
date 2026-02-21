@@ -8,8 +8,65 @@ function h(string $str): string {
 }
 
 function redirect(string $url): void {
+    // Ochrana před open-redirect: povolujeme pouze relativní URL nebo stejný host
+    if (!str_starts_with($url, '/')) {
+        $allowed = parse_url(SITE_URL, PHP_URL_HOST);
+        $target  = parse_url($url, PHP_URL_HOST);
+        if ($target !== null && $target !== $allowed) {
+            $url = SITE_URL . '/';
+        }
+    }
     header('Location: ' . $url);
     exit;
+}
+
+/**
+ * IP-based rate limiter uložený v souborech v sys_get_temp_dir().
+ * Vrací true = požadavek povolen, false = blokováno.
+ */
+function rate_limit_check(string $key, int $maxAttempts = 5, int $windowSeconds = 900): bool {
+    $dir = rtrim(sys_get_temp_dir(), '/') . '/cms_ratelimit';
+    if (!is_dir($dir)) @mkdir($dir, 0700, true);
+
+    $file = $dir . '/' . hash('sha256', $key) . '.json';
+    $now  = time();
+
+    $fp = @fopen($file, 'c+');
+    if (!$fp) return true; // fail-open: nelze-li zapisovat, neblokuj
+
+    flock($fp, LOCK_EX);
+    $raw  = stream_get_contents($fp);
+    $data = $raw ? json_decode($raw, true) : null;
+
+    // Reset okna po vypršení
+    if (!$data || ($now - ($data['window_start'] ?? 0)) > $windowSeconds) {
+        $data = ['attempts' => 0, 'window_start' => $now, 'blocked_until' => 0];
+    }
+
+    // Stále blokováno
+    if (($data['blocked_until'] ?? 0) > $now) {
+        flock($fp, LOCK_UN);
+        fclose($fp);
+        return false;
+    }
+
+    $data['attempts']++;
+    if ($data['attempts'] > $maxAttempts) {
+        $data['blocked_until'] = $now + $windowSeconds;
+    }
+
+    rewind($fp);
+    ftruncate($fp, 0);
+    fwrite($fp, json_encode($data));
+    flock($fp, LOCK_UN);
+    fclose($fp);
+
+    return ($data['blocked_until'] ?? 0) <= $now;
+}
+
+function rate_limit_reset(string $key): void {
+    $file = rtrim(sys_get_temp_dir(), '/') . '/cms_ratelimit/' . hash('sha256', $key) . '.json';
+    if (file_exists($file)) @unlink($file);
 }
 
 function csrf_token(): string {
