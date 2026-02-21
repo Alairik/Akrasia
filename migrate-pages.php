@@ -50,16 +50,16 @@ function extract_page_content(string $filePath): string
 {
     $raw = file_get_contents($filePath);
 
-    // a) Odstranit oteviraci PHP bloky (terapeuti.php ma <?php ... ?> na zacatku)
+    // a) Odstranit oteviraci PHP bloky (terapeuti.php ma PHP blok na zacatku)
     $raw = preg_replace('#<\?php.*?\?>#s', '', $raw);
 
     // b) Odstranit deco_html volani
     $raw = preg_replace('#<\?=\s*deco_html\([^)]*\)\s*\?>#', '', $raw);
 
-    // c) Nahradit <?= SITE_URL ?> skutecnou URL
+    // c) Nahradit echo SITE_URL skutecnou URL
     $raw = str_replace('<?= SITE_URL ?>', SITE_URL, $raw);
 
-    // d) Nahradit <?= SITE_URL . '/neco' ?> nebo <?= SITE_URL.'/neco' ?>
+    // d) Nahradit echo SITE_URL . '/neco' nebo echo SITE_URL.'/neco'
     $raw = preg_replace_callback(
         '#<\?=\s*SITE_URL\s*\.\s*["\']([^"\']*)["\'\s]*\?>#',
         function ($m) { return SITE_URL . $m[1]; },
@@ -69,7 +69,7 @@ function extract_page_content(string $filePath): string
     // e) Odstranit zbytek PHP tagu s json_encode nebo jinych vyrazu
     $raw = preg_replace('#<\?=\s*json_encode\([^)]*\)\s*\?>#', '""', $raw);
 
-    // f) Odstranit veskeré zbyvající <?= ... ?> a <?php ... ?>
+    // f) Odstranit veskeré zbyvající PHP tagy (echo i blokove)
     $raw = preg_replace('#<\?(?:=|php)[^?]*\?>#s', '', $raw);
 
     // ── Pokus extrahovat jen .page-content-body ──────────────────────────────
