@@ -81,6 +81,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     read_at    DATETIME     NULL,
                     created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS pages (
+                    id               INT AUTO_INCREMENT PRIMARY KEY,
+                    title            VARCHAR(255) NOT NULL,
+                    slug             VARCHAR(255) NOT NULL UNIQUE,
+                    content          LONGTEXT NOT NULL,
+                    excerpt          TEXT NULL,
+                    meta_title       VARCHAR(255) NULL,
+                    meta_description VARCHAR(500) NULL,
+                    status           ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
+                    menu_order       INT NOT NULL DEFAULT 0,
+                    author_id        INT NOT NULL,
+                    created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (author_id) REFERENCES users(id)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS media (
+                    id            INT AUTO_INCREMENT PRIMARY KEY,
+                    filename      VARCHAR(255) NOT NULL,
+                    original_name VARCHAR(255) NOT NULL,
+                    mime_type     VARCHAR(100) NOT NULL,
+                    size          INT NOT NULL DEFAULT 0,
+                    path          VARCHAR(500) NOT NULL,
+                    uploaded_by   INT NULL,
+                    created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS forms (
+                    id              INT AUTO_INCREMENT PRIMARY KEY,
+                    name            VARCHAR(255) NOT NULL,
+                    slug            VARCHAR(255) NOT NULL UNIQUE,
+                    fields          JSON NOT NULL,
+                    email_to        VARCHAR(255) NULL,
+                    email_subject   VARCHAR(255) NULL,
+                    success_message TEXT NULL,
+                    created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS form_submissions (
+                    id         INT AUTO_INCREMENT PRIMARY KEY,
+                    form_id    INT NOT NULL,
+                    data       JSON NOT NULL,
+                    ip         VARCHAR(45) NULL,
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (form_id) REFERENCES forms(id) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS navigations (
+                    id         INT AUTO_INCREMENT PRIMARY KEY,
+                    name       VARCHAR(255) NOT NULL,
+                    slug       VARCHAR(255) NOT NULL UNIQUE,
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS navigation_items (
+                    id         INT AUTO_INCREMENT PRIMARY KEY,
+                    nav_id     INT NOT NULL,
+                    label      VARCHAR(255) NOT NULL,
+                    url        VARCHAR(500) NOT NULL,
+                    target     VARCHAR(20) NOT NULL DEFAULT '_self',
+                    menu_order INT NOT NULL DEFAULT 0,
+                    parent_id  INT NULL,
+                    FOREIGN KEY (nav_id) REFERENCES navigations(id) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS settings (
+                    id    INT AUTO_INCREMENT PRIMARY KEY,
+                    `key`   VARCHAR(100) NOT NULL UNIQUE,
+                    value TEXT NOT NULL DEFAULT '',
+                    label VARCHAR(255) NOT NULL DEFAULT '',
+                    type  ENUM('text','textarea','email','url','number','select','checkbox') NOT NULL DEFAULT 'text',
+                    `group` VARCHAR(100) NOT NULL DEFAULT 'Obecné'
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE IF NOT EXISTS redirects (
+                    id         INT AUTO_INCREMENT PRIMARY KEY,
+                    from_url   VARCHAR(500) NOT NULL,
+                    to_url     VARCHAR(500) NOT NULL,
+                    type       SMALLINT NOT NULL DEFAULT 301,
+                    active     TINYINT(1) NOT NULL DEFAULT 1,
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
             ");
 
             // Create admin user (update if already exists)
@@ -91,6 +175,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Create default category
             $db->exec("INSERT IGNORE INTO categories (name, slug) VALUES ('Obecné', 'obecne')");
+
+            // Insert default settings
+            $defaultSettings = [
+                ['site_name',        'Můj web',                            'Název webu',              'text',     'Obecné'],
+                ['site_description', '',                                   'Popis webu',              'textarea', 'Obecné'],
+                ['site_email',       $adminEmail,                          'Kontaktní e-mail',        'email',    'Obecné'],
+                ['site_url',         '',                                   'URL webu',                'url',      'Obecné'],
+                ['footer_text',      '',                                   'Text v patičce',          'textarea', 'Obecné'],
+                ['ga_id',            '',                                   'Google Analytics ID',     'text',     'Analytika'],
+                ['meta_keywords',    '',                                   'Klíčová slova (meta)',    'textarea', 'SEO'],
+                ['meta_description', '',                                   'Výchozí meta popis',      'textarea', 'SEO'],
+                ['robots',           'index, follow',                      'Robots meta tag',         'text',     'SEO'],
+            ];
+            $settingsStmt = $db->prepare('INSERT IGNORE INTO settings (`key`, value, label, type, `group`) VALUES (?, ?, ?, ?, ?)');
+            foreach ($defaultSettings as $s) {
+                $settingsStmt->execute($s);
+            }
+
+            // Create default navigation
+            $db->exec("INSERT IGNORE INTO navigations (name, slug, created_at) VALUES ('Hlavní menu', 'hlavni-menu', NOW())");
 
             $success = true;
         } catch (PDOException $e) {

@@ -20,6 +20,7 @@ a:hover { text-decoration: underline; }
 .sidebar-nav li a { display: block; padding: .7rem 1.2rem; color: rgba(255,255,255,.7); transition: all .2s; }
 .sidebar-nav li a:hover { background: rgba(255,255,255,.1); color: #fff; text-decoration: none; }
 .sidebar-nav li.active a { background: rgba(67,97,238,.3); color: #fff; border-left: 3px solid #4361ee; }
+.sidebar-nav li.sidebar-section-label { padding: .6rem 1.2rem .2rem; font-size: .7rem; text-transform: uppercase; letter-spacing: .8px; color: rgba(255,255,255,.35); pointer-events: none; margin-top: .3rem; }
 .sidebar-footer { padding: 1rem; border-top: 1px solid rgba(255,255,255,.1); font-size: .85rem; color: rgba(255,255,255,.5); }
 .sidebar-footer a { color: rgba(255,255,255,.7); margin-left: .5rem; }
 .sidebar-footer span { display: block; margin-bottom: .3rem; }

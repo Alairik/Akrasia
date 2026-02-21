@@ -6,6 +6,12 @@ require_once INCLUDES_PATH . '/helpers.php';
 require_once INCLUDES_PATH . '/articles.php';
 require_once INCLUDES_PATH . '/categories.php';
 require_once INCLUDES_PATH . '/messages.php';
+require_once INCLUDES_PATH . '/pages.php';
+require_once INCLUDES_PATH . '/media.php';
+require_once INCLUDES_PATH . '/forms.php';
+require_once INCLUDES_PATH . '/navigations.php';
+require_once INCLUDES_PATH . '/settings.php';
+require_once INCLUDES_PATH . '/redirects.php';
 
 auth_start_session();
 auth_require();
@@ -32,15 +38,21 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'], '.php');
             <li class="<?= $currentPage === 'index' ? 'active' : '' ?>">
                 <a href="<?= ADMIN_URL ?>/">Dashboard</a>
             </li>
-            <li class="<?= in_array($currentPage, ['articles', 'article-edit']) ? 'active' : '' ?>">
-                <a href="<?= ADMIN_URL ?>/articles.php">Články</a>
+
+            <li class="sidebar-section-label">Obsah</li>
+
+            <li class="<?= in_array($currentPage, ['pages', 'page-edit']) ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/pages.php">Stránky</a>
             </li>
-            <li class="<?= $currentPage === 'categories' ? 'active' : '' ?>">
-                <a href="<?= ADMIN_URL ?>/categories.php">Kategorie</a>
+            <li class="<?= in_array($currentPage, ['articles', 'article-edit', 'categories', 'tags']) ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/articles.php">Blog</a>
             </li>
-            <li class="<?= $currentPage === 'tags' ? 'active' : '' ?>">
-                <a href="<?= ADMIN_URL ?>/tags.php">Tagy</a>
+            <li class="<?= $currentPage === 'media' ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/media.php">Média</a>
             </li>
+
+            <li class="sidebar-section-label">Komunikace</li>
+
             <li class="<?= $currentPage === 'messages' ? 'active' : '' ?>">
                 <a href="<?= ADMIN_URL ?>/messages.php">
                     Zprávy
@@ -49,7 +61,25 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'], '.php');
                     <?php endif; ?>
                 </a>
             </li>
+            <li class="<?= in_array($currentPage, ['forms', 'form-edit', 'form-submissions']) ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/forms.php">Formuláře</a>
+            </li>
+
+            <li class="sidebar-section-label">Struktura</li>
+
+            <li class="<?= in_array($currentPage, ['navigations', 'navigation-edit']) ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/navigations.php">Navigace</a>
+            </li>
+            <li class="<?= $currentPage === 'redirects' ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/redirects.php">Přesměrování</a>
+            </li>
+
             <?php if (auth_is_admin()): ?>
+            <li class="sidebar-section-label">Systém</li>
+
+            <li class="<?= $currentPage === 'settings' ? 'active' : '' ?>">
+                <a href="<?= ADMIN_URL ?>/settings.php">Nastavení</a>
+            </li>
             <li class="<?= $currentPage === 'users' ? 'active' : '' ?>">
                 <a href="<?= ADMIN_URL ?>/users.php">Uživatelé</a>
             </li>
