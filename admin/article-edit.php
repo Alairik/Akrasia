@@ -32,13 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['slug'] = slug($data['title']);
     }
 
-    // Handle image upload
+    // Handle image upload (nový soubor má prioritu)
     if (!empty($_FILES['featured_image']['name'])) {
         $uploaded = upload_image($_FILES['featured_image']);
         if ($uploaded) {
             $data['featured_image'] = $uploaded;
         } else {
             flash_set('error', 'Obrázek se nepodařilo nahrát. Povolené formáty: JPG, PNG, GIF, WebP. Max 5 MB.');
+        }
+    } elseif (!empty($_POST['media_library_image'])) {
+        // Výběr z media library (jen cesta bez traversal)
+        $mlPath = ltrim($_POST['media_library_image'], '/');
+        if (preg_match('#^[\w\-/]+\.\w{2,5}$#', $mlPath)) {
+            $data['featured_image'] = $mlPath;
         }
     }
 
@@ -143,6 +149,30 @@ if ($id && !$article) {
         <?php endif; ?>
         <input type="file" id="featured_image" name="featured_image" class="form-control" accept="image/*">
         <img id="image-preview" class="image-preview" style="display:none" alt="Náhled">
+        <input type="hidden" name="media_library_image" id="media_library_image" value="">
+        <?php $libraryImages = media_list(16, 0, 'image'); if (!empty($libraryImages)): ?>
+        <div style="margin-top:.6rem;">
+            <div class="form-hint" style="margin-bottom:.4rem;">Nebo vyberte z media library:</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.35rem;" id="media-lib-picker">
+                <?php foreach ($libraryImages as $img): ?>
+                <img src="<?= h(UPLOADS_URL . '/' . $img['path']) ?>"
+                     alt="<?= h($img['original_name']) ?>"
+                     title="<?= h($img['original_name']) ?>"
+                     style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:border-color .15s;"
+                     onclick="pickLibImg(this,'<?= h($img['path']) ?>')">
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <script>
+        function pickLibImg(el, path) {
+            document.querySelectorAll('#media-lib-picker img').forEach(function(i){ i.style.borderColor='transparent'; });
+            el.style.borderColor = '#4361ee';
+            document.getElementById('media_library_image').value = path;
+            var prev = document.getElementById('image-preview');
+            prev.src = el.src; prev.style.display = '';
+        }
+        </script>
+        <?php endif; ?>
     </div>
 
     <div class="form-actions">
