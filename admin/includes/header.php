@@ -8,6 +8,7 @@ require_once INCLUDES_PATH . '/categories.php';
 require_once INCLUDES_PATH . '/messages.php';
 
 auth_start_session();
+auth_require();
 
 $currentUser = auth_user();
 $currentPage = basename($_SERVER['SCRIPT_NAME'], '.php');
