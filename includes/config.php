@@ -4,7 +4,7 @@
  */
 
 // Database
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'd391762_cmstst');
 define('DB_USER', 'a391762_cmstst');
 define('DB_PASS', 'Jvyz23:kpgn4uYW');
