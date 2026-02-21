@@ -93,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $success = true;
         } catch (PDOException $e) {
-            error_log('install.php PDOException: ' . $e->getMessage());
-            $errors[] = 'Chyba databáze. Zkontrolujte přihlašovací údaje v includes/config.php a zkuste to znovu.';
+            // DEBUG – dočasně zobrazíme chybu, po vyřešení vrátit zpět
+            $errors[] = 'Chyba databáze [' . $e->getCode() . ']: ' . $e->getMessage();
         }
     }
 }
