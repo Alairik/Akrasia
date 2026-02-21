@@ -82,8 +82,17 @@ $values = [
                 </div>
                 <div class="form-group">
                     <label>Obsah</label>
-                    <textarea name="content" class="form-control" rows="16"><?= h($values['content']) ?></textarea>
-                    <div class="form-hint">Podporuje Markdown (# nadpis, **tučně**, *kurzíva*, [odkaz](url)).</div>
+                    <div class="editor-tabs">
+                        <button type="button" class="editor-tab active" data-tab="write">Psát</button>
+                        <button type="button" class="editor-tab" data-tab="preview">Náhled</button>
+                    </div>
+                    <div id="pane-write" class="editor-pane active">
+                        <textarea id="content" name="content" class="form-control" style="min-height:350px;border-radius:0 0 4px 4px;"><?= h($values['content']) ?></textarea>
+                    </div>
+                    <div id="pane-preview" class="editor-pane">
+                        <div id="markdown-preview" class="markdown-preview"></div>
+                    </div>
+                    <div class="form-hint">Lze použít Markdown nebo HTML.</div>
                 </div>
                 <div class="form-group">
                     <label>Perex / Úryvek</label>

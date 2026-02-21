@@ -7,6 +7,7 @@ require_once INCLUDES_PATH . '/db.php';
 require_once INCLUDES_PATH . '/helpers.php';
 require_once INCLUDES_PATH . '/articles.php';
 require_once INCLUDES_PATH . '/categories.php';
+require_once INCLUDES_PATH . '/pages.php';
 
 $route = $_GET['route'] ?? 'home';
 $pageTitle = SITE_NAME;
@@ -115,15 +116,26 @@ switch ($route) {
         }
         break;
 
-    // ----- Statické stránky -----
+    // ----- Statické stránky + CMS stránky -----
     default:
         if (isset($staticPages[$route])) {
+            // Hardcoded statické stránky (PHP soubory)
             $pageTitle   = $staticPages[$route]['title'];
             $pageFile    = __DIR__ . '/pages/' . $staticPages[$route]['file'] . '.php';
             $template    = 'static';
-        } else {
+        } elseif ($route !== 'home' && ($cmsPage = page_get_by_slug($route)) !== null) {
+            // CMS stránka z databáze
+            $pageTitle       = $cmsPage['title'];
+            $metaDescription = $cmsPage['meta_description'] ?: ($cmsPage['excerpt'] ?: '');
+            $template        = 'page';
+        } elseif ($route === 'home' || $route === '') {
             // Homepage
             $template = 'home';
+        } else {
+            // 404
+            http_response_code(404);
+            $pageTitle = 'Stránka nenalezena';
+            $template  = '404';
         }
         break;
 }
@@ -138,6 +150,9 @@ require_once __DIR__ . '/templates/header.php';
 switch ($template) {
     case 'home':
         require_once __DIR__ . '/pages/home.php';
+        break;
+    case 'page':
+        require_once __DIR__ . '/templates/page.php';
         break;
     case 'static':
         if (file_exists($pageFile)) {

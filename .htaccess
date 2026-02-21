@@ -69,7 +69,10 @@
     RewriteRule ^terapeuti$         index.php?route=terapeuti [L,QSA]
     RewriteRule ^gdpr$              index.php?route=gdpr [L,QSA]
 
-    # ── Fallback – vše ostatní na index.php ───────────────────────
-    RewriteRule ^(.+)$ index.php [L,QSA]
+    # ── CMS stránky + Fallback ────────────────────────────────────
+    # Předáme slug jako route; index.php ho zkusí dohledat v DB
+    RewriteRule ^([a-z0-9-]+)$ index.php?route=$1 [L,QSA]
+    # Catch-all pro vše ostatní (domovská stránka, 404)
+    RewriteRule ^ index.php [L,QSA]
 
 </IfModule>
