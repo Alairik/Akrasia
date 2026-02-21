@@ -116,23 +116,21 @@ switch ($route) {
         }
         break;
 
-    // ----- Statické stránky + CMS stránky -----
+    // ----- Stránky: DB má prioritu, static PHP je fallback -----
     default:
-        if (isset($staticPages[$route])) {
-            // Hardcoded statické stránky (PHP soubory)
-            $pageTitle   = $staticPages[$route]['title'];
-            $pageFile    = __DIR__ . '/pages/' . $staticPages[$route]['file'] . '.php';
-            $template    = 'static';
+        if ($route === 'home' || $route === '') {
+            $template = 'home';
         } elseif ($route !== 'home' && ($cmsPage = page_get_by_slug($route)) !== null) {
-            // CMS stránka z databáze
+            // CMS stránka z databáze (priorita)
             $pageTitle       = $cmsPage['title'];
             $metaDescription = $cmsPage['meta_description'] ?: ($cmsPage['excerpt'] ?: '');
             $template        = 'page';
-        } elseif ($route === 'home' || $route === '') {
-            // Homepage
-            $template = 'home';
+        } elseif (isset($staticPages[$route])) {
+            // Fallback: hardcoded statická PHP stránka (pokud není v DB)
+            $pageTitle   = $staticPages[$route]['title'];
+            $pageFile    = __DIR__ . '/pages/' . $staticPages[$route]['file'] . '.php';
+            $template    = 'static';
         } else {
-            // 404
             http_response_code(404);
             $pageTitle = 'Stránka nenalezena';
             $template  = '404';
