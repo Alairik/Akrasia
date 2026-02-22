@@ -1,124 +1,177 @@
 <?php
 /**
- * ZveleCMS — Front Controller
- * All requests are routed through this file.
+ * Akrasia – hlavní router
  */
+require_once __DIR__ . '/includes/config.php';
+require_once INCLUDES_PATH . '/db.php';
+require_once INCLUDES_PATH . '/helpers.php';
+require_once INCLUDES_PATH . '/articles.php';
+require_once INCLUDES_PATH . '/categories.php';
+require_once INCLUDES_PATH . '/pages.php';
 
-define('ZVELE_CMS', true);
+$route = $_GET['route'] ?? 'home';
+$pageTitle = SITE_NAME;
+$metaDescription = SITE_DESCRIPTION;
 
-// Load configuration
-require_once __DIR__ . '/config.php';
+// Statické stránky (slug → soubor)
+$staticPages = [
+    'kdo-jsme'         => ['title' => 'Kdo jsme',                'file' => 'kdo-jsme'],
+    'pribeh'           => ['title' => 'Příběh',                  'file' => 'pribeh'],
+    'mise'             => ['title' => 'Mise',                    'file' => 'mise'],
+    'tym'              => ['title' => 'Tým',                     'file' => 'tym'],
+    'spolupracujeme'   => ['title' => 'Spolupracujeme',          'file' => 'spolupracujeme'],
+    'hledam-podporu'   => ['title' => 'Hledám podporu',          'file' => 'hledam-podporu'],
+    'vase-pribehy'     => ['title' => 'Vaše příběhy',            'file' => 'vase-pribehy'],
+    'pro-firmy'        => ['title' => 'Pro firmy',               'file' => 'pro-firmy'],
+    'pro-skoly'        => ['title' => 'Pro školy',               'file' => 'pro-skoly'],
+    'zapojte-se'       => ['title' => 'Zapojte se',              'file' => 'zapojte-se'],
+    'staz'             => ['title' => 'Stáž',                    'file' => 'staz'],
+    'dobrovolnictvi'   => ['title' => 'Dobrovolnictví',          'file' => 'dobrovolnictvi'],
+    'stante-se-clenem' => ['title' => 'Staňte se členem',        'file' => 'stante-se-clenem'],
+    'darujte'          => ['title' => 'Darujte',                 'file' => 'darujte'],
+    'terapeuti'        => ['title' => 'Adresář terapeutů',       'file' => 'terapeuti'],
+    'gdpr'             => ['title' => 'Zásady ochrany osobních údajů', 'file' => 'gdpr'],
+];
 
-// Check if install needed
-if (!file_exists(ROOT_PATH . '/config.php') || (file_exists(ROOT_PATH . '/install.php') && !defined('DB_NAME'))) {
-    header('Location: /install.php');
-    exit;
+switch ($route) {
+
+    // ----- Blog – výpis článků -----
+    case 'blog':
+        $page   = max(1, (int) ($_GET['page'] ?? 1));
+        $total  = articles_count('published');
+        $pag    = paginate($total, ARTICLES_PER_PAGE, $page);
+        $articles = articles_list($pag['per_page'], $pag['offset'], 'published');
+        $pageTitle = 'Blog';
+        $metaDescription = 'Čtěte naše články o ADHD, terapii a životě s pozornostním deficitem.';
+        $template = 'list';
+        break;
+
+    // ----- Jednotlivý článek -----
+    case 'article':
+        $slug = $_GET['slug'] ?? '';
+        $article = article_get_by_slug($slug);
+        if (!$article) {
+            http_response_code(404);
+            $pageTitle = 'Stránka nenalezena';
+            $template  = '404';
+        } else {
+            $pageTitle       = $article['title'];
+            $metaDescription = $article['excerpt'] ?: excerpt($article['content'], 160);
+            $articleTags     = article_get_tags($article['id']);
+            $template        = 'article';
+        }
+        break;
+
+    // ----- Kategorie -----
+    case 'category':
+        $slug = $_GET['slug'] ?? '';
+        $db   = db_connect();
+        $stmt = $db->prepare('SELECT * FROM categories WHERE slug = ?');
+        $stmt->execute([$slug]);
+        $category = $stmt->fetch();
+        if (!$category) {
+            http_response_code(404);
+            $pageTitle = 'Kategorie nenalezena';
+            $template  = '404';
+        } else {
+            $page  = max(1, (int) ($_GET['page'] ?? 1));
+            $total = articles_count('published', $category['id']);
+            $pag   = paginate($total, ARTICLES_PER_PAGE, $page);
+            $articles  = articles_list($pag['per_page'], $pag['offset'], 'published', $category['id']);
+            $pageTitle = 'Kategorie: ' . $category['name'];
+            $metaDescription = 'Články v kategorii ' . $category['name'];
+            $template  = 'list';
+        }
+        break;
+
+    // ----- Tag -----
+    case 'tag':
+        $slug = $_GET['slug'] ?? '';
+        $db   = db_connect();
+        $stmt = $db->prepare('SELECT * FROM tags WHERE slug = ?');
+        $stmt->execute([$slug]);
+        $tag = $stmt->fetch();
+        if (!$tag) {
+            http_response_code(404);
+            $pageTitle = 'Tag nenalezen';
+            $template  = '404';
+        } else {
+            $page = max(1, (int) ($_GET['page'] ?? 1));
+            $stmt = $db->prepare('SELECT COUNT(*) FROM article_tags at2 JOIN articles a ON a.id = at2.article_id WHERE at2.tag_id = ? AND a.status = ?');
+            $stmt->execute([$tag['id'], 'published']);
+            $total = (int) $stmt->fetchColumn();
+            $pag   = paginate($total, ARTICLES_PER_PAGE, $page);
+            $stmt  = $db->prepare('SELECT a.*, u.username AS author_name, c.name AS category_name, c.slug AS category_slug
+                FROM articles a
+                JOIN article_tags at2 ON a.id = at2.article_id
+                LEFT JOIN users u ON a.author_id = u.id
+                LEFT JOIN categories c ON a.category_id = c.id
+                WHERE at2.tag_id = ? AND a.status = ?
+                ORDER BY a.created_at DESC LIMIT ? OFFSET ?');
+            $stmt->execute([$tag['id'], 'published', $pag['per_page'], $pag['offset']]);
+            $articles  = $stmt->fetchAll();
+            $pageTitle = 'Tag: ' . $tag['name'];
+            $metaDescription = 'Články s tagem ' . $tag['name'];
+            $template  = 'list';
+        }
+        break;
+
+    // ----- Stránky: DB má prioritu, static PHP je fallback -----
+    default:
+        if ($route === 'home' || $route === '') {
+            $template = 'home';
+        } elseif ($route !== 'home' && ($cmsPage = page_get_by_slug($route)) !== null) {
+            // CMS stránka z databáze – stará tabulka (priorita)
+            $pageTitle       = $cmsPage['title'];
+            $metaDescription = $cmsPage['meta_description'] ?: ($cmsPage['excerpt'] ?: '');
+            $template        = 'page';
+        } elseif ($route !== 'home' && ($zvelePage = zvele_page_get_by_slug($route)) !== null) {
+            // ZveleCMS stránka z databáze (admin na /admin)
+            $pageTitle       = $zvelePage['title'];
+            $metaDescription = $zvelePage['meta_description'] ?? '';
+            $cmsPage         = $zvelePage;
+            $template        = 'zvele-page';
+        } elseif (isset($staticPages[$route])) {
+            // Fallback: hardcoded statická PHP stránka (pokud není v DB)
+            $pageTitle   = $staticPages[$route]['title'];
+            $pageFile    = __DIR__ . '/pages/' . $staticPages[$route]['file'] . '.php';
+            $template    = 'static';
+        } else {
+            http_response_code(404);
+            $pageTitle = 'Stránka nenalezena';
+            $template  = '404';
+        }
+        break;
 }
 
-// Bootstrap the application
-require_once CORE_PATH . '/bootstrap.php';
+// Kategorie a tagy pro navigaci/sidebar
+$allCategories = categories_list();
+$allTags       = tags_list();
 
-// Define frontend routes
-Router::get('/', function () {
-    $db = Database::getInstance();
-    $page = $db->fetchOne(
-        "SELECT * FROM zvele_pages WHERE slug = ? AND status = 'published'",
-        ['homepage']
-    );
+// Render
+require_once __DIR__ . '/templates/header.php';
 
-    if (!$page) {
-        // Fallback: show first published page
-        $page = $db->fetchOne(
-            "SELECT * FROM zvele_pages WHERE status = 'published' ORDER BY sort_order ASC, id ASC LIMIT 1"
-        );
-    }
+switch ($template) {
+    case 'home':
+        require_once __DIR__ . '/pages/home.php';
+        break;
+    case 'page':
+        require_once __DIR__ . '/templates/page.php';
+        break;
+    case 'zvele-page':
+        require_once __DIR__ . '/templates/zvele-page.php';
+        break;
+    case 'static':
+        if (file_exists($pageFile)) {
+            require_once $pageFile;
+        } else {
+            http_response_code(404);
+            require_once __DIR__ . '/templates/404.php';
+        }
+        break;
+    default:
+        require_once __DIR__ . '/templates/' . $template . '.php';
+        break;
+}
 
-    if ($page) {
-        $page['blocks'] = json_decode($page['blocks'], true) ?? [];
-        require_once CORE_PATH . '/Template.php';
-        Template::render('page', ['page' => $page]);
-    } else {
-        echo '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>' . e(SITE_NAME) . '</title></head>';
-        echo '<body><h1>Vítejte v ZveleCMS</h1><p>Zatím nejsou vytvořeny žádné stránky.</p>';
-        echo '<p><a href="/admin">Přejít do administrace</a></p></body></html>';
-    }
-});
-
-// Static pages by slug
-Router::get('/{slug}', function (string $slug) {
-    // Skip admin routes
-    if ($slug === 'admin') {
-        return;
-    }
-
-    $db = Database::getInstance();
-    $page = $db->fetchOne(
-        "SELECT * FROM zvele_pages WHERE slug = ? AND status = 'published'",
-        [$slug]
-    );
-
-    if (!$page) {
-        Router::notFound();
-    }
-
-    $page['blocks'] = json_decode($page['blocks'], true) ?? [];
-    require_once CORE_PATH . '/Template.php';
-    Template::render('page', ['page' => $page]);
-});
-
-// Blog listing
-Router::get('/blog', function () {
-    $db = Database::getInstance();
-    $perPage = (int) setting('blog_posts_per_page', 10);
-    $currentPage = max(1, (int) ($_GET['page'] ?? 1));
-    $offset = ($currentPage - 1) * $perPage;
-
-    $total = $db->count('zvele_posts', "status = 'published'");
-    $posts = $db->fetchAll(
-        "SELECT p.*, u.name as author_name FROM zvele_posts p
-         LEFT JOIN zvele_users u ON p.author_id = u.id
-         WHERE p.status = 'published'
-         ORDER BY p.published_at DESC
-         LIMIT ? OFFSET ?",
-        [$perPage, $offset]
-    );
-
-    $totalPages = (int) ceil($total / $perPage);
-
-    require_once CORE_PATH . '/Template.php';
-    Template::render('blog', [
-        'posts' => $posts,
-        'currentPage' => $currentPage,
-        'totalPages' => $totalPages,
-    ]);
-});
-
-// Single blog post
-Router::get('/blog/{slug}', function (string $slug) {
-    $db = Database::getInstance();
-    $post = $db->fetchOne(
-        "SELECT p.*, u.name as author_name, u.email as author_email
-         FROM zvele_posts p
-         LEFT JOIN zvele_users u ON p.author_id = u.id
-         WHERE p.slug = ? AND p.status = 'published'",
-        [$slug]
-    );
-
-    if (!$post) {
-        Router::notFound();
-    }
-
-    $post['tags'] = json_decode($post['tags'], true) ?? [];
-    require_once CORE_PATH . '/Template.php';
-    Template::render('post', ['post' => $post]);
-});
-
-// Frontend form submission
-Router::post('/form/submit', function () {
-    Security::validateCsrf();
-    require_once CORE_PATH . '/Form.php';
-    Form::handleSubmission();
-});
-
-// Dispatch the request
-Router::dispatch();
+require_once __DIR__ . '/templates/footer.php';
