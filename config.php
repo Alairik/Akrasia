@@ -14,7 +14,7 @@ define('DB_PASS', 'cm!u8:kC-FftkT7');
 define('DB_CHARSET', 'utf8mb4');
 
 // Site
-define('SITE_URL', 'https://zvelebil.online/akrasia');
+define('SITE_URL', 'https://akrasia.zvelebil.online');
 define('SITE_NAME', 'Akrasia');
 
 // Paths
