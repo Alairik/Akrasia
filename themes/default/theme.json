@@ -1,0 +1,26 @@
+{
+    "name": "Akrasia",
+    "version": "1.0.0",
+    "author": "Akrasia",
+    "colors": {
+        "primary": "#4e5699",
+        "primary-dark": "#3a4175",
+        "primary-light": "#eef0f8",
+        "secondary": "#6b7280",
+        "accent": "#c9a84c",
+        "accent-light": "#fdf5e0",
+        "text": "#1a1d2e",
+        "text-light": "#6b7280",
+        "background": "#ffffff",
+        "surface": "#f7f8fc",
+        "border": "#e2e4ee"
+    },
+    "fonts": {
+        "heading": "'Outfit', system-ui, sans-serif",
+        "body": "'Inter', system-ui, sans-serif"
+    },
+    "layout": {
+        "max_width": "1200px",
+        "content_width": "800px"
+    }
+}

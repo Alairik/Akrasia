@@ -1,0 +1,8 @@
+config.php
+uploads/
+cache/
+*.log
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
