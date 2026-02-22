@@ -6,7 +6,7 @@
 /* --- Bely Display (display nadpisy, logo) --- */
 @font-face {
     font-family: 'Bely Display';
-    src: url('../fonts/Bely Display.ttf') format('truetype');
+    src: url('../../../assets/fonts/Bely%20Display.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

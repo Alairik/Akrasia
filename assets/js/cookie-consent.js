@@ -219,6 +219,13 @@
                         hide('cookie-panel');
                     });
                 }
+                // Odmítnout vše v panelu
+                var btnNonePanel = document.getElementById('cc-reject-all-panel');
+                if (btnNonePanel) {
+                    btnNonePanel.addEventListener('click', function () {
+                        applyConsent({ necessary: true, analytics: false, marketing: false }, cfg);
+                    });
+                }
                 // Zavřít panel kliknutím na overlay
                 var overlay = document.getElementById('cookie-panel-overlay');
                 if (overlay) {

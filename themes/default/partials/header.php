@@ -9,15 +9,15 @@ $logoId    = setting('site_logo_id');
 ?>
 
 <header class="site-header" role="banner">
-    <div class="container site-header__inner">
+    <div class="container">
 
-        <a href="<?= url('/') ?>" class="site-header__logo" aria-label="<?= e($siteName) ?> – domovská stránka" style="text-decoration:none;display:flex;align-items:center">
+        <a href="<?= url('/') ?>" class="site-logo" aria-label="<?= e($siteName) ?> – domovská stránka">
             <?php if ($logoId): ?>
                 <img src="<?= e(Template::mediaUrl((int)$logoId)) ?>" alt="<?= e($siteName) ?>" height="40">
             <?php else: ?>
                 <img src="<?= asset('assets/brand/akrasia_logo_rect.svg') ?>" alt="<?= e($siteName) ?>" height="40"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-                <span style="display:none;font-family:var(--font-display);font-weight:700;color:var(--navy)"><?= e($siteName) ?></span>
+                <span class="site-logo-text" style="display:none"><?= e($siteName) ?></span>
             <?php endif; ?>
         </a>
 
@@ -26,18 +26,27 @@ $logoId    = setting('site_logo_id');
         </button>
 
         <nav class="site-nav" id="main-nav" role="navigation" aria-label="Hlavní navigace">
-            <?php if (!empty($menuItems)): ?>
-            <ul class="site-nav__list">
-                <?php foreach ($menuItems as $item): ?>
-                <li class="site-nav__item">
-                    <a href="<?= e($item['url'] ?? '#') ?>" class="site-nav__link"
-                       <?= !empty($item['target']) ? 'target="' . e($item['target']) . '" rel="noopener"' : '' ?>>
-                        <?= e($item['label'] ?? '') ?>
-                    </a>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
+
+            <!-- Logo v mobilním menu -->
+            <div class="nav-mobile-logo">
+                <img src="<?= asset('assets/brand/akrasia_logo_rect.svg') ?>" alt="<?= e($siteName) ?>" height="48">
+            </div>
+
+            <?php foreach ($menuItems as $item):
+                $label   = $item['label'] ?? '';
+                $url     = $item['url']   ?? '#';
+                $isDonate = ($label === 'Darujte' || str_ends_with(rtrim($url, '/'), '/darujte'));
+                $linkClass = 'nav-link' . ($isDonate ? ' nav-link--donate' : '');
+            ?>
+            <div class="nav-item">
+                <a href="<?= e($url) ?>"
+                   class="<?= $linkClass ?>"
+                   <?= !empty($item['target']) ? 'target="' . e($item['target']) . '" rel="noopener"' : '' ?>>
+                    <?= e($label) ?>
+                </a>
+            </div>
+            <?php endforeach; ?>
+
         </nav>
 
     </div>
