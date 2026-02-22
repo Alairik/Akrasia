@@ -4,8 +4,6 @@
  * Rename this file to config.php and fill in your credentials.
  */
 
-define('ZVELE_CMS', true);
-
 // Environment: 'dev' or 'prod'
 define('ENVIRONMENT', 'dev');
 
