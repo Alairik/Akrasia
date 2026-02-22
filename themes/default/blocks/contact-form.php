@@ -56,7 +56,7 @@ $fields = json_decode($form['fields'], true) ?? [];
             </div>
             <?php endforeach; ?>
 
-            <button type="submit" class="btn btn--primary">Odeslat</button>
+            <button type="submit" class="btn btn-primary">Odeslat</button>
         </form>
     </div>
 </section>

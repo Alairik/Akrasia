@@ -1,510 +1,647 @@
 <?php
 /**
- * ZveleCMS — Demo Seed
- * Naplní databázi demo obsahem pro showcase web "Starter Studio".
- * Spusťte po install.php: navštivte /seed.php v prohlížeči.
- * PO SEEDOVÁNÍ SOUBOR SMAŽTE.
+ * Akrasia — ZveleCMS Seed
+ * Naplní databázi všemi stránkami webu akrasia.zvelebil.online.
+ * Spusť jednou po install.php: navštiv /seed.php v prohlížeči.
  */
 
 define('ZVELE_CMS', true);
 require_once __DIR__ . '/config.php';
-require_once CORE_PATH . '/helpers.php';
-require_once CORE_PATH . '/Database.php';
+require_once CORE_PATH . '/bootstrap.php';
 
-$db = Database::getInstance();
-
-// ============================================================
-// SETTINGS
-// ============================================================
-$settings = [
-    'site_name' => 'Starter Studio',
-    'site_url' => SITE_URL,
-    'site_description' => 'Tvoříme digitální zážitky, které prodávají. Moderní weby, branding a digitální strategie pro ambiciózní firmy.',
-    'admin_email' => 'info@starterstudio.cz',
-    'language' => 'cs',
-    'timezone' => 'Europe/Prague',
-    'date_format' => 'j. n. Y',
-    'meta_title_separator' => '—',
-    'meta_title_pattern' => '{page_title} {separator} {site_name}',
-    'schema_organization_name' => 'Starter Studio s.r.o.',
-    'cookie_banner_title' => 'Respektujeme vaše soukromí',
-    'cookie_banner_text' => 'Používáme cookies pro zajištění funkčnosti webu a analýzu návštěvnosti. Marketingové cookies nám pomáhají cílit reklamy.',
-    'cookie_banner_accept' => 'Přijmout vše',
-    'cookie_banner_reject' => 'Jen nezbytné',
-    'cookie_banner_settings' => 'Upravit předvolby',
-    'blog_posts_per_page' => '9',
-];
-
-foreach ($settings as $key => $value) {
-    $db->query(
-        "UPDATE zvele_settings SET `value` = ? WHERE `key` = ?",
-        [$value, $key]
-    );
-}
-
-echo "✓ Settings aktualizovány<br>";
-
-// ============================================================
-// CONTACT FORM
-// ============================================================
-$formFields = [
-    ['name' => 'name', 'label' => 'Jméno a příjmení', 'type' => 'text', 'placeholder' => 'Jan Novák', 'required' => true],
-    ['name' => 'email', 'label' => 'E-mail', 'type' => 'email', 'placeholder' => 'jan@firma.cz', 'required' => true],
-    ['name' => 'phone', 'label' => 'Telefon', 'type' => 'tel', 'placeholder' => '+420 777 888 999', 'required' => false],
-    ['name' => 'service', 'label' => 'Mám zájem o', 'type' => 'select', 'placeholder' => '', 'required' => false, 'options' => ['Webdesign', 'Branding', 'SEO', 'Digitální strategie', 'Jiné']],
-    ['name' => 'message', 'label' => 'Zpráva', 'type' => 'textarea', 'placeholder' => 'Popište váš projekt...', 'required' => true],
-];
-
-$formId = $db->insert('zvele_forms', [
-    'name' => 'Kontaktní formulář',
-    'slug' => 'kontakt',
-    'fields' => json_encode($formFields, JSON_UNESCAPED_UNICODE),
-    'email_to' => 'info@starterstudio.cz',
-    'email_subject' => 'Nová poptávka ze Starter Studio',
-    'success_message' => 'Děkujeme za zprávu! Ozveme se vám do 24 hodin.',
-    'honeypot_field' => 'website_url',
-]);
-
-echo "✓ Kontaktní formulář vytvořen (ID: {$formId})<br>";
-
-// ============================================================
-// PAGES
-// ============================================================
-
-// --- HOMEPAGE ---
-$homepageBlocks = [
-    [
-        'id' => 'block_hero_1',
-        'type' => 'hero',
-        'data' => [
-            'title' => 'Tvoříme weby, které nezapadnou',
-            'subtitle' => 'Jsme studio zaměřené na design, výkon a výsledky. Pomáháme firmám růst skrze digitální přítomnost, která zaujme na první pohled.',
-            'cta_text' => 'Začněme spolu',
-            'cta_url' => '/kontakt',
-            'image_id' => null,
-            'overlay_opacity' => 60,
-        ],
-    ],
-    [
-        'id' => 'block_features_1',
-        'type' => 'features',
-        'data' => [
-            'title' => 'Co pro vás můžeme udělat',
-            'items' => [
-                ['icon' => '🎨', 'title' => 'Webdesign na míru', 'text' => 'Žádné šablony. Každý web navrhujeme od nuly podle vašich potřeb, cílové skupiny a obchodních cílů.'],
-                ['icon' => '🚀', 'title' => 'Výkon a rychlost', 'text' => 'Weby, které se načtou pod 2 sekundy. Optimalizované pro Core Web Vitals a maximální konverzní poměr.'],
-                ['icon' => '🔍', 'title' => 'SEO & viditelnost', 'text' => 'Strukturovaná data, technické SEO a obsahová strategie. Budeme tam, kde vás zákazníci hledají.'],
-                ['icon' => '📱', 'title' => 'Responzivní design', 'text' => 'Perfektní zobrazení na všech zařízeních. Od mobilu po ultrawide monitor — bez kompromisů.'],
-                ['icon' => '🛡️', 'title' => 'Bezpečnost & GDPR', 'text' => 'SSL, CSRF ochrana, prepared statements, cookie consent. Bezpečnost není volitelná — je součást DNA.'],
-                ['icon' => '📊', 'title' => 'Analytika & měření', 'text' => 'Google Analytics, Tag Manager, konverzní tracking. Měříme, co funguje, a optimalizujeme, co nefunguje.'],
-            ],
-        ],
-    ],
-    [
-        'id' => 'block_text_about',
-        'type' => 'text',
-        'data' => [
-            'content' => '<h2>Proč si nás klienti vybírají</h2><p>Za posledních 5 let jsme pomohli více než 80 firmám vybudovat silnou digitální přítomnost. Naším cílem není jen hezký web — je to web, který <strong>pracuje pro váš byznys</strong> 24 hodin denně, 7 dní v týdnu.</p><p>Kombinujeme kreativní design s technickou precizností. Každý řádek kódu píšeme ručně, každý pixel má svůj účel. Výsledkem jsou weby, které nejen skvěle vypadají, ale hlavně <strong>přinášejí výsledky</strong>.</p>',
-            'width' => 'narrow',
-        ],
-    ],
-    [
-        'id' => 'block_testimonials_1',
-        'type' => 'testimonials',
-        'data' => [
-            'title' => 'Co říkají naši klienti',
-            'items' => [
-                ['quote' => 'Starter Studio nám kompletně předělali web a výsledky přišly okamžitě. Konverzní poměr vzrostl o 340 % během prvních tří měsíců. Nejlepší investice roku.', 'author' => 'Petra Králová', 'role' => 'CEO, TechVision s.r.o.', 'image_id' => null],
-                ['quote' => 'Profesionální přístup od prvního setkání. Pochopili naši vizi a přetvořili ji do webu, který přesně odráží naši značku. Spolupráce jako ze snu.', 'author' => 'Martin Dvořák', 'role' => 'Zakladatel, GreenLeaf', 'image_id' => null],
-                ['quote' => 'Konečně máme web, na který jsme hrdí. Rychlý, přehledný a krásný. Naši zákazníci nám pravidelně říkají, jak se jim líbí. Děkujeme!', 'author' => 'Lucie Černá', 'role' => 'Marketing Director, Bloom & Co.', 'image_id' => null],
-            ],
-        ],
-    ],
-    [
-        'id' => 'block_cta_1',
-        'type' => 'cta',
-        'data' => [
-            'title' => 'Připraveni na nový web?',
-            'text' => 'Napište nám a společně probereme, jak můžeme váš byznys posunout na další level. Konzultace je zdarma.',
-            'button_text' => 'Nezávazná konzultace',
-            'button_url' => '/kontakt',
-            'style' => 'primary',
-        ],
-    ],
-];
-
-$db->insert('zvele_pages', [
-    'slug' => 'homepage',
-    'title' => 'Starter Studio — Tvoříme digitální zážitky',
-    'meta_title' => 'Webdesign & digitální strategie',
-    'meta_description' => 'Tvoříme moderní weby, které prodávají. Webdesign na míru, SEO, branding a digitální strategie pro ambiciózní firmy.',
-    'blocks' => json_encode($homepageBlocks, JSON_UNESCAPED_UNICODE),
-    'schema_type' => 'WebPage',
-    'status' => 'published',
-    'sort_order' => 0,
-    'template' => 'page',
-    'published_at' => date('Y-m-d H:i:s'),
-]);
-
-echo "✓ Homepage vytvořena<br>";
-
-// --- O NÁS ---
-$aboutBlocks = [
-    [
-        'id' => 'block_hero_about',
-        'type' => 'hero',
-        'data' => [
-            'title' => 'Jsme Starter Studio',
-            'subtitle' => 'Malý tým s velkými ambicemi. Děláme weby, které mění pravidla hry.',
-            'cta_text' => '',
-            'cta_url' => '',
-            'image_id' => null,
-            'overlay_opacity' => 70,
-        ],
-    ],
-    [
-        'id' => 'block_about_text',
-        'type' => 'text',
-        'data' => [
-            'content' => '<h2>Náš příběh</h2><p>Starter Studio vzniklo v roce 2021 z jednoduché myšlenky: české firmy si zaslouží weby světové kvality bez korporátních cenovek. Začínali jsme ve dvou, dnes je nás šest — a každý z nás sdílí stejnou vášeň pro dokonalý kód a krásný design.</p><p>Věříme, že web není jen vizitka na internetu. Je to váš <strong>nejdůležitější obchodní nástroj</strong> — pracuje nonstop, nechodí na dovolenou a nikdy nemá špatný den. Proto mu věnujeme takovou péči.</p><h2>Naše hodnoty</h2><p>Transparentnost, kvalita a partnerský přístup. Žádné skryté poplatky, žádné buzzwordy. Říkáme věci na rovinu a děláme je pořádně. Každý projekt bereme osobně — vaše úspěch je náš úspěch.</p>',
-            'width' => 'narrow',
-        ],
-    ],
-    [
-        'id' => 'block_team',
-        'type' => 'features',
-        'data' => [
-            'title' => 'Náš tým',
-            'items' => [
-                ['icon' => '👨‍💻', 'title' => 'Jakub Starý', 'text' => 'Zakladatel & Lead Developer. 12 let zkušeností s PHP, TypeScript a systémovou architekturou.'],
-                ['icon' => '🎨', 'title' => 'Anna Svobodová', 'text' => 'Creative Director. Návrhy, které kombinují estetiku s funkcí. Figma je její druhý domov.'],
-                ['icon' => '📈', 'title' => 'Tomáš Kratochvíl', 'text' => 'SEO & Performance. Datově řízený přístup k viditelnosti. Žádné triky — jen výsledky.'],
-            ],
-        ],
-    ],
-];
-
-$db->insert('zvele_pages', [
-    'slug' => 'o-nas',
-    'title' => 'O nás',
-    'meta_title' => 'O nás',
-    'meta_description' => 'Poznejte tým Starter Studio. Jsme malé studio s velkými ambicemi — děláme weby, branding a digitální strategie pro firmy, které chtějí růst.',
-    'blocks' => json_encode($aboutBlocks, JSON_UNESCAPED_UNICODE),
-    'schema_type' => 'AboutPage',
-    'status' => 'published',
-    'sort_order' => 1,
-    'template' => 'page',
-    'published_at' => date('Y-m-d H:i:s'),
-]);
-
-echo "✓ Stránka O nás vytvořena<br>";
-
-// --- SLUŽBY ---
-$serviceBlocks = [
-    [
-        'id' => 'block_hero_services',
-        'type' => 'hero',
-        'data' => [
-            'title' => 'Naše služby',
-            'subtitle' => 'Komplexní digitální řešení od strategie po realizaci.',
-            'cta_text' => 'Poptat službu',
-            'cta_url' => '/kontakt',
-            'image_id' => null,
-            'overlay_opacity' => 65,
-        ],
-    ],
-    [
-        'id' => 'block_services_list',
-        'type' => 'features',
-        'data' => [
-            'title' => 'Jak vám pomůžeme',
-            'items' => [
-                ['icon' => '💻', 'title' => 'Webdesign & vývoj', 'text' => 'Custom weby na míru. Žádné šablony, žádné page buildery. Čistý kód, rychlé načítání, perfektní SEO. Od landing page po komplexní portály.'],
-                ['icon' => '✏️', 'title' => 'Branding & identita', 'text' => 'Logo, vizuální identita, brand guidelines. Vytvoříme značku, která rezonuje s vaší cílovou skupinou a odliší vás od konkurence.'],
-                ['icon' => '📊', 'title' => 'SEO & obsahová strategie', 'text' => 'Technické SEO, keyword research, link building a obsahový plán. Organický traffic, který trvale roste.'],
-                ['icon' => '📱', 'title' => 'Webové aplikace', 'text' => 'CRM systémy, dashboardy, interní nástroje. Vyvíjíme webové aplikace, které zefektivní vaše procesy.'],
-                ['icon' => '🔧', 'title' => 'Správa & údržba', 'text' => 'Monitoring, aktualizace, bezpečnostní záplaty, zálohování. Postaráme se o váš web, abyste se mohli soustředit na byznys.'],
-                ['icon' => '📈', 'title' => 'Digitální strategie', 'text' => 'Audit, roadmapa, implementace. Pomůžeme vám definovat cíle a cestu k nim. Data-driven přístup ke každému rozhodnutí.'],
-            ],
-        ],
-    ],
-    [
-        'id' => 'block_process',
-        'type' => 'text',
-        'data' => [
-            'content' => '<h2>Náš proces</h2><p><strong>1. Discovery</strong> — Porozumíme vašemu byznysu, cílům a cílové skupině. Analyzujeme konkurenci a definujeme strategii.</p><p><strong>2. Design</strong> — Navrhneme wireframy a vizuální koncept. Iterujeme, dokud není vše přesně podle vašich představ.</p><p><strong>3. Vývoj</strong> — Píšeme čistý, efektivní kód. Testujeme na všech zařízeních a prohlížečích. Optimalizujeme rychlost.</p><p><strong>4. Launch & růst</strong> — Spustíme web a nastavíme analytiku. Sledujeme výkon a průběžně optimalizujeme.</p>',
-            'width' => 'narrow',
-        ],
-    ],
-    [
-        'id' => 'block_cta_services',
-        'type' => 'cta',
-        'data' => [
-            'title' => 'Máte projekt na mysli?',
-            'text' => 'Rádi si o něm popovídáme. Napište nám a do 24 hodin se vám ozveme s návrhem řešení.',
-            'button_text' => 'Kontaktujte nás',
-            'button_url' => '/kontakt',
-            'style' => 'primary',
-        ],
-    ],
-];
-
-$db->insert('zvele_pages', [
-    'slug' => 'sluzby',
-    'title' => 'Služby',
-    'meta_title' => 'Služby',
-    'meta_description' => 'Webdesign, branding, SEO a digitální strategie. Kompletní digitální řešení pro firmy, které chtějí růst online.',
-    'blocks' => json_encode($serviceBlocks, JSON_UNESCAPED_UNICODE),
-    'schema_type' => 'WebPage',
-    'status' => 'published',
-    'sort_order' => 2,
-    'template' => 'page',
-    'published_at' => date('Y-m-d H:i:s'),
-]);
-
-echo "✓ Stránka Služby vytvořena<br>";
-
-// --- PORTFOLIO ---
-$portfolioBlocks = [
-    [
-        'id' => 'block_hero_portfolio',
-        'type' => 'hero',
-        'data' => [
-            'title' => 'Naše práce',
-            'subtitle' => 'Výběr z projektů, na které jsme hrdí.',
-            'cta_text' => '',
-            'cta_url' => '',
-            'image_id' => null,
-            'overlay_opacity' => 65,
-        ],
-    ],
-    [
-        'id' => 'block_portfolio_text',
-        'type' => 'text',
-        'data' => [
-            'content' => '<h2>Vybrané projekty</h2><p>Každý projekt je pro nás výzvou a příležitostí ukázat, co umíme. Zde je výběr těch, na které jsme obzvlášť pyšní. Pracujeme s firmami všech velikostí — od startupů po zavedené společnosti.</p><p><strong>TechVision s.r.o.</strong> — Kompletní redesign firemního webu. Nový vizuální styl, optimalizace konverzního trychtýře. Výsledek: +340 % konverzí.</p><p><strong>GreenLeaf</strong> — Branding a webová prezentace pro eko-startup. Minimalistický design, který odráží hodnoty udržitelnosti.</p><p><strong>Bloom & Co.</strong> — E-commerce řešení s custom CMS. 500+ produktů, pokročilé filtrování, mobilní optimalizace.</p><p><strong>Atlas Consulting</strong> — Korporátní web s 8jazyčnou mutací. Komplexní SEO strategie pro mezinárodní viditelnost.</p>',
-            'width' => 'narrow',
-        ],
-    ],
-    [
-        'id' => 'block_cta_portfolio',
-        'type' => 'cta',
-        'data' => [
-            'title' => 'Chcete být dalším úspěšným projektem?',
-            'text' => 'Ukažte nám vaši vizi a my ji přetvoříme v realitu.',
-            'button_text' => 'Zahájit projekt',
-            'button_url' => '/kontakt',
-            'style' => 'primary',
-        ],
-    ],
-];
-
-$db->insert('zvele_pages', [
-    'slug' => 'portfolio',
-    'title' => 'Portfolio',
-    'meta_title' => 'Portfolio',
-    'meta_description' => 'Podívejte se na naše realizace. Webdesign, branding a digitální řešení pro firmy, které chtějí uspět online.',
-    'blocks' => json_encode($portfolioBlocks, JSON_UNESCAPED_UNICODE),
-    'schema_type' => 'WebPage',
-    'status' => 'published',
-    'sort_order' => 3,
-    'template' => 'page',
-    'published_at' => date('Y-m-d H:i:s'),
-]);
-
-echo "✓ Stránka Portfolio vytvořena<br>";
-
-// --- KONTAKT ---
-$kontaktBlocks = [
-    [
-        'id' => 'block_hero_contact',
-        'type' => 'hero',
-        'data' => [
-            'title' => 'Spojte se s námi',
-            'subtitle' => 'Máte projekt, nápad nebo otázku? Rádi si popovídáme.',
-            'cta_text' => '',
-            'cta_url' => '',
-            'image_id' => null,
-            'overlay_opacity' => 65,
-        ],
-    ],
-    [
-        'id' => 'block_contact_info',
-        'type' => 'text',
-        'data' => [
-            'content' => '<h2>Kontaktní údaje</h2><p><strong>Starter Studio s.r.o.</strong><br>Vinohradská 42, 120 00 Praha 2</p><p><strong>E-mail:</strong> info@starterstudio.cz<br><strong>Telefon:</strong> +420 777 123 456<br><strong>IČO:</strong> 12345678</p><p>Pracovní doba: Po—Pá, 9:00—18:00</p>',
-            'width' => 'narrow',
-        ],
-    ],
-    [
-        'id' => 'block_contact_form',
-        'type' => 'contact-form',
-        'data' => [
-            'form_id' => $formId,
-        ],
-    ],
-    [
-        'id' => 'block_faq_contact',
-        'type' => 'faq',
-        'data' => [
-            'title' => 'Často kladené otázky',
-            'items' => [
-                ['question' => 'Kolik stojí nový web?', 'answer' => 'Cena závisí na rozsahu projektu. Jednoduchá firemní prezentace začíná od 45 000 Kč, komplexnější řešení od 90 000 Kč. Rádi vám připravíme cenovou nabídku na míru.'],
-                ['question' => 'Jak dlouho trvá realizace webu?', 'answer' => 'Typická firemní prezentace zabere 4–6 týdnů. Složitější projekty 8–12 týdnů. Vždy vám předem sdělíme realistický časový harmonogram.'],
-                ['question' => 'Můžu si web spravovat sám?', 'answer' => 'Samozřejmě! Všechny naše weby běží na vlastním CMS s intuitivním administračním rozhraním. Navíc vás zaškolíme a poskytneme dokumentaci.'],
-                ['question' => 'Nabízíte i správu a údržbu webu?', 'answer' => 'Ano, nabízíme měsíční plány správy od 3 000 Kč/měsíc. Zahrnují monitoring, aktualizace, bezpečnostní záplaty a zálohování.'],
-                ['question' => 'Pracujete i s klienty mimo Prahu?', 'answer' => 'Rozhodně! Většinu komunikace vedeme online. S klienty z celé ČR i Slovenska spolupracujeme pravidelně — vzdálenost není překážka.'],
-            ],
-        ],
-    ],
-];
-
-$db->insert('zvele_pages', [
-    'slug' => 'kontakt',
-    'title' => 'Kontakt',
-    'meta_title' => 'Kontakt',
-    'meta_description' => 'Kontaktujte Starter Studio. Webdesign, branding a digitální strategie. Sídlíme v Praze, pracujeme s klienty z celé ČR.',
-    'blocks' => json_encode($kontaktBlocks, JSON_UNESCAPED_UNICODE),
-    'schema_type' => 'ContactPage',
-    'status' => 'published',
-    'sort_order' => 4,
-    'template' => 'page',
-    'published_at' => date('Y-m-d H:i:s'),
-]);
-
-echo "✓ Stránka Kontakt vytvořena<br>";
-
-// --- GDPR ---
-$gdprBlocks = [
-    [
-        'id' => 'block_gdpr',
-        'type' => 'text',
-        'data' => [
-            'content' => '<h1>Ochrana osobních údajů</h1><h2>1. Správce osobních údajů</h2><p>Správcem osobních údajů je Starter Studio s.r.o., IČO: 12345678, se sídlem Vinohradská 42, 120 00 Praha 2 (dále jen „Správce").</p><h2>2. Rozsah zpracování</h2><p>Zpracováváme pouze osobní údaje, které nám poskytnete prostřednictvím kontaktního formuláře na našem webu: jméno, e-mailovou adresu, telefon a obsah zprávy.</p><h2>3. Účel zpracování</h2><p>Vaše údaje zpracováváme výhradně za účelem odpovědi na vaši poptávku a případné následné obchodní komunikace. Právním základem je oprávněný zájem Správce.</p><h2>4. Doba uchování</h2><p>Údaje z kontaktního formuláře uchováváme po dobu 2 let od posledního kontaktu, poté jsou automaticky smazány.</p><h2>5. Cookies</h2><p>Náš web používá cookies. Nezbytné cookies jsou aktivní vždy. Analytické a marketingové cookies vyžadují váš souhlas, který můžete kdykoliv odvolat kliknutím na „Upravit předvolby cookies" v patičce webu.</p><h2>6. Vaše práva</h2><p>Máte právo na přístup k údajům, jejich opravu, výmaz, omezení zpracování, přenositelnost a vznesení námitky. Pro uplatnění práv nás kontaktujte na info@starterstudio.cz.</p>',
-            'width' => 'narrow',
-        ],
-    ],
-];
-
-$db->insert('zvele_pages', [
-    'slug' => 'ochrana-osobnich-udaju',
-    'title' => 'Ochrana osobních údajů',
-    'meta_title' => 'Ochrana osobních údajů',
-    'meta_description' => 'Informace o zpracování osobních údajů na webu Starter Studio.',
-    'blocks' => json_encode($gdprBlocks, JSON_UNESCAPED_UNICODE),
-    'schema_type' => 'WebPage',
-    'status' => 'published',
-    'sort_order' => 10,
-    'no_index' => 0,
-    'template' => 'page',
-    'published_at' => date('Y-m-d H:i:s'),
-]);
-
-echo "✓ Stránka GDPR vytvořena<br>";
-
-// ============================================================
-// BLOG POSTS
-// ============================================================
-
-$authorId = $db->fetchColumn("SELECT id FROM zvele_users WHERE role = 'admin' LIMIT 1") ?: 1;
-
-$posts = [
-    [
-        'title' => 'Jak vytvořit moderní web v roce 2026',
-        'slug' => 'jak-vytvorit-moderni-web-2026',
-        'excerpt' => 'Web v roce 2026 musí být rychlý, přístupný a optimalizovaný pro AI vyhledávače. Podívejte se na klíčové trendy, které byste neměli ignorovat.',
-        'meta_description' => 'Průvodce tvorbou moderního webu v roce 2026. Rychlost, přístupnost, AI optimalizace a nejnovější trendy ve webdesignu.',
-        'category' => 'Webdesign',
-        'tags' => ['webdesign', 'trendy', '2026', 'performance'],
-        'content' => '<p>Webový vývoj se v posledních letech dramaticky změnil. Zatímco dříve stačilo mít „hezkou stránku", dnes musí web splňovat desítky kritérií — od rychlosti načítání přes přístupnost až po optimalizaci pro AI crawlery.</p><h2>1. Performance first</h2><p>Google již několik let používá Core Web Vitals jako rankingový faktor. V roce 2026 je to ještě důležitější. Váš web by měl mít:</p><ul><li><strong>LCP pod 2,5 sekundy</strong> — Largest Contentful Paint měří, jak rychle se zobrazí hlavní obsah</li><li><strong>FID pod 100 ms</strong> — First Input Delay měří odezvu na první interakci uživatele</li><li><strong>CLS pod 0,1</strong> — Cumulative Layout Shift měří vizuální stabilitu stránky</li></ul><h2>2. Přístupnost není volitelná</h2><p>WCAG 2.2 AA by měl být minimum pro každý nový web. To znamená dostatečný kontrastní poměr, keyboard navigaci, screen reader kompatibilitu a respektování uživatelských preferencí jako <code>prefers-reduced-motion</code>.</p><h2>3. AI-ready obsah</h2><p>S nástupem AI vyhledávačů (Google AI Overview, ChatGPT Search, Perplexity) je důležité mít strukturovaná data, čitelný obsah a soubor <code>llms.txt</code> pro AI crawlery.</p><h2>4. Semantic HTML</h2><p>Správné použití HTML elementů jako <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;nav&gt;</code> a <code>&lt;aside&gt;</code> pomáhá nejen vyhledávačům, ale i asistivním technologiím lépe porozumět struktuře vašeho obsahu.</p><h2>Závěr</h2><p>Moderní web v roce 2026 je rychlý, přístupný, bezpečný a optimalizovaný pro lidi i stroje. Není to rocket science — je to řemeslo, které vyžaduje pozornost k detailům a disciplínu.</p>',
-    ],
-    [
-        'title' => '5 tipů pro lepší UX design vašeho webu',
-        'slug' => '5-tipu-pro-lepsi-ux-design',
-        'excerpt' => 'Uživatelský zážitek rozhoduje o tom, jestli návštěvník zůstane nebo odejde. Zde je 5 praktických tipů, které můžete implementovat ještě dnes.',
-        'meta_description' => '5 praktických tipů pro zlepšení UX designu vašeho webu. Od navigace přes formuláře po mobilní zobrazení.',
-        'category' => 'UX Design',
-        'tags' => ['UX', 'design', 'konverze', 'tipy'],
-        'content' => '<p>Uživatelský zážitek (UX) je často tím rozhodujícím faktorem, který určuje, jestli návštěvník webu provede požadovanou akci — nebo odejde ke konkurenci. Zde je 5 tipů, které výrazně zlepší UX vašeho webu.</p><h2>1. Zjednodušte navigaci</h2><p>Pravidlo tří kliků je mýtus, ale princip za ním je správný: uživatel by měl najít to, co hledá, <strong>bez přemýšlení</strong>. Hlavní menu by nemělo mít víc než 7 položek. Používejte jasné, srozumitelné názvy.</p><h2>2. Formuláře — méně je více</h2><p>Každé dodatečné pole ve formuláři snižuje konverzní poměr o 5–10 %. Ptejte se jen na to, co opravdu potřebujete. Jméno, e-mail a zpráva — to často stačí pro první kontakt.</p><h2>3. Vizuální hierarchie</h2><p>Lidský mozek zpracovává vizuální informace shora dolů a zleva doprava (v západní kultuře). Využijte toho:</p><ul><li>Největší a nejkontrastnější prvek upoutá pozornost první</li><li>Call-to-action tlačítka by měla vizuálně vystupovat z okolí</li><li>Dostatek white space pomáhá mozku „dýchat" a lépe zpracovávat informace</li></ul><h2>4. Mobile-first myšlení</h2><p>Více než 60 % návštěv webů přichází z mobilních zařízení. Navrhujte nejdřív pro mobil a teprve potom rozšiřujte pro desktop. Ne naopak.</p><h2>5. Rychlost = UX</h2><p>Stránka, která se načítá 5 sekund, ztrácí 40 % návštěvníků. Optimalizujte obrázky (WebP), minimalizujte CSS/JS, používejte lazy loading a zvažte CDN pro statické soubory.</p><h2>Bonus: Testujte se skutečnými uživateli</h2><p>Žádné množství heuristických analýz nenahradí sledování skutečného uživatele, jak interaguje s vaším webem. Už 5 uživatelů odhalí 85 % problémů s použitelností.</p>',
-    ],
-    [
-        'title' => 'SEO trendy 2026: Na co se zaměřit',
-        'slug' => 'seo-trendy-2026',
-        'excerpt' => 'SEO se neustále vyvíjí. V roce 2026 rozhoduje AI optimalizace, E-E-A-T a strukturovaná data. Přečtěte si, na co se zaměřit.',
-        'meta_description' => 'SEO trendy pro rok 2026. AI optimalizace, E-E-A-T, strukturovaná data a technické SEO. Kompletní průvodce.',
-        'category' => 'SEO',
-        'tags' => ['SEO', 'trendy', 'AI', 'Google'],
-        'content' => '<p>Svět SEO se mění rychleji než kdy dříve. AI přepsala pravidla hry a ti, kdo se nepřizpůsobí, ztratí viditelnost. Zde jsou klíčové trendy pro rok 2026.</p><h2>GEO — Generative Engine Optimization</h2><p>Nový pojem, který nahrazuje klasické SEO v kontextu AI vyhledávačů. GEO se zaměřuje na to, jak se váš obsah zobrazuje v AI-generovaných odpovědích (Google AI Overview, ChatGPT, Perplexity).</p><p>Klíčové strategie pro GEO:</p><ul><li><strong>Strukturovaná data</strong> — JSON-LD schema markup pro každý typ obsahu</li><li><strong>llms.txt</strong> — Speciální soubor pro AI crawlery s popisem vašeho webu</li><li><strong>Autoritativní obsah</strong> — AI preferuje obsah od ověřených expertů</li></ul><h2>E-E-A-T je důležitější než kdy dříve</h2><p>Experience, Expertise, Authoritativeness, Trustworthiness. Google klade stále větší důraz na to, <strong>kdo</strong> obsah píše a jaké má zkušenosti. Autorské profily, reference a dokazatelná expertíza jsou klíčové.</p><h2>Technické SEO základ</h2><p>Bez solidního technického základu nemá smysl investovat do obsahu:</p><ul><li>Core Web Vitals — stále klíčový rankingový faktor</li><li>Mobile-first indexing — Google indexuje primárně mobilní verzi</li><li>HTTPS — bez SSL certifikátu nemáte šanci</li><li>Structured data — BreadcrumbList, Article, FAQ, LocalBusiness</li><li>XML Sitemap — aktuální a správně strukturovaný</li></ul><h2>Obsahová kvalita nad kvantitou</h2><p>Éra masové produkce průměrného obsahu skončila. Jeden výjimečný článek porazí deset průměrných. Investujte do hloubky, originality a unikátních dat.</p><h2>Závěr</h2><p>SEO v roce 2026 je o kvalitě, autoritě a technické dokonalosti. Zaměřte se na to, co skutečně pomáhá uživatelům — vyhledávače (a AI) to ocení.</p>',
-    ],
-];
-
-foreach ($posts as $postData) {
-    $wordCount = str_word_count(strip_tags($postData['content']));
-    $readingTime = max(1, (int)ceil($wordCount / 200));
-
-    $db->insert('zvele_posts', [
-        'slug' => $postData['slug'],
-        'title' => $postData['title'],
-        'excerpt' => $postData['excerpt'],
-        'meta_title' => null,
-        'meta_description' => $postData['meta_description'],
-        'content' => $postData['content'],
-        'category' => $postData['category'],
-        'tags' => json_encode($postData['tags'], JSON_UNESCAPED_UNICODE),
-        'author_id' => $authorId,
-        'status' => 'published',
-        'featured' => 0,
-        'word_count' => $wordCount,
-        'reading_time_min' => $readingTime,
-        'published_at' => date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')),
+// ── Pomocné funkce ────────────────────────────────────────────────────────
+function seed_page(PDO $pdo, array $p): void {
+    $exists = $pdo->prepare("SELECT id FROM zvele_pages WHERE slug = ?");
+    $exists->execute([$p['slug']]);
+    if ($exists->fetchColumn()) {
+        echo "<li>⏭ Přeskočeno (existuje): <strong>{$p['slug']}</strong></li>";
+        return;
+    }
+    $stmt = $pdo->prepare("
+        INSERT INTO zvele_pages (slug, title, meta_description, blocks, status, sort_order, created_at, updated_at)
+        VALUES (?, ?, ?, ?, 'published', ?, NOW(), NOW())
+    ");
+    $stmt->execute([
+        $p['slug'],
+        $p['title'],
+        $p['meta'] ?? '',
+        json_encode($p['blocks'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        $p['sort'] ?? 99,
     ]);
-
-    echo "✓ Blog post: {$postData['title']}<br>";
+    echo "<li>✅ Vytvořeno: <strong>{$p['slug']}</strong> – {$p['title']}</li>";
 }
 
-// ============================================================
-// MENUS
-// ============================================================
+function seed_setting(PDO $pdo, string $key, string $value): void {
+    $pdo->prepare("INSERT INTO zvele_settings (`key`, `value`) VALUES (?, ?)
+                   ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)")
+        ->execute([$key, $value]);
+}
 
-$mainMenu = [
-    ['label' => 'Služby', 'url' => '/sluzby', 'target' => ''],
-    ['label' => 'Portfolio', 'url' => '/portfolio', 'target' => ''],
-    ['label' => 'O nás', 'url' => '/o-nas', 'target' => ''],
-    ['label' => 'Blog', 'url' => '/blog', 'target' => ''],
-    ['label' => 'Kontakt', 'url' => '/kontakt', 'target' => ''],
+function seed_menu(PDO $pdo, string $location, array $items): void {
+    $exists = $pdo->prepare("SELECT id FROM zvele_menus WHERE location = ?");
+    $exists->execute([$location]);
+    if ($exists->fetchColumn()) {
+        $pdo->prepare("UPDATE zvele_menus SET items = ? WHERE location = ?")
+            ->execute([json_encode($items, JSON_UNESCAPED_UNICODE), $location]);
+        echo "<li>🔄 Menu aktualizováno: <strong>$location</strong></li>";
+    } else {
+        $pdo->prepare("INSERT INTO zvele_menus (location, items) VALUES (?, ?)")
+            ->execute([$location, json_encode($items, JSON_UNESCAPED_UNICODE)]);
+        echo "<li>✅ Menu vytvořeno: <strong>$location</strong></li>";
+    }
+}
+
+// ── Připojení k DB ────────────────────────────────────────────────────────
+$pdo = Database::getInstance()->getPdo();
+
+echo '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
+<title>Akrasia Seed</title>
+<style>body{font-family:sans-serif;max-width:800px;margin:3rem auto;padding:0 1.5rem}
+h1{color:#4e5699}ul{line-height:2}li{margin:.2rem 0}
+.ok{color:green}.err{color:red}.warn{color:orange}</style></head><body>
+<h1>🌱 Akrasia Seed</h1><ul>';
+
+// ── Nastavení ─────────────────────────────────────────────────────────────
+seed_setting($pdo, 'site_name',        'Akrasia');
+seed_setting($pdo, 'site_description', 'Nezisková organizace propojující lidi s ADHD s ověřenými odborníky a komunitou.');
+seed_setting($pdo, 'site_url',         'https://akrasia.zvelebil.online');
+seed_setting($pdo, 'language',         'cs');
+seed_setting($pdo, 'blog_posts_per_page', '9');
+seed_setting($pdo, 'social_facebook',  'https://www.facebook.com/akrasia');
+seed_setting($pdo, 'social_instagram', 'https://www.instagram.com/akrasia');
+seed_setting($pdo, 'social_linkedin',  'https://www.linkedin.com/company/akrasia');
+seed_setting($pdo, 'social_youtube',   '');
+echo '<li>✅ Nastavení uložena</li>';
+
+// ── Stránky ───────────────────────────────────────────────────────────────
+$pages = [];
+
+// ── HOMEPAGE ─────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'homepage',
+    'title'  => 'Domů',
+    'meta'   => 'Akrasia – nezisková organizace propojující lidi s ADHD s ověřenými odborníky a komunitou.',
+    'sort'   => 1,
+    'blocks' => [
+        [
+            'type' => 'hero',
+            'data' => [
+                'title'    => "Prostor, který<br>ADHD rozumí.",
+                'subtitle' => 'Pomáháme lidem s ADHD najít podporu, porozumění a cestu vpřed. Propojujeme vás s ověřenými terapeuty a komunitou, která chápe.',
+                'btn1_text'=> 'Hledám podporu',
+                'btn1_url' => '/hledam-podporu',
+                'btn2_text'=> 'Kdo jsme',
+                'btn2_url' => '/kdo-jsme',
+                'photo'    => 'photo-1.png',
+            ],
+        ],
+        [
+            'type' => 'stats',
+            'data' => [
+                'title'    => 'ADHD v číslech',
+                'subtitle' => 'Realita, která nás motivuje jednat a podporovat.',
+                'section_class' => 'section--alt',
+                'items'    => [
+                    ['number' => '5–7 %',     'label' => 'dospělých má ADHD'],
+                    ['number' => '80 %',      'label' => 'případů zůstává nediagnostikováno'],
+                    ['number' => '3×',        'label' => 'vyšší riziko propadu ve škole bez podpory'],
+                    ['number' => '40+',       'label' => 'ověřených terapeutů v našem adresáři'],
+                ],
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'title'    => 'Co děláme',
+                'subtitle' => 'Tři cesty, jak pomáháme.',
+                'section_class' => '',
+                'items'    => [
+                    [
+                        'title'     => 'Adresář terapeutů',
+                        'text'      => 'Ověření odborníci specializovaní na ADHD. Filtrujte podle kraje, města nebo specializace.',
+                        'link_text' => 'Najít terapeuta →',
+                        'link_url'  => '/terapeuti',
+                    ],
+                    [
+                        'title'     => 'Pro firmy a školy',
+                        'text'      => 'Vzdělávací programy, workshopy a konzultace pro zaměstnavatele a pedagogy.',
+                        'link_text' => 'Pro firmy →',
+                        'link_url'  => '/pro-firmy',
+                    ],
+                    [
+                        'title'     => 'Komunita a příběhy',
+                        'text'      => 'Sdílíme zkušenosti, které pomáhají. Přečtěte si příběhy lidí s ADHD.',
+                        'link_text' => 'Číst příběhy →',
+                        'link_url'  => '/vase-pribehy',
+                    ],
+                ],
+            ],
+        ],
+        [
+            'type' => 'cta',
+            'data' => [
+                'title'       => 'Podpořte nás',
+                'text'        => 'Vaše podpora nám umožňuje pomáhat lidem s ADHD po celé České republice.',
+                'button_text' => 'Darujte',
+                'button_url'  => '/darujte',
+                'style'       => 'donate',
+            ],
+        ],
+    ],
 ];
 
-$footerMenu = [
-    ['label' => 'O nás', 'url' => '/o-nas', 'target' => ''],
-    ['label' => 'Služby', 'url' => '/sluzby', 'target' => ''],
-    ['label' => 'Blog', 'url' => '/blog', 'target' => ''],
-    ['label' => 'Kontakt', 'url' => '/kontakt', 'target' => ''],
-    ['label' => 'Ochrana osobních údajů', 'url' => '/ochrana-osobnich-udaju', 'target' => ''],
+// ── KDO JSME ─────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'kdo-jsme',
+    'title'  => 'Kdo jsme',
+    'meta'   => 'Jsme nezisková organizace, která věří, že ADHD není překážka – je to jiný způsob vnímání světa.',
+    'sort'   => 2,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Kdo jsme',
+                'subtitle'   => 'Jsme nezisková organizace, která věří, že ADHD není překážka – je to jiný způsob vnímání světa.',
+                'breadcrumb' => [['label' => 'Kdo jsme']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<p>Akrasia je česká nezisková organizace zaměřená na zvyšování povědomí o ADHD a na podporu lidí, kteří s tímto neurovývojovým rozdílem žijí. Věříme, že každý člověk si zaslouží prostor, kde bude pochopen, podpořen a kde může naplno rozvinout svůj potenciál.</p><p>Náš název – Akrasia – pochází z řeckého slova označujícího jednání navzdory vlastnímu úsudku. Pro lidi s ADHD je tato zkušenost velmi blízká: vědí, co chtějí dělat, ale mozek jim to zkomplikuje. Chceme tuto zkušenost pojmenovat, pochopit a překonat.</p>',
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'columns' => '4',
+                'items'   => [
+                    ['title' => 'Příběh',        'text' => 'Jak a proč Akrasia vznikla. Odkud pocházíme a co nás pohání vpřed.', 'link_text' => 'Číst příběh →', 'link_url' => '/pribeh'],
+                    ['title' => 'Mise',          'text' => 'Naše poslání, vize a hodnoty, které nás vedou při každém rozhodnutí.', 'link_text' => 'Naše mise →', 'link_url' => '/mise'],
+                    ['title' => 'Tým',           'text' => 'Lidé, kteří stojí za Akrasií – s osobní zkušeností s ADHD i bez ní.', 'link_text' => 'Poznat tým →', 'link_url' => '/tym'],
+                    ['title' => 'Spolupracujeme','text' => 'Organizace a instituce, které sdílejí naši vizi inkluzivní společnosti.', 'link_text' => 'Naši partneři →', 'link_url' => '/spolupracujeme'],
+                ],
+            ],
+        ],
+    ],
 ];
 
-$db->query("UPDATE zvele_menus SET items = ? WHERE location = 'main'", [json_encode($mainMenu, JSON_UNESCAPED_UNICODE)]);
-$db->query("UPDATE zvele_menus SET items = ? WHERE location = 'footer'", [json_encode($footerMenu, JSON_UNESCAPED_UNICODE)]);
+// ── MISE ──────────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'mise',
+    'title'  => 'Naše mise',
+    'meta'   => 'Posláním Akrasie je zvyšovat povědomí o ADHD v České republice a propojovat lidi s ADHD s odbornou pomocí.',
+    'sort'   => 3,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Naše mise',
+                'subtitle'   => 'Věříme ve svět, kde ADHD není překážkou – ale součástí pestrosti lidské zkušenosti.',
+                'breadcrumb' => [['label' => 'Kdo jsme', 'url' => '/kdo-jsme'], ['label' => 'Mise']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Poslání</h2><p>Posláním Akrasie je zvyšovat povědomí o ADHD v České republice, bourat mýty a stigmata spojená s touto diagnózou a propojovat lidi s ADHD s odbornou pomocí, komunitou a zdroji, které potřebují k plnohodnotnému životu.</p><h2>Vize</h2><p>Svět, kde každý člověk s ADHD má přístup k pochopení, odborné péči a komunitě, která ho podporuje. Svět, kde neurodiverzita je vnímána jako přirozená součást lidské různorodosti – ne jako handicap.</p><h2>Naše hodnoty</h2><ul><li><strong>Přijetí:</strong> Každý člověk si zaslouží být přijat takový, jaký je.</li><li><strong>Odbornost:</strong> Spolupracujeme jen s ověřenými odborníky a opíráme se o vědu.</li><li><strong>Přístupnost:</strong> Naše služby a informace jsou dostupné pro všechny.</li><li><strong>Komunita:</strong> Společně jsme silnější – sdílíme zkušenosti a podporujeme se.</li><li><strong>Transparentnost:</strong> Jednáme otevřeně vůči lidem, partnerům i dárcům.</li></ul><h2>Co děláme</h2><p>Provozujeme adresář ověřených terapeutů specializovaných na ADHD, pořádáme vzdělávací akce pro firmy a školy, publikujeme informační materiály a budujeme komunitu lidí, kteří si navzájem rozumí.</p>',
+            ],
+        ],
+    ],
+];
 
-echo "✓ Menu nastavena<br>";
+// ── PŘÍBĚH ────────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'pribeh',
+    'title'  => 'Příběh Akrasie',
+    'meta'   => 'Jak vznikla organizace, která chce změnit způsob, jakým Česko vnímá ADHD.',
+    'sort'   => 4,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Příběh Akrasie',
+                'subtitle'   => 'Jak vznikla organizace, která chce změnit způsob, jakým Česko vnímá ADHD.',
+                'breadcrumb' => [['label' => 'Kdo jsme', 'url' => '/kdo-jsme'], ['label' => 'Příběh']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Kde to začalo</h2><p>Akrasia vznikla z osobní zkušenosti zakladatelů, kteří sami žijí s ADHD nebo mají blízké s touto diagnózou. Narazili na stejné překážky, které zná mnoho lidí: nedostatek informací, dlouhé čekací doby na odborníky, stigma ve společnosti a pocit, že jejich mozek prostě „nefunguje správně".</p><p>Rozhodli se, že to změní. V roce 2023 vzniklo neformální uskupení lidí, kteří chtěli sdílet zkušenosti, vzdělávat se navzájem a pomáhat ostatním najít cestu. Brzy bylo jasné, že zájem je obrovský – a že je potřeba dát tomuto úsilí pevnější strukturu.</p><h2>Proč Akrasia</h2><p>Název pochází z řeckého slova <em>akrasia</em> – jednání navzdory vlastnímu záměru. Tato zkušenost je pro lidi s ADHD každodenní realitou: víte, co chcete udělat, ale mozek vás odvede jinam. Místo aby byl tento stav zdrojem studu, chceme ho pojmenovat a pochopit.</p><p>Akrasia pro nás znamená přijetí – sebe sama takového, jaký jsem, a zároveň odhodlání hledat způsoby, jak žít naplno přes všechny výzvy.</p><h2>Dnes</h2><p>Dnes Akrasia propojuje lidi s ověřenými terapeuty, vzdělává firmy a školy, pořádá osvětové akce a buduje komunitu, kde každý najde pochopení. Jsme malý tým s velkým srdcem – a každý den nás posiluje vědomí, že naše práce má smysl.</p>',
+            ],
+        ],
+    ],
+];
 
-// ============================================================
-// REDIRECTS (demo)
-// ============================================================
-$db->insert('zvele_redirects', ['from_url' => '/about', 'to_url' => '/o-nas', 'status_code' => 301]);
-$db->insert('zvele_redirects', ['from_url' => '/services', 'to_url' => '/sluzby', 'status_code' => 301]);
-$db->insert('zvele_redirects', ['from_url' => '/contact', 'to_url' => '/kontakt', 'status_code' => 301]);
+// ── TÝM ──────────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'tym',
+    'title'  => 'Tým',
+    'meta'   => 'Lidé, kteří stojí za Akrasií – s osobní zkušeností s ADHD i bez ní.',
+    'sort'   => 5,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Tým',
+                'subtitle'   => 'Lidé, kteří stojí za Akrasií – s osobní zkušeností s ADHD i bez ní.',
+                'breadcrumb' => [['label' => 'Kdo jsme', 'url' => '/kdo-jsme'], ['label' => 'Tým']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<p>Náš tým tvoří lidé s různými zkušenostmi, ale se společným cílem: pomáhat lidem s ADHD žít plnohodnotný život. Někteří z nás mají ADHD sami, jiní mají blízké s touto diagnózou. Všichni věříme, že neurodiverzita je bohatstvím – ne překážkou.</p><p><em>Tato stránka se připravuje – brzy zde najdete profily členů našeho týmu.</em></p>',
+            ],
+        ],
+    ],
+];
 
-echo "✓ Ukázková přesměrování vytvořena<br>";
+// ── HLEDÁM PODPORU ────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'hledam-podporu',
+    'title'  => 'Hledám podporu',
+    'meta'   => 'Máte ADHD nebo podezření na diagnózu? Pomůžeme vám najít správnou cestu.',
+    'sort'   => 6,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Hledám podporu',
+                'subtitle'   => 'Máte ADHD nebo podezření na diagnózu? Pomůžeme vám najít správnou cestu.',
+                'breadcrumb' => [['label' => 'Hledám podporu']],
+            ],
+        ],
+        [
+            'type' => 'cta',
+            'data' => [
+                'title'       => 'Najděte svého terapeuta',
+                'text'        => 'Náš adresář obsahuje ověřené terapeuty a odborníky specializované na ADHD po celé České republice. Filtrujte podle kraje, města nebo specializace.',
+                'button_text' => 'Otevřít adresář terapeutů',
+                'button_url'  => '/terapeuti',
+                'style'       => 'old-rose',
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Kde začít?</h2><p>Pokud máte podezření na ADHD nebo jste právě dostali diagnózu, může být těžké vědět, kam se obrátit. Zde jsou základní kroky, které vám pomohou zorientovat se.</p><h3>1. Získejte diagnózu</h3><p>Pokud ještě nemáte diagnózu, prvním krokem je návštěva praktického lékaře nebo psychiatra. Požádejte o doporučení na specializované vyšetření ADHD.</p><h3>2. Najděte odbornou pomoc</h3><p>Terapie, koučink nebo psychiatrická péče – každý potřebuje něco jiného. V našem <a href="/terapeuti">adresáři terapeutů</a> najdete ověřené odborníky, kteří mají zkušenosti s ADHD a jsou připraveni vám pomoci.</p><h3>3. Najděte komunitu</h3><p>Sdílení zkušeností s lidmi, kteří vás chápou, může být nesmírně léčivé. Přečtěte si <a href="/vase-pribehy">příběhy ostatních</a> nebo se zapojte do naší komunity.</p>',
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'items' => [
+                    ['title' => 'Adresář terapeutů', 'text' => 'Ověření odborníci specializovaní na ADHD ve vašem okolí.', 'link_text' => 'Najít terapeuta →', 'link_url' => '/terapeuti'],
+                    ['title' => 'Vaše příběhy',      'text' => 'Přečtěte si, jak ostatní zvládají ADHD v každodenním životě.',   'link_text' => 'Číst příběhy →',  'link_url' => '/vase-pribehy'],
+                    ['title' => 'Blog',               'text' => 'Informace, tipy a inspirace pro život s ADHD.',                   'link_text' => 'Číst blog →',     'link_url' => '/blog'],
+                ],
+            ],
+        ],
+    ],
+];
 
-// ============================================================
-// REGENERATE SITEMAP
-// ============================================================
-require_once CORE_PATH . '/Sitemap.php';
-require_once CORE_PATH . '/Template.php';
-Sitemap::regenerateAll();
+// ── TERAPEUTI ─────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'terapeuti',
+    'title'  => 'Adresář terapeutů',
+    'meta'   => 'Adresář ověřených terapeutů specializovaných na ADHD. Filtrujte podle kraje, města nebo typu podpory.',
+    'sort'   => 7,
+    'blocks' => [
+        ['type' => 'terapeuti', 'data' => []],
+    ],
+];
 
-echo "✓ Sitemap, robots.txt a llms.txt vygenerovány<br>";
+// ── PRO FIRMY ─────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'pro-firmy',
+    'title'  => 'Pro firmy',
+    'meta'   => 'Pomáháme zaměstnavatelům vytvářet inkluzivní prostředí, kde mohou lidé s ADHD naplno prospívat.',
+    'sort'   => 8,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Pro firmy',
+                'subtitle'   => 'Pomáháme zaměstnavatelům vytvářet inkluzivní prostředí, kde mohou lidé s ADHD naplno prospívat.',
+                'breadcrumb' => [['label' => 'Pro firmy']],
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'title'        => 'Proč investovat do neurodiverzity?',
+                'subtitle'     => 'Zaměstnanci s ADHD přinášejí jedinečné silné stránky – kreativitu, hyperfokus a schopnost nekonvenčního myšlení.',
+                'section_class'=> 'section--alt',
+                'items'        => [
+                    ['title' => 'Audit inkluzivity',   'text' => 'Zhodnotíme vaše firemní prostředí z pohledu přístupnosti pro zaměstnance s ADHD a navrhneme konkrétní zlepšení.'],
+                    ['title' => 'Školení a workshopy', 'text' => 'Vzdělávací programy pro manažery a HR týmy – jak rozpoznat ADHD, jak vést rozhovory a jak nastavit podpůrné procesy.'],
+                    ['title' => 'Konzultace',          'text' => 'Individuální konzultace pro firmy, které chtějí zavést konkrétní opatření na podporu neurodiverzních zaměstnanců.'],
+                ],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Co získáte spoluprací s Akrasií</h2><ul><li>Lepší pochopení potřeb neurodiverzních zaměstnanců</li><li>Konkrétní nástroje pro inkluzivní vedení</li><li>Snížení fluktuace a zvýšení spokojenosti zaměstnanců</li><li>Posílení reputace jako inkluzivního zaměstnavatele</li><li>Přístup k talentům, které jiní přehlíží</li></ul><h2>Máte zájem?</h2><p>Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> a společně navrhneme řešení na míru vaší organizaci.</p>',
+            ],
+        ],
+    ],
+];
 
-echo "<br><strong style='color:green;'>✅ Demo web „Starter Studio" je připraven!</strong><br>";
-echo "<br><a href='/'>→ Zobrazit web</a> | <a href='/admin'>→ Administrace</a><br>";
-echo "<br><em style='color:red;'>⚠️ Smažte soubor seed.php po seedování!</em>";
+// ── PRO ŠKOLY ─────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'pro-skoly',
+    'title'  => 'Pro školy',
+    'meta'   => 'Pomáháme pedagogům lépe rozumět žákům s ADHD a vytvářet prostředí, kde mohou uspět.',
+    'sort'   => 9,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Pro školy',
+                'subtitle'   => 'Pomáháme pedagogům lépe rozumět žákům s ADHD a vytvářet prostředí, kde mohou uspět.',
+                'breadcrumb' => [['label' => 'Pro školy']],
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'title'         => 'Co nabízíme školám',
+                'subtitle'      => 'Vzdělávání a podpora pro učitele, asistenty i vedení škol.',
+                'section_class' => 'section--alt',
+                'items'         => [
+                    ['title' => 'Školení pro pedagogy', 'text' => 'Workshopy zaměřené na pochopení ADHD, praktické strategie ve výuce a komunikaci s žáky a jejich rodiči.'],
+                    ['title' => 'Metodická podpora',    'text' => 'Materiály a metodiky pro práci s žáky s ADHD v běžné třídě i ve speciálním vzdělávání.'],
+                    ['title' => 'Konzultace pro školy', 'text' => 'Individuální konzultace pro pedagogické týmy – jak nastavit podpůrná opatření a spolupracovat s rodiči.'],
+                ],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Proč je to důležité</h2><p>ADHD se projevuje u 5–7 % dětí školního věku. Bez správné podpory mají tyto děti výrazně horší výsledky, vyšší riziko školního neúspěchu a negativního sebeobrazu. S informovanými pedagogy a správným prostředím mohou tyto děti plně rozvinout svůj potenciál.</p><h2>Jak začít spolupráci</h2><p>Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> a domluvíme se na bezplatné úvodní konzultaci, kde zjistíme, co vaše škola nejvíce potřebuje.</p>',
+            ],
+        ],
+    ],
+];
+
+// ── ZAPOJTE SE ────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'zapojte-se',
+    'title'  => 'Zapojte se',
+    'meta'   => 'Připojte se k Akrasii – jako člen, dobrovolník nebo dárce.',
+    'sort'   => 10,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Zapojte se',
+                'subtitle'   => 'Připojte se k Akrasii – jako člen, dobrovolník nebo dárce.',
+                'breadcrumb' => [['label' => 'Zapojte se']],
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'items' => [
+                    ['title' => 'Staňte se členem',  'text' => 'Jako člen spolurozhodujete o směřování organizace a jste součástí komunity.', 'link_text' => 'Přihlášení →', 'link_url' => '/stante-se-clenem'],
+                    ['title' => 'Dobrovolnictví',     'text' => 'Pomozte nám s konkrétními projekty – dle vašich schopností a časových možností.',   'link_text' => 'Chci pomoci →','link_url' => '/dobrovolnictvi'],
+                    ['title' => 'Stáž',               'text' => 'Získejte praxi v neziskovém sektoru a zároveň pomozte těm, kdo to potřebují.',       'link_text' => 'O stáži →',   'link_url' => '/staz'],
+                    ['title' => 'Darujte',            'text' => 'Finanční podpora nám umožňuje rozvíjet naše aktivity a pomáhat více lidem.',          'link_text' => 'Darovat →',   'link_url' => '/darujte'],
+                ],
+                'columns' => '4',
+            ],
+        ],
+    ],
+];
+
+// ── DOBROVOLNICTVÍ ────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'dobrovolnictvi',
+    'title'  => 'Dobrovolnictví',
+    'meta'   => 'Pomozte Akrasii jako dobrovolník – dle vašich schopností a časových možností.',
+    'sort'   => 11,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Dobrovolnictví',
+                'subtitle'   => 'Pomozte nám s konkrétními projekty – dle vašich schopností a časových možností.',
+                'breadcrumb' => [['label' => 'Zapojte se', 'url' => '/zapojte-se'], ['label' => 'Dobrovolnictví']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Jak pomoci?</h2><p>Hledáme lidi se srdcem na pravém místě. Nezáleží na tom, zda máte ADHD nebo ne – záleží na tom, co umíte a co vás baví.</p><h2>Oblasti dobrovolnictví</h2><ul><li><strong>Komunikace a sociální sítě</strong> – tvorba obsahu, správa profilů</li><li><strong>Grafika a design</strong> – materiály pro akce, infografiky</li><li><strong>Organizace akcí</strong> – pomoc s plánováním a realizací</li><li><strong>Překlad a korektury</strong> – čeština i angličtina</li><li><strong>IT a web</strong> – technická podpora projektu</li></ul><h2>Zájem?</h2><p>Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> a řekněte nám, čím chcete přispět. Ozveme se vám co nejdříve.</p>',
+            ],
+        ],
+    ],
+];
+
+// ── STÁŽ ─────────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'staz',
+    'title'  => 'Stáž',
+    'meta'   => 'Získejte praxi v neziskovém sektoru a zároveň pomozte těm, kdo to potřebují.',
+    'sort'   => 12,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Stáž v Akrasii',
+                'subtitle'   => 'Získejte praxi v neziskovém sektoru a zároveň pomozte těm, kdo to potřebují.',
+                'breadcrumb' => [['label' => 'Zapojte se', 'url' => '/zapojte-se'], ['label' => 'Stáž']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Co nabízíme stážistům</h2><p>Stáž v Akrasii je příležitost zapojit se do smysluplné práce s přímým dopadem na životy lidí s ADHD. Nabízíme volnou ruku, mentorování a reálné zkušenosti z neziskového sektoru.</p><h2>Oblasti stáže</h2><ul><li>Marketing a komunikace</li><li>Fundraising</li><li>Koordinace projektů</li><li>Výzkum a vzdělávání</li></ul><h2>Požadavky</h2><ul><li>Zájem o téma ADHD a neurodiverzity</li><li>Spolehlivost a samostatnost</li><li>Alespoň 10 hodin týdně (domluva možná)</li></ul><h2>Přihlaste se</h2><p>Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> s předmětem „Stáž" a přiložte krátký motivační dopis. Rádi se vám ozveme.</p>',
+            ],
+        ],
+    ],
+];
+
+// ── STAŇTE SE ČLENEM ──────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'stante-se-clenem',
+    'title'  => 'Staňte se členem',
+    'meta'   => 'Jako člen Akrasie se stáváte součástí komunity, která mění způsob, jak Česko vnímá ADHD.',
+    'sort'   => 13,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Staňte se členem',
+                'subtitle'   => 'Jako člen Akrasie se stáváte součástí komunity, která mění způsob, jak Česko vnímá ADHD.',
+                'breadcrumb' => [['label' => 'Zapojte se', 'url' => '/zapojte-se'], ['label' => 'Staňte se členem']],
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'title'         => 'Co členství obnáší',
+                'section_class' => 'section--alt',
+                'items'         => [
+                    ['title' => 'Spolurozhodování', 'text' => 'Jako člen máte právo hlasovat na valné hromadě a aktivně se podílet na směřování organizace.'],
+                    ['title' => 'Informace jako první', 'text' => 'Členský newsletter s nejnovějšími informacemi, akcemi a příležitostmi dříve, než jsou zveřejněny.'],
+                    ['title' => 'Komunita', 'text' => 'Přístup do uzavřené komunity členů, kde sdílíme zkušenosti, podporujeme se a spolupracujeme.'],
+                ],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Přihláška za člena</h2><p>Vyplňte přihlášku a my se vám ozveme s dalšími informacemi. Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> s předmětem „Členství".</p>',
+            ],
+        ],
+    ],
+];
+
+// ── DARUJTE ───────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'darujte',
+    'title'  => 'Darujte',
+    'meta'   => 'Podpořte Akrasii finančně a pomozte nám pomáhat lidem s ADHD.',
+    'sort'   => 14,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Darujte',
+                'subtitle'   => 'Vaše podpora nám umožňuje pomáhat lidem s ADHD po celé České republice.',
+                'breadcrumb' => [['label' => 'Darujte']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Proč darovat?</h2><p>Akrasia je nezisková organizace závislá na podpoře dárců. Každý příspěvek nám pomáhá udržovat adresář terapeutů, pořádat vzdělávací akce a budovat komunitu.</p><h2>Jak darovat</h2><p>Dar lze poslat bankovním převodem na účet Akrasia, z.s.:</p><ul><li><strong>Číslo účtu:</strong> <em>(brzy doplníme)</em></li><li><strong>IBAN:</strong> <em>(brzy doplníme)</em></li><li><strong>Variabilní symbol:</strong> vaše jméno nebo IČO</li></ul><h2>Transparentnost</h2><p>Všechny příjmy a výdaje zveřejňujeme v naší výroční zprávě. Vaše peníze jdou přímo k lidem, kteří je potřebují.</p>',
+            ],
+        ],
+    ],
+];
+
+// ── VAŠE PŘÍBĚHY ─────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'vase-pribehy',
+    'title'  => 'Vaše příběhy',
+    'meta'   => 'Přečtěte si příběhy lidí s ADHD – inspiraci, zkušenosti a odvahu sdílet.',
+    'sort'   => 15,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Vaše příběhy',
+                'subtitle'   => 'Sdílení zkušeností pomáhá – čtěte příběhy lidí, kteří vědí, jaké to je.',
+                'breadcrumb' => [['label' => 'Vaše příběhy']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<p>Každý příběh je jiný – ale všechny mají jedno společné: odvahu pojmenovat ADHD a hledat cestu vpřed. Tady najdete příběhy skutečných lidí, kteří souhlasili s tím, aby se jejich zkušenost stala inspirací pro ostatní.</p><p><em>Příběhy se připravují. Chcete sdílet svůj příběh? Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a>.</em></p>',
+            ],
+        ],
+    ],
+];
+
+// ── SPOLUPRACUJEME ────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'spolupracujeme',
+    'title'  => 'Spolupracujeme',
+    'meta'   => 'Partneři a organizace, které sdílejí naši vizi inkluzivní společnosti.',
+    'sort'   => 16,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Spolupracujeme',
+                'subtitle'   => 'Partneři a organizace, které sdílejí naši vizi inkluzivní společnosti.',
+                'breadcrumb' => [['label' => 'Kdo jsme', 'url' => '/kdo-jsme'], ['label' => 'Spolupracujeme']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<p>Naše práce by nebyla možná bez podpory partnerů, kteří věří v to, co děláme. Spolupracujeme s firmami, akademickými institucemi a dalšími organizacemi, které aktivně přispívají k vytváření inkluzivního prostředí pro lidi s ADHD.</p>',
+            ],
+        ],
+        [
+            'type' => 'features',
+            'data' => [
+                'items' => [
+                    ['title' => 'Tamly',         'text' => 'Strategický partner v oblasti HR a inkluzivního zaměstnávání.'],
+                    ['title' => 'UTB Zlín',       'text' => 'Akademický partner – Univerzita Tomáše Bati ve Zlíně podporuje naše vzdělávací aktivity.'],
+                    ['title' => 'Thermo Fisher',  'text' => 'Korporátní partner s aktivním programem podpory neurodiverzity na pracovišti.'],
+                ],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Chcete spolupracovat?</h2><p>Jsme otevřeni novým partnerstvím – ať už jste firma, škola, akademická instituce nebo jiná nezisková organizace. Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a>.</p>',
+            ],
+        ],
+    ],
+];
+
+// ── GDPR ──────────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'gdpr',
+    'title'  => 'Zásady ochrany osobních údajů',
+    'meta'   => 'Informace o zpracování osobních údajů v souladu s GDPR.',
+    'sort'   => 17,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Zásady ochrany osobních údajů',
+                'subtitle'   => 'Informace o zpracování osobních údajů v souladu s GDPR.',
+                'breadcrumb' => [['label' => 'Ochrana osobních údajů']],
+            ],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'content' => '<h2>Správce osobních údajů</h2><p>Akrasia, z.s.<br>IČO: <em>(doplnit)</em><br>E-mail: <a href="mailto:info@akrasia.cz">info@akrasia.cz</a></p><h2>Jaké údaje zpracováváme</h2><p>Zpracováváme pouze údaje, které nám dobrovolně poskytnete prostřednictvím kontaktních formulářů na tomto webu (jméno, e-mail, zpráva). Tyto údaje používáme výhradně k zodpovězení vašeho dotazu nebo k realizaci vámi požadované spolupráce.</p><h2>Cookies</h2><p>Tento web používá pouze technicky nezbytné cookies. Analytické a marketingové cookies aktivujeme pouze s vaším souhlasem prostřednictvím cookie lišty.</p><h2>Vaše práva</h2><p>Máte právo na přístup k vašim osobním údajům, jejich opravu, výmaz, omezení zpracování a přenositelnost. Souhlas lze kdykoli odvolat. V případě dotazů nás kontaktujte na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a>.</p>',
+            ],
+        ],
+    ],
+];
+
+// ── Uložení stránek ───────────────────────────────────────────────────────
+foreach ($pages as $p) {
+    seed_page($pdo, $p);
+}
+
+// ── Menu – hlavní navigace ────────────────────────────────────────────────
+seed_menu($pdo, 'main', [
+    ['label' => 'Kdo jsme',       'url' => '/kdo-jsme'],
+    ['label' => 'Hledám podporu', 'url' => '/hledam-podporu'],
+    ['label' => 'Terapeuti',      'url' => '/terapeuti'],
+    ['label' => 'Pro firmy',      'url' => '/pro-firmy'],
+    ['label' => 'Pro školy',      'url' => '/pro-skoly'],
+    ['label' => 'Zapojte se',     'url' => '/zapojte-se'],
+    ['label' => 'Blog',           'url' => '/blog'],
+    ['label' => 'Darujte',        'url' => '/darujte'],
+]);
+
+// ── Menu – patička ────────────────────────────────────────────────────────
+seed_menu($pdo, 'footer', [
+    ['label' => 'Ochrana osobních údajů', 'url' => '/gdpr'],
+    ['label' => 'Vaše příběhy',           'url' => '/vase-pribehy'],
+    ['label' => 'Spolupracujeme',         'url' => '/spolupracujeme'],
+    ['label' => 'Staňte se členem',       'url' => '/stante-se-clenem'],
+    ['label' => 'Dobrovolnictví',         'url' => '/dobrovolnictvi'],
+    ['label' => 'Stáž',                   'url' => '/staz'],
+]);
+
+echo '</ul>';
+echo '<h2>✅ Hotovo!</h2>';
+echo '<p>Web je připraven. <a href="/">Přejít na web →</a> | <a href="/admin">Přejít do adminu →</a></p>';
+echo '<p style="color:#888;font-size:.9rem">Doporučujeme seed.php smazat nebo zablokovat po prvním spuštění.</p>';
+echo '</body></html>';

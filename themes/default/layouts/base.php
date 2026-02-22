@@ -4,89 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title><?= e($seo['title'] ?? setting('site_name', 'ZveleCMS')) ?></title>
+    <title><?= e($seo['title'] ?? setting('site_name', 'Akrasia')) ?></title>
 
     <?php if (!empty($seo['meta_description'])): ?>
     <meta name="description" content="<?= e($seo['meta_description']) ?>">
     <?php endif; ?>
-
     <?php if (!empty($seo['no_index'])): ?>
     <meta name="robots" content="noindex, nofollow">
     <?php endif; ?>
 
-    <!-- Canonical -->
     <link rel="canonical" href="<?= e($seo['canonical'] ?? url(request_uri())) ?>">
 
-    <!-- OG Tags -->
+    <meta property="og:site_name" content="<?= e(setting('site_name', 'Akrasia')) ?>">
     <meta property="og:title" content="<?= e($seo['meta_title'] ?? $seo['title'] ?? '') ?>">
     <meta property="og:description" content="<?= e($seo['meta_description'] ?? '') ?>">
     <meta property="og:url" content="<?= e($seo['canonical'] ?? '') ?>">
     <meta property="og:type" content="<?= e($seo['og_type'] ?? 'website') ?>">
     <meta property="og:locale" content="cs_CZ">
-    <meta property="og:site_name" content="<?= e(setting('site_name', '')) ?>">
     <?php if (!empty($seo['og_image'])): ?>
     <meta property="og:image" content="<?= e($seo['og_image']) ?>">
     <?php endif; ?>
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($seo['meta_title'] ?? $seo['title'] ?? '') ?>">
     <meta name="twitter:description" content="<?= e($seo['meta_description'] ?? '') ?>">
 
-    <!-- Tracking IDs (read by cookie consent JS) -->
     <?php
-    $gtmId = setting('gtm_id', '');
-    $ga4Id = setting('ga4_id', '');
-    $gadsId = setting('gads_id', '');
+    $ga4Id       = setting('ga4_id', '');
+    $gtmId       = setting('gtm_id', '');
     $metaPixelId = setting('meta_pixel_id', '');
     ?>
-    <?php if ($gtmId): ?><meta name="gtm-id" content="<?= e($gtmId) ?>"><?php endif; ?>
     <?php if ($ga4Id): ?><meta name="ga4-id" content="<?= e($ga4Id) ?>"><?php endif; ?>
-    <?php if ($gadsId): ?><meta name="gads-id" content="<?= e($gadsId) ?>"><?php endif; ?>
+    <?php if ($gtmId): ?><meta name="gtm-id" content="<?= e($gtmId) ?>"><?php endif; ?>
     <?php if ($metaPixelId): ?><meta name="meta-pixel-id" content="<?= e($metaPixelId) ?>"><?php endif; ?>
 
-    <!-- Google Fonts: Outfit + Inter -->
+    <!-- Google Fonts – Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Preload CSS -->
     <link rel="preload" href="<?= asset('themes/default/assets/style.css') ?>" as="style">
     <link rel="stylesheet" href="<?= asset('themes/default/assets/style.css') ?>">
 
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    <?php
-    $schema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'WebSite',
-        'name' => setting('site_name', ''),
-        'url' => setting('site_url', SITE_URL),
-    ];
-    echo json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-    ?>
+    <!-- Cookie Consent (musí být před trackery) -->
+    <script src="<?= asset('assets/js/cookie-consent.js') ?>"></script>
+    <script>
+    CookieConsent.init({
+        gaId:        '<?= e($ga4Id) ?>',
+        gtmId:       '<?= e($gtmId) ?>',
+        metaPixelId: '<?= e($metaPixelId) ?>'
+    });
     </script>
 
-    <?php
-    $orgName = setting('schema_organization_name', '');
-    if ($orgName): ?>
+    <!-- JSON-LD: NGO -->
     <script type="application/ld+json">
-    <?php
-    $orgSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Organization',
-        'name' => $orgName,
-        'url' => setting('site_url', SITE_URL),
-    ];
-    $orgLogoId = setting('schema_organization_logo_id');
-    if ($orgLogoId) {
-        $orgSchema['logo'] = Template::mediaUrl((int)$orgLogoId);
+    {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "<?= addslashes(setting('site_name', 'Akrasia')) ?>",
+        "description": "<?= addslashes(setting('site_description', '')) ?>",
+        "url": "<?= setting('site_url', SITE_URL) ?>",
+        "sameAs": [<?php
+            $socials = array_values(array_filter([
+                setting('social_facebook', ''),
+                setting('social_instagram', ''),
+                setting('social_linkedin', ''),
+            ]));
+            echo implode(',', array_map(fn($s) => '"' . addslashes($s) . '"', $socials));
+        ?>]
     }
-    echo json_encode($orgSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-    ?>
     </script>
-    <?php endif; ?>
 </head>
 <body>
     <a href="#main" class="skip-link">Přeskočit na obsah</a>
@@ -98,9 +84,11 @@
     </main>
 
     <?php Template::partial('footer'); ?>
-
     <?php Template::partial('cookie-banner'); ?>
 
-    <script src="<?= asset('themes/default/assets/app.js') ?>"></script>
+    <script src="<?= asset('assets/js/main.js') ?>" defer></script>
+    <?php if (!empty($extraScript)): ?>
+    <script src="<?= asset('assets/js/' . $extraScript) ?>" defer></script>
+    <?php endif; ?>
 </body>
 </html>

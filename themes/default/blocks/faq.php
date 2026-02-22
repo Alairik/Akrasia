@@ -1,41 +1,24 @@
 <?php defined('ZVELE_CMS') or die(); ?>
+<?php
+// Pole: title, items[] = {q, a}
+$sectionClass = $section_class ?? '';
+?>
 
-<section class="section">
-    <div class="container container--narrow">
+<section class="section <?= e($sectionClass) ?>">
+    <div class="container">
         <?php if (!empty($title)): ?>
-            <h2 class="section__title"><?= e($title) ?></h2>
+        <div class="section-header"><h2><?= e($title) ?></h2></div>
         <?php endif; ?>
-
-        <?php if (!empty($items)): ?>
         <div class="faq-list">
-            <?php foreach ($items as $i => $item): ?>
-            <details class="faq-item">
-                <summary class="faq-item__question"><?= e($item['question'] ?? '') ?></summary>
-                <div class="faq-item__answer">
-                    <p><?= e($item['answer'] ?? '') ?></p>
-                </div>
+            <?php foreach ($items ?? [] as $item): ?>
+            <details style="margin-bottom:1rem;padding:1.25rem 1.5rem;background:var(--surface,#f7f8fc);border-radius:8px;border:1px solid var(--border,#e8eaf0)">
+                <summary style="cursor:pointer;font-weight:600;color:var(--navy,#4e5699);list-style:none;display:flex;justify-content:space-between;align-items:center">
+                    <?= e($item['q'] ?? '') ?>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-left:.5rem"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <p style="margin-top:.75rem;color:var(--text-muted,#6b7280)"><?= e($item['a'] ?? '') ?></p>
             </details>
             <?php endforeach; ?>
         </div>
-
-        <!-- FAQPage JSON-LD -->
-        <script type="application/ld+json">
-        <?php
-        $faqSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'FAQPage',
-            'mainEntity' => array_map(fn($item) => [
-                '@type' => 'Question',
-                'name' => $item['question'] ?? '',
-                'acceptedAnswer' => [
-                    '@type' => 'Answer',
-                    'text' => $item['answer'] ?? '',
-                ],
-            ], $items),
-        ];
-        echo json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        ?>
-        </script>
-        <?php endif; ?>
     </div>
 </section>
