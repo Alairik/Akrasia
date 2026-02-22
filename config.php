@@ -16,6 +16,9 @@ define('DB_CHARSET', 'utf8mb4');
 // Site
 define('SITE_URL', 'https://akrasia.zvelebil.online');
 define('SITE_NAME', 'Akrasia');
+// Web base path — subdomain is mapped to /akrasia/ subfolder on WEDOS hosting.
+// Empty string if the subdomain maps directly to document root.
+define('SITE_BASE', '/akrasia');
 
 // Paths
 define('ROOT_PATH', __DIR__);

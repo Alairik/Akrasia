@@ -170,11 +170,20 @@ function excerpt(string $text, int $length = 160): string
 
 /**
  * Get current request URI (without query string).
+ * Strips SITE_BASE prefix when the app runs in a subfolder.
  */
 function request_uri(): string
 {
     $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-    return '/' . trim($uri, '/');
+    $uri = '/' . trim($uri, '/');
+
+    // Strip subfolder prefix (e.g. /akrasia) so router sees /kdo-jsme not /akrasia/kdo-jsme
+    $base = defined('SITE_BASE') ? rtrim(SITE_BASE, '/') : '';
+    if ($base !== '' && str_starts_with($uri, $base)) {
+        $uri = substr($uri, strlen($base));
+    }
+
+    return $uri === '' ? '/' : $uri;
 }
 
 /**

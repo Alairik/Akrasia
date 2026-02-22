@@ -11,7 +11,7 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /akrasia/
 
     # HTTPS vynucení
     RewriteCond %{HTTPS} off
