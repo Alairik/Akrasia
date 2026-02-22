@@ -476,8 +476,15 @@
 
 <script>
 function blockEditor(initialBlocks) {
+    // Assign IDs to blocks loaded from DB (seeded blocks have no id)
+    var seededBlocks = (initialBlocks || []).map(function(b, i) {
+        if (!b.id) {
+            b.id = 'block_' + i + '_' + Math.random().toString(36).substr(2, 6);
+        }
+        return b;
+    });
     return {
-        blocks: initialBlocks || [],
+        blocks: seededBlocks,
         activeBlock: null,
         blockLabels: {
             'hero': 'Hero (úvodní)',
