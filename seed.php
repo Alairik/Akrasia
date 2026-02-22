@@ -63,6 +63,32 @@ function seed_menu(PDO $pdo, string $location, array $items): void {
     }
 }
 
+function seed_form(PDO $pdo, array $f): int {
+    $pdo->prepare("
+        INSERT INTO zvele_forms (name, slug, fields, email_to, email_subject, success_message, honeypot_field)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            name           = VALUES(name),
+            fields         = VALUES(fields),
+            email_to       = VALUES(email_to),
+            email_subject  = VALUES(email_subject),
+            success_message= VALUES(success_message)
+    ")->execute([
+        $f['name'],
+        $f['slug'],
+        json_encode($f['fields'], JSON_UNESCAPED_UNICODE),
+        $f['email_to'],
+        $f['email_subject']     ?? 'Nová zpráva z webu Akrasia',
+        $f['success_message']   ?? 'Děkujeme, zpráva byla odeslána. Ozveme se vám co nejdříve.',
+        $f['honeypot_field']    ?? 'website_url',
+    ]);
+    $row = $pdo->prepare("SELECT id FROM zvele_forms WHERE slug = ?");
+    $row->execute([$f['slug']]);
+    $id = (int) $row->fetchColumn();
+    echo "<li>✅ Formulář: <strong>{$f['name']}</strong> (ID $id)</li>";
+    return $id;
+}
+
 // ── Připojení k DB ────────────────────────────────────────────────────────
 $pdo = Database::getInstance()->getPdo();
 
@@ -83,7 +109,53 @@ seed_setting($pdo, 'social_facebook',  'https://www.facebook.com/akrasia');
 seed_setting($pdo, 'social_instagram', 'https://www.instagram.com/akrasia');
 seed_setting($pdo, 'social_linkedin',  'https://www.linkedin.com/company/akrasia');
 seed_setting($pdo, 'social_youtube',   '');
+// Obdélníkové logo jako výchozí – vynuluje případné ruční nastavení z adminu
+seed_setting($pdo, 'site_logo_id', '');
 echo '<li>✅ Nastavení uložena</li>';
+
+// ── Formuláře ─────────────────────────────────────────────────────────────
+echo '<li><strong>Formuláře:</strong><ul>';
+$formIds = [];
+$formIds['kontakt'] = seed_form($pdo, [
+    'name'            => 'Kontaktní formulář',
+    'slug'            => 'kontakt',
+    'email_to'        => 'info@akrasia.cz',
+    'email_subject'   => 'Nová zpráva z kontaktního formuláře – Akrasia',
+    'success_message' => 'Děkujeme za zprávu! Ozveme se vám do 2 pracovních dnů.',
+    'fields' => [
+        ['name' => 'jmeno',  'label' => 'Jméno a příjmení', 'type' => 'text',     'required' => true,  'placeholder' => 'Jan Novák'],
+        ['name' => 'email',  'label' => 'E-mailová adresa',  'type' => 'email',    'required' => true,  'placeholder' => 'vas@email.cz'],
+        ['name' => 'zprava', 'label' => 'Zpráva',            'type' => 'textarea', 'required' => true,  'placeholder' => 'Napište nám...'],
+    ],
+]);
+$formIds['hledam-podporu'] = seed_form($pdo, [
+    'name'            => 'Hledám podporu',
+    'slug'            => 'hledam-podporu',
+    'email_to'        => 'info@akrasia.cz',
+    'email_subject'   => 'Žádost o podporu – Akrasia',
+    'success_message' => 'Děkujeme za zprávu! Ozveme se vám co nejdříve.',
+    'fields' => [
+        ['name' => 'jmeno',    'label' => 'Jméno',             'type' => 'text',     'required' => true,  'placeholder' => 'Jan Novák'],
+        ['name' => 'email',    'label' => 'E-mail',            'type' => 'email',    'required' => true,  'placeholder' => 'vas@email.cz'],
+        ['name' => 'situace',  'label' => 'Co hledáte?',       'type' => 'select',   'required' => true,  'options' => ['Terapii / poradenství', 'Diagnózu ADHD', 'Informace a materiály', 'Komunitu a sdílení', 'Jiné']],
+        ['name' => 'zprava',   'label' => 'Popište vaši situaci', 'type' => 'textarea', 'required' => false, 'placeholder' => 'Čím více nám napíšete, tím lépe vám pomůžeme.'],
+    ],
+]);
+$formIds['pro-firmy'] = seed_form($pdo, [
+    'name'            => 'Dotaz pro firmy a školy',
+    'slug'            => 'pro-firmy',
+    'email_to'        => 'info@akrasia.cz',
+    'email_subject'   => 'Dotaz od firmy / školy – Akrasia',
+    'success_message' => 'Děkujeme za zájem! Ozveme se vám do 2 pracovních dnů.',
+    'fields' => [
+        ['name' => 'jmeno',            'label' => 'Jméno a příjmení',        'type' => 'text',     'required' => true,  'placeholder' => 'Jan Novák'],
+        ['name' => 'firma',            'label' => 'Název firmy / školy',     'type' => 'text',     'required' => true,  'placeholder' => 'ABC s.r.o.'],
+        ['name' => 'email',            'label' => 'Pracovní e-mail',         'type' => 'email',    'required' => true,  'placeholder' => 'jan@firma.cz'],
+        ['name' => 'pocet',            'label' => 'Počet zaměstnanců / žáků', 'type' => 'select',  'required' => false, 'options' => ['1–10', '11–50', '51–200', '201–500', '500+']],
+        ['name' => 'zprava',           'label' => 'Co vás zajímá?',          'type' => 'textarea', 'required' => true,  'placeholder' => 'Jaký typ spolupráce nebo programu vás zajímá?'],
+    ],
+]);
+echo '</ul></li>';
 
 // ── Stránky ───────────────────────────────────────────────────────────────
 $pages = [];
@@ -376,6 +448,10 @@ $pages[] = [
                 ],
             ],
         ],
+        [
+            'type' => 'contact-form',
+            'data' => ['form_id' => $formIds['hledam-podporu']],
+        ],
     ],
 ];
 
@@ -421,8 +497,12 @@ $pages[] = [
         [
             'type' => 'text',
             'data' => [
-                'content' => '<h2>Co získáte spoluprací s Akrasií</h2><ul><li>Lepší pochopení potřeb neurodiverzních zaměstnanců</li><li>Konkrétní nástroje pro inkluzivní vedení</li><li>Snížení fluktuace a zvýšení spokojenosti zaměstnanců</li><li>Posílení reputace jako inkluzivního zaměstnavatele</li><li>Přístup k talentům, které jiní přehlíží</li></ul><h2>Máte zájem?</h2><p>Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> a společně navrhneme řešení na míru vaší organizaci.</p>',
+                'content' => '<h2>Co získáte spoluprací s Akrasií</h2><ul><li>Lepší pochopení potřeb neurodiverzních zaměstnanců</li><li>Konkrétní nástroje pro inkluzivní vedení</li><li>Snížení fluktuace a zvýšení spokojenosti zaměstnanců</li><li>Posílení reputace jako inkluzivního zaměstnavatele</li><li>Přístup k talentům, které jiní přehlíží</li></ul>',
             ],
+        ],
+        [
+            'type' => 'contact-form',
+            'data' => ['form_id' => $formIds['pro-firmy']],
         ],
     ],
 ];
@@ -458,8 +538,12 @@ $pages[] = [
         [
             'type' => 'text',
             'data' => [
-                'content' => '<h2>Proč je to důležité</h2><p>ADHD se projevuje u 5–7 % dětí školního věku. Bez správné podpory mají tyto děti výrazně horší výsledky, vyšší riziko školního neúspěchu a negativního sebeobrazu. S informovanými pedagogy a správným prostředím mohou tyto děti plně rozvinout svůj potenciál.</p><h2>Jak začít spolupráci</h2><p>Napište nám na <a href="mailto:info@akrasia.cz">info@akrasia.cz</a> a domluvíme se na bezplatné úvodní konzultaci, kde zjistíme, co vaše škola nejvíce potřebuje.</p>',
+                'content' => '<h2>Proč je to důležité</h2><p>ADHD se projevuje u 5–7 % dětí školního věku. Bez správné podpory mají tyto děti výrazně horší výsledky, vyšší riziko školního neúspěchu a negativního sebeobrazu. S informovanými pedagogy a správným prostředím mohou tyto děti plně rozvinout svůj potenciál.</p>',
             ],
+        ],
+        [
+            'type' => 'contact-form',
+            'data' => ['form_id' => $formIds['pro-firmy']],
         ],
     ],
 ];
@@ -690,10 +774,40 @@ $pages[] = [
     ],
 ];
 
+// ── KONTAKT ───────────────────────────────────────────────────────────────
+$pages[] = [
+    'slug'   => 'kontakt',
+    'title'  => 'Kontakt',
+    'meta'   => 'Kontaktujte Akrasii – máte dotaz, zájem o spolupráci nebo chcete podat přihlášku?',
+    'sort'   => 18,
+    'blocks' => [
+        [
+            'type' => 'page-hero',
+            'data' => [
+                'title'      => 'Kontakt',
+                'subtitle'   => 'Máte dotaz, nápad nebo chcete spolupracovat? Napište nám.',
+                'breadcrumb' => [['label' => 'Kontakt']],
+            ],
+        ],
+        [
+            'type' => 'contact-form',
+            'data' => ['form_id' => $formIds['kontakt']],
+        ],
+        [
+            'type' => 'text',
+            'data' => [
+                'section_class' => 'section--alt',
+                'content'       => '<h2>Kde nás najdete</h2><p>Akrasia, z.s.<br>IČO: <em>(doplnit)</em><br>E-mail: <a href="mailto:info@akrasia.cz">info@akrasia.cz</a></p><p>Sociální sítě: <a href="https://www.facebook.com/akrasia">Facebook</a> · <a href="https://www.instagram.com/akrasia">Instagram</a> · <a href="https://www.linkedin.com/company/akrasia">LinkedIn</a></p>',
+            ],
+        ],
+    ],
+];
+
 // ── Uložení stránek ───────────────────────────────────────────────────────
-// Homepage se vždy aktualizuje (force=true), ostatní se přeskočí pokud existují
+// Vybrané stránky se vždy aktualizují (force=true), ostatní se přeskočí
+$forceUpdate = ['homepage', 'hledam-podporu', 'pro-firmy', 'pro-skoly', 'kontakt'];
 foreach ($pages as $p) {
-    seed_page($pdo, $p, $p['slug'] === 'homepage');
+    seed_page($pdo, $p, in_array($p['slug'], $forceUpdate));
 }
 
 // ── Menu – hlavní navigace ────────────────────────────────────────────────
@@ -716,6 +830,7 @@ seed_menu($pdo, 'footer', [
     ['label' => 'Staňte se členem',       'url' => '/stante-se-clenem'],
     ['label' => 'Dobrovolnictví',         'url' => '/dobrovolnictvi'],
     ['label' => 'Stáž',                   'url' => '/staz'],
+    ['label' => 'Kontakt',                'url' => '/kontakt'],
 ]);
 
 echo '</ul>';

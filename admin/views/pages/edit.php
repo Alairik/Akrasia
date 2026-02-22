@@ -67,27 +67,77 @@
                                     <template x-if="block.type === 'hero'">
                                         <div class="space-y-3">
                                             <div>
-                                                <label class="block text-xs font-medium text-gray-500 mb-1">Nadpis</label>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Nadpis (HTML povoleno)</label>
+                                                <input type="text" x-model="block.data.title" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Podnadpis</label>
+                                                <textarea x-model="block.data.subtitle" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"></textarea>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block text-xs font-medium text-gray-500 mb-1">Tlačítko 1 – text</label>
+                                                    <input type="text" x-model="block.data.btn1_text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-xs font-medium text-gray-500 mb-1">Tlačítko 1 – URL</label>
+                                                    <input type="text" x-model="block.data.btn1_url" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                                </div>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block text-xs font-medium text-gray-500 mb-1">Tlačítko 2 – text</label>
+                                                    <input type="text" x-model="block.data.btn2_text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-xs font-medium text-gray-500 mb-1">Tlačítko 2 – URL</label>
+                                                    <input type="text" x-model="block.data.btn2_url" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Foto (název souboru v assets/brand/)</label>
+                                                <input type="text" x-model="block.data.photo" placeholder="photo-1.png" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Page-hero block -->
+                                    <template x-if="block.type === 'page-hero'">
+                                        <div class="space-y-3">
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Nadpis stránky</label>
+                                                <input type="text" x-model="block.data.title" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Podnadpis</label>
+                                                <textarea x-model="block.data.subtitle" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"></textarea>
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Stats block -->
+                                    <template x-if="block.type === 'stats'">
+                                        <div class="space-y-3">
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Nadpis sekce</label>
                                                 <input type="text" x-model="block.data.title" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
                                             </div>
                                             <div>
                                                 <label class="block text-xs font-medium text-gray-500 mb-1">Podnadpis</label>
                                                 <input type="text" x-model="block.data.subtitle" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
                                             </div>
-                                            <div class="grid grid-cols-2 gap-3">
-                                                <div>
-                                                    <label class="block text-xs font-medium text-gray-500 mb-1">CTA text</label>
-                                                    <input type="text" x-model="block.data.cta_text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                            <template x-for="(item, i) in (block.data.items || [])" :key="i">
+                                                <div class="border border-gray-100 rounded-lg p-3 space-y-2">
+                                                    <div class="flex items-center justify-between">
+                                                        <span class="text-xs font-medium text-gray-400" x-text="'Statistika ' + (i+1)"></span>
+                                                        <button type="button" @click="block.data.items.splice(i, 1)" class="text-xs text-red-500 hover:text-red-700">Odebrat</button>
+                                                    </div>
+                                                    <input type="text" x-model="item.number" placeholder="Číslo (5–7 %)" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+                                                    <input type="text" x-model="item.label" placeholder="Popis" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
                                                 </div>
-                                                <div>
-                                                    <label class="block text-xs font-medium text-gray-500 mb-1">CTA URL</label>
-                                                    <input type="text" x-model="block.data.cta_url" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label class="block text-xs font-medium text-gray-500 mb-1">ID obrázku</label>
-                                                <input type="number" x-model="block.data.image_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                                            </div>
+                                            </template>
+                                            <button type="button" @click="if(!block.data.items) block.data.items=[]; block.data.items.push({number:'', label:''})"
+                                                    class="text-sm text-blue-600 hover:text-blue-800">+ Přidat statistiku</button>
                                         </div>
                                     </template>
 
@@ -151,10 +201,11 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <label class="block text-xs font-medium text-gray-500 mb-1">Styl</label>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Styl sekce</label>
                                                 <select x-model="block.data.style" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                                                    <option value="primary">Primární</option>
-                                                    <option value="secondary">Sekundární</option>
+                                                    <option value="donate">Darujte (tmavé s logem)</option>
+                                                    <option value="alt">Světlé (--alt)</option>
+                                                    <option value="old-rose">Starorůžové (--old-rose)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -167,18 +218,34 @@
                                                 <label class="block text-xs font-medium text-gray-500 mb-1">Nadpis sekce</label>
                                                 <input type="text" x-model="block.data.title" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
                                             </div>
-                                            <template x-for="(item, i) in block.data.items" :key="i">
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Podnadpis</label>
+                                                <input type="text" x-model="block.data.subtitle" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-medium text-gray-500 mb-1">Pozadí sekce</label>
+                                                <select x-model="block.data.section_class" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                                    <option value="">Výchozí (bílé)</option>
+                                                    <option value="section--alt">Světle šedé (--alt)</option>
+                                                    <option value="section--old-rose">Starorůžové (--old-rose)</option>
+                                                    <option value="section--mint">Mentolové (--mint)</option>
+                                                </select>
+                                            </div>
+                                            <template x-for="(item, i) in (block.data.items || [])" :key="i">
                                                 <div class="border border-gray-100 rounded-lg p-3 space-y-2">
                                                     <div class="flex items-center justify-between">
                                                         <span class="text-xs font-medium text-gray-400" x-text="'Položka ' + (i+1)"></span>
                                                         <button type="button" @click="block.data.items.splice(i, 1)" class="text-xs text-red-500 hover:text-red-700">Odebrat</button>
                                                     </div>
-                                                    <input type="text" x-model="item.icon" placeholder="Ikona (emoji nebo text)" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
                                                     <input type="text" x-model="item.title" placeholder="Název" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
                                                     <textarea x-model="item.text" placeholder="Popis" rows="2" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm"></textarea>
+                                                    <div class="grid grid-cols-2 gap-2">
+                                                        <input type="text" x-model="item.link_text" placeholder="Text odkazu (nepovinné)" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+                                                        <input type="text" x-model="item.link_url" placeholder="URL odkazu" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+                                                    </div>
                                                 </div>
                                             </template>
-                                            <button type="button" @click="block.data.items.push({icon:'', title:'', text:''})"
+                                            <button type="button" @click="if(!block.data.items) block.data.items=[]; block.data.items.push({title:'', text:'', link_text:'', link_url:''})"
                                                     class="text-sm text-blue-600 hover:text-blue-800">+ Přidat položku</button>
                                         </div>
                                     </template>
@@ -413,11 +480,13 @@ function blockEditor(initialBlocks) {
         blocks: initialBlocks || [],
         activeBlock: null,
         blockLabels: {
-            'hero': 'Hero',
-            'text': 'Text',
+            'hero': 'Hero (úvodní)',
+            'page-hero': 'Záhlaví stránky',
+            'stats': 'Statistiky',
+            'text': 'Text (HTML)',
             'image-text': 'Obrázek + text',
-            'cta': 'CTA',
-            'features': 'Features',
+            'cta': 'CTA (výzva)',
+            'features': 'Karty / Features',
             'testimonials': 'Reference',
             'contact-form': 'Kontaktní formulář',
             'faq': 'FAQ',
@@ -426,16 +495,18 @@ function blockEditor(initialBlocks) {
         },
         addBlock(type) {
             var defaults = {
-                'hero': { title: '', subtitle: '', image_id: null, cta_text: '', cta_url: '', overlay_opacity: 50 },
-                'text': { content: '', width: 'narrow' },
-                'image-text': { image_id: null, content: '', image_position: 'left' },
-                'cta': { title: '', text: '', button_text: '', button_url: '', style: 'primary' },
-                'features': { title: '', items: [{ icon: '', title: '', text: '' }] },
-                'testimonials': { title: '', items: [{ quote: '', author: '', role: '', image_id: null }] },
+                'hero':         { title: '', subtitle: '', btn1_text: 'Hledám podporu', btn1_url: '/hledam-podporu', btn2_text: 'Kdo jsme', btn2_url: '/kdo-jsme', photo: 'photo-1.png' },
+                'page-hero':    { title: '', subtitle: '' },
+                'stats':        { title: '', subtitle: '', section_class: 'section--alt', items: [{ number: '', label: '' }] },
+                'text':         { content: '', section_class: '' },
+                'image-text':   { image_id: null, content: '', image_position: 'left' },
+                'cta':          { title: '', text: '', button_text: '', button_url: '', style: 'alt' },
+                'features':     { title: '', subtitle: '', section_class: '', items: [{ title: '', text: '', link_text: '', link_url: '' }] },
+                'testimonials': { title: '', items: [{ quote: '', author: '', role: '' }] },
                 'contact-form': { form_id: null },
-                'faq': { title: '', items: [{ question: '', answer: '' }] },
-                'gallery': { title: '', images: [], columns: 3 },
-                'video': { title: '', url: '', aspect_ratio: '16:9' }
+                'faq':          { title: '', items: [{ question: '', answer: '' }] },
+                'gallery':      { title: '', images: [], columns: 3 },
+                'video':        { title: '', url: '', aspect_ratio: '16:9' }
             };
             var block = {
                 id: 'block_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
