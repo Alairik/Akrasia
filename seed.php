@@ -10,18 +10,30 @@ require_once __DIR__ . '/config.php';
 require_once CORE_PATH . '/bootstrap.php';
 
 // ── Pomocné funkce ────────────────────────────────────────────────────────
-function seed_page(PDO $pdo, array $p): void {
+function seed_page(PDO $pdo, array $p, bool $force = false): void {
     $exists = $pdo->prepare("SELECT id FROM zvele_pages WHERE slug = ?");
     $exists->execute([$p['slug']]);
-    if ($exists->fetchColumn()) {
-        echo "<li>⏭ Přeskočeno (existuje): <strong>{$p['slug']}</strong></li>";
+    $id = $exists->fetchColumn();
+    if ($id) {
+        if (!$force) {
+            echo "<li>⏭ Přeskočeno (existuje): <strong>{$p['slug']}</strong></li>";
+            return;
+        }
+        $pdo->prepare("UPDATE zvele_pages SET title=?, meta_description=?, blocks=?, sort_order=?, updated_at=NOW() WHERE id=?")
+            ->execute([
+                $p['title'],
+                $p['meta'] ?? '',
+                json_encode($p['blocks'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                $p['sort'] ?? 99,
+                $id,
+            ]);
+        echo "<li>🔄 Aktualizováno: <strong>{$p['slug']}</strong> – {$p['title']}</li>";
         return;
     }
-    $stmt = $pdo->prepare("
+    $pdo->prepare("
         INSERT INTO zvele_pages (slug, title, meta_description, blocks, status, sort_order, created_at, updated_at)
         VALUES (?, ?, ?, ?, 'published', ?, NOW(), NOW())
-    ");
-    $stmt->execute([
+    ")->execute([
         $p['slug'],
         $p['title'],
         $p['meta'] ?? '',
@@ -83,6 +95,7 @@ $pages[] = [
     'meta'   => 'Akrasia – nezisková organizace propojující lidi s ADHD s ověřenými odborníky a komunitou.',
     'sort'   => 1,
     'blocks' => [
+        // 1. Hero
         [
             'type' => 'hero',
             'data' => [
@@ -95,27 +108,29 @@ $pages[] = [
                 'photo'    => 'photo-1.png',
             ],
         ],
+        // 2. Data / statistiky
         [
             'type' => 'stats',
             'data' => [
-                'title'    => 'ADHD v číslech',
-                'subtitle' => 'Realita, která nás motivuje jednat a podporovat.',
+                'title'         => 'ADHD v číslech',
+                'subtitle'      => 'Realita, která nás motivuje jednat a podporovat.',
                 'section_class' => 'section--alt',
-                'items'    => [
-                    ['number' => '5–7 %',     'label' => 'dospělých má ADHD'],
-                    ['number' => '80 %',      'label' => 'případů zůstává nediagnostikováno'],
-                    ['number' => '3×',        'label' => 'vyšší riziko propadu ve škole bez podpory'],
-                    ['number' => '40+',       'label' => 'ověřených terapeutů v našem adresáři'],
+                'items' => [
+                    ['number' => '5–7 %', 'label' => 'dospělých má ADHD'],
+                    ['number' => '80 %',  'label' => 'případů zůstává nediagnostikováno'],
+                    ['number' => '3×',    'label' => 'vyšší riziko propadu ve škole bez podpory'],
+                    ['number' => '40+',   'label' => 'ověřených terapeutů v našem adresáři'],
                 ],
             ],
         ],
+        // 3. Co děláme (aktivity)
         [
             'type' => 'features',
             'data' => [
-                'title'    => 'Co děláme',
-                'subtitle' => 'Tři cesty, jak pomáháme.',
+                'title'         => 'Co děláme',
+                'subtitle'      => 'Tři cesty, jak pomáháme lidem s ADHD.',
                 'section_class' => '',
-                'items'    => [
+                'items' => [
                     [
                         'title'     => 'Adresář terapeutů',
                         'text'      => 'Ověření odborníci specializovaní na ADHD. Filtrujte podle kraje, města nebo specializace.',
@@ -137,6 +152,68 @@ $pages[] = [
                 ],
             ],
         ],
+        // 4. Naše hodnoty
+        [
+            'type' => 'features',
+            'data' => [
+                'title'         => 'Naše hodnoty',
+                'subtitle'      => 'Co nás vede při každém kroku.',
+                'section_class' => 'section--old-rose',
+                'items' => [
+                    [
+                        'title' => 'Autenticita',
+                        'text'  => 'Mluvíme pravdu o ADHD a nevyhýbáme se obtížným otázkám. Bez příkras, bez stigmatu.',
+                    ],
+                    [
+                        'title' => 'Empatie',
+                        'text'  => 'Chápeme, jak složitý může být každodenní život s ADHD. Jsme tu bez soudu.',
+                    ],
+                    [
+                        'title' => 'Komunita',
+                        'text'  => 'Věříme v sílu sdílení a vzájemné podpory. Spolu to jde lépe.',
+                    ],
+                    [
+                        'title' => 'Inkluze',
+                        'text'  => 'Bojujeme za společnost, která dává prostor každému způsobu myšlení.',
+                    ],
+                ],
+            ],
+        ],
+        // 5. Příběhy – CTA teaser
+        [
+            'type' => 'cta',
+            'data' => [
+                'title'       => 'Příběhy, které inspirují',
+                'text'        => 'Skutečné zkušenosti lidí s ADHD. Sdílíme příběhy, které pomáhají, motivují a ukazují, že nejste sami.',
+                'button_text' => 'Číst příběhy',
+                'button_url'  => '/vase-pribehy',
+                'style'       => 'alt',
+            ],
+        ],
+        // 6. Spolupracujeme
+        [
+            'type' => 'features',
+            'data' => [
+                'title'         => 'Spolupracujeme',
+                'subtitle'      => 'Organizace a instituce, které sdílejí naši vizi inkluzivní společnosti.',
+                'section_class' => '',
+                'items' => [
+                    [
+                        'title' => 'Tamly',
+                        'text'  => 'Platforma pro duševní zdraví a wellbeing na pracovišti.',
+                    ],
+                    [
+                        'title' => 'UTB Zlín',
+                        'text'  => 'Univerzita Tomáše Bati ve Zlíně – výzkum a vzdělávání v oblasti neurověd.',
+                    ],
+                    [
+                        'title' => 'Thermo Fischer',
+                        'text'  => 'Globální partner podporující inkluzi a neurodiverzitu na pracovišti.',
+                    ],
+                ],
+            ],
+        ],
+        // 7. Darujte CTA
         [
             'type' => 'cta',
             'data' => [
@@ -614,8 +691,9 @@ $pages[] = [
 ];
 
 // ── Uložení stránek ───────────────────────────────────────────────────────
+// Homepage se vždy aktualizuje (force=true), ostatní se přeskočí pokud existují
 foreach ($pages as $p) {
-    seed_page($pdo, $p);
+    seed_page($pdo, $p, $p['slug'] === 'homepage');
 }
 
 // ── Menu – hlavní navigace ────────────────────────────────────────────────

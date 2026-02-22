@@ -75,7 +75,7 @@
     </script>
 </head>
 <body>
-    <a href="#main" class="skip-link">Přeskočit na obsah</a>
+    <a href="#main" class="skip-nav">Přeskočit na obsah</a>
 
     <?php Template::partial('header'); ?>
 
