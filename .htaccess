@@ -1,9 +1,5 @@
 RewriteEngine On
-RewriteBase /
-
-# Force HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteBase /akrasia/
 
 # Remove trailing slash (except root)
 RewriteCond %{REQUEST_FILENAME} !-d
