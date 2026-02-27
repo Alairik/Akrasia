@@ -1,7 +1,8 @@
 <?php defined('ZVELE_CMS') or die(); ?>
 <?php
-// Pole: title, text, button_text, button_url, style ('donate' | 'old-rose' | 'alt')
+// Pole: title, text, button_text, button_url, style ('donate' | 'old-rose' | 'alt'), deco (array)
 $style = $style ?? 'donate';
+$deco  = $deco ?? null;
 if ($style === 'donate') {
     $sectionClass = 'donate-section section--logo-bg';
 } elseif ($style === 'old-rose') {
@@ -11,7 +12,8 @@ if ($style === 'donate') {
 }
 ?>
 
-<section class="<?= $sectionClass ?>">
+<section class="<?= $sectionClass ?>" style="position:relative;overflow:hidden">
+    <?php if (!empty($deco)): echo deco_html($deco); endif; ?>
     <div class="container" style="text-align:center">
         <?php if (!empty($title)): ?><h2><?= e($title) ?></h2><?php endif; ?>
         <?php if (!empty($text)): ?><p><?= e($text) ?></p><?php endif; ?>

@@ -187,113 +187,162 @@ $pages[] = [
                 'title'         => 'ADHD v číslech',
                 'subtitle'      => 'Realita, která nás motivuje jednat a podporovat.',
                 'section_class' => 'section--alt',
+                'deco'          => [0, 1],
                 'items' => [
                     ['number' => '5–7 %', 'label' => 'dospělých má ADHD'],
                     ['number' => '80 %',  'label' => 'případů zůstává nediagnostikováno'],
-                    ['number' => '3×',    'label' => 'vyšší riziko propadu ve škole bez podpory'],
+                    ['number' => '3×',    'label' => 'vyšší riziko deprese a úzkosti'],
                     ['number' => '40+',   'label' => 'ověřených terapeutů v našem adresáři'],
                 ],
             ],
         ],
-        // 3. Co děláme (aktivity)
-        [
-            'type' => 'features',
-            'data' => [
-                'title'         => 'Co děláme',
-                'subtitle'      => 'Tři cesty, jak pomáháme lidem s ADHD.',
-                'section_class' => '',
-                'items' => [
-                    [
-                        'title'     => 'Adresář terapeutů',
-                        'text'      => 'Ověření odborníci specializovaní na ADHD. Filtrujte podle kraje, města nebo specializace.',
-                        'link_text' => 'Najít terapeuta →',
-                        'link_url'  => '/terapeuti',
-                    ],
-                    [
-                        'title'     => 'Pro firmy a školy',
-                        'text'      => 'Vzdělávací programy, workshopy a konzultace pro zaměstnavatele a pedagogy.',
-                        'link_text' => 'Pro firmy →',
-                        'link_url'  => '/pro-firmy',
-                    ],
-                    [
-                        'title'     => 'Komunita a příběhy',
-                        'text'      => 'Sdílíme zkušenosti, které pomáhají. Přečtěte si příběhy lidí s ADHD.',
-                        'link_text' => 'Číst příběhy →',
-                        'link_url'  => '/vase-pribehy',
-                    ],
-                ],
-            ],
-        ],
-        // 4. Naše hodnoty
+        // 3. Naše hodnoty
         [
             'type' => 'features',
             'data' => [
                 'title'         => 'Naše hodnoty',
-                'subtitle'      => 'Co nás vede při každém kroku.',
+                'subtitle'      => 'Věříme, že každý člověk si zaslouží prostor, kde bude pochopen a podpořen.',
+                'section_class' => 'section--logo-bg',
+                'deco'          => [2, 6],
+                'prvek'         => true,
+                'photo'         => 'photo-2.png',
+                'items' => [
+                    ['title' => 'Podpora a péče',    'text' => 'Vytváříme bezpečné prostředí, kde se každý může cítit přijat a pochopen bez odsuzování.'],
+                    ['title' => 'Odbornost',         'text' => 'Spolupracujeme výhradně s ověřenými odborníky a zakládáme si na vědecky podložených informacích.'],
+                    ['title' => 'Růst',              'text' => 'Věříme v potenciál každého člověka s ADHD. Pomáháme přetvářet výzvy v příležitosti.'],
+                    ['title' => 'Přístupnost',       'text' => 'Dbáme na to, aby naše služby a informace byly dostupné pro všechny, bez ohledu na situaci.'],
+                    ['title' => 'Komunita',          'text' => 'Budujeme síť lidí, kteří si navzájem rozumí a mohou sdílet zkušenosti i rady.'],
+                    ['title' => 'Transparentnost',   'text' => 'Jednáme otevřeně a poctivě – vůči lidem, které podporujeme, i vůči partnerům a dárcům.'],
+                ],
+            ],
+        ],
+        // 4. Co děláme (aktivity)
+        [
+            'type' => 'features',
+            'data' => [
+                'title'         => 'Co děláme',
+                'subtitle'      => 'Pracujeme na tom, aby ADHD přestalo být překážkou a stalo se součástí pestrého světa.',
                 'section_class' => 'section--old-rose',
+                'columns'       => '4',
+                'deco'          => [4, 9],
                 'items' => [
                     [
-                        'title' => 'Autenticita',
-                        'text'  => 'Mluvíme pravdu o ADHD a nevyhýbáme se obtížným otázkám. Bez příkras, bez stigmatu.',
+                        'title'     => 'Vzdělávání',
+                        'text'      => 'Šíříme povědomí o ADHD – přednášky, workshopy, osvětové materiály pro veřejnost.',
                     ],
                     [
-                        'title' => 'Empatie',
-                        'text'  => 'Chápeme, jak složitý může být každodenní život s ADHD. Jsme tu bez soudu.',
+                        'title'     => 'Adresář terapeutů',
+                        'text'      => 'Propojujeme lidi s ověřenými terapeuty a odborníky specializovanými na ADHD.',
+                        'link_text' => 'Najít terapeuta',
+                        'link_url'  => '/terapeuti',
                     ],
                     [
-                        'title' => 'Komunita',
-                        'text'  => 'Věříme v sílu sdílení a vzájemné podpory. Spolu to jde lépe.',
+                        'title'     => 'Firmy a školy',
+                        'text'      => 'Pomáháme zaměstnavatelům a školám vytvářet inkluzivní prostředí pro lidi s ADHD.',
                     ],
                     [
-                        'title' => 'Inkluze',
-                        'text'  => 'Bojujeme za společnost, která dává prostor každému způsobu myšlení.',
+                        'title'     => 'Blog a komunita',
+                        'text'      => 'Píšeme, sdílíme příběhy a budujeme komunitu lidí, kteří si navzájem rozumí.',
+                        'link_text' => 'Číst blog',
+                        'link_url'  => '/blog',
                     ],
                 ],
             ],
         ],
-        // 5. Příběhy – CTA teaser
+        // 5. Rozcestník – Kdo jste?
         [
-            'type' => 'cta',
+            'type' => 'junction',
             'data' => [
-                'title'       => 'Příběhy, které inspirují',
-                'text'        => 'Skutečné zkušenosti lidí s ADHD. Sdílíme příběhy, které pomáhají, motivují a ukazují, že nejste sami.',
-                'button_text' => 'Číst příběhy',
-                'button_url'  => '/vase-pribehy',
-                'style'       => 'alt',
+                'title'    => 'Kdo jste?',
+                'subtitle' => 'Najděte cestu, která je určena právě vám.',
+                'deco'     => [5, 10],
+                'items' => [
+                    [
+                        'variant'   => 'support',
+                        'title'     => 'Hledám podporu',
+                        'text'      => 'Máte ADHD nebo podezření na diagnózu? Pomůžeme vám najít správnou cestu k odborné péči.',
+                        'link_text' => 'Zjistit více',
+                        'link_url'  => '/hledam-podporu',
+                    ],
+                    [
+                        'variant'   => 'company',
+                        'title'     => 'Jsem firma',
+                        'text'      => 'Chcete vytvořit inkluzivní pracovní prostředí? Pomůžeme vám pochopit potřeby zaměstnanců s ADHD.',
+                        'link_text' => 'Pro zaměstnavatele',
+                        'link_url'  => '/pro-firmy',
+                    ],
+                    [
+                        'variant'   => 'school',
+                        'title'     => 'Jsem škola',
+                        'text'      => 'Máte ve třídě žáky s ADHD? Nabízíme vzdělávání a podporu pro pedagogické pracovníky.',
+                        'link_text' => 'Pro pedagogy',
+                        'link_url'  => '/pro-skoly',
+                    ],
+                    [
+                        'variant'   => 'involve',
+                        'title'     => 'Chci se zapojit',
+                        'text'      => 'Sdílíte naši vizi? Staňte se dobrovolníkem, členem nebo absolvujte stáž u nás.',
+                        'link_text' => 'Zapojte se',
+                        'link_url'  => '/zapojte-se',
+                    ],
+                ],
             ],
         ],
-        // 6. Spolupracujeme
+        // 6. Vaše příběhy (testimonials)
+        [
+            'type' => 'testimonials',
+            'data' => [
+                'title'         => 'Vaše příběhy',
+                'subtitle'      => 'Skutečné zážitky lidí, kteří našli svou cestu s Akrasií.',
+                'section_class' => 'section--mint',
+                'deco'          => [3, 7],
+                'prvek'         => true,
+                'photo'         => 'photo-3.png',
+                'button_text'   => 'Přečíst více příběhů',
+                'button_url'    => '/vase-pribehy',
+                'items' => [
+                    [
+                        'quote'  => 'Díky Akrasii jsem konečně pochopila, že moje ADHD není slabost, ale součást toho, kdo jsem. Terapeutka z adresáře mi doslova změnila život.',
+                        'author' => 'Markéta, 34 let',
+                        'role'   => 'diagnostikována v dospělosti',
+                    ],
+                    [
+                        'quote'  => 'Jako pedagog jsem nevěděl, jak pomoci žákům s ADHD. Workshop Akrasie mi otevřel oči a dal mi konkrétní nástroje, které skutečně fungují.',
+                        'author' => 'Pavel, učitel',
+                        'role'   => 'ZŠ Praha',
+                    ],
+                    [
+                        'quote'  => 'Naše firma spolupracuje s Akrasií na vytváření inkluzivního prostředí. Výsledky jsou vidět – naši zaměstnanci jsou spokojenější a produktivnější.',
+                        'author' => 'Jana, HR manažerka',
+                        'role'   => 'technologická společnost',
+                    ],
+                ],
+            ],
+        ],
+        // 7. Spolupracujeme
         [
             'type' => 'features',
             'data' => [
                 'title'         => 'Spolupracujeme',
-                'subtitle'      => 'Organizace a instituce, které sdílejí naši vizi inkluzivní společnosti.',
-                'section_class' => '',
+                'subtitle'      => 'Partneři, kteří sdílejí naši vizi inkluzivní společnosti.',
+                'section_class' => 'section--sm',
                 'items' => [
-                    [
-                        'title' => 'Tamly',
-                        'text'  => 'Platforma pro duševní zdraví a wellbeing na pracovišti.',
-                    ],
-                    [
-                        'title' => 'UTB Zlín',
-                        'text'  => 'Univerzita Tomáše Bati ve Zlíně – výzkum a vzdělávání v oblasti neurověd.',
-                    ],
-                    [
-                        'title' => 'Thermo Fischer',
-                        'text'  => 'Globální partner podporující inkluzi a neurodiverzitu na pracovišti.',
-                    ],
+                    ['title' => 'Tamly',          'text' => 'Platforma pro duševní zdraví a wellbeing na pracovišti.'],
+                    ['title' => 'UTB Zlín',       'text' => 'Univerzita Tomáše Bati ve Zlíně – výzkum a vzdělávání.'],
+                    ['title' => 'Thermo Fischer', 'text' => 'Globální partner podporující inkluzi a neurodiverzitu na pracovišti.'],
                 ],
             ],
         ],
-        // 7. Darujte CTA
+        // 8. Darujte CTA
         [
             'type' => 'cta',
             'data' => [
                 'title'       => 'Podpořte nás',
-                'text'        => 'Vaše podpora nám umožňuje pomáhat lidem s ADHD po celé České republice.',
+                'text'        => 'Vaše podpora nám umožňuje pomáhat lidem s ADHD, vzdělávat veřejnost a budovat komunitu, kde každý najde pochopení a pomoc.',
                 'button_text' => 'Darujte',
                 'button_url'  => '/darujte',
                 'style'       => 'donate',
+                'deco'        => [8, 11],
             ],
         ],
     ],

@@ -1,13 +1,27 @@
 <?php defined('ZVELE_CMS') or die(); ?>
 <?php
-// Pole: title, subtitle, items[] = {icon_svg, title, text, link_text, link_url}
-// columns: '3' (default) nebo '4'
-$cols = $columns ?? '3';
-$gridClass = $cols === '4' ? 'cards-grid--4 cards-grid' : 'cards-grid';
+// Pole: title, subtitle, section_class, deco (array), prvek (bool), photo (filename)
+// columns: '3' (default) nebo '4'; items[] = {icon_svg, title, text, link_text, link_url}
+$cols         = $columns ?? '3';
+$gridClass    = $cols === '4' ? 'cards-grid--4 cards-grid' : 'cards-grid';
 $sectionClass = $section_class ?? '';
+$deco         = $deco ?? null;
+$usePrvek     = $prvek ?? false;
+$photo        = $photo ?? null;
 ?>
 
-<section class="section <?= e($sectionClass) ?>">
+<section class="section <?= e($sectionClass) ?>" style="position:relative;overflow:hidden">
+    <?php if ($usePrvek): ?>
+    <img src="<?= asset('assets/brand/prvek_vertical.svg') ?>" class="prvek-v prvek-v--left" aria-hidden="true" alt="">
+    <?php endif; ?>
+    <?php if (!empty($deco)): echo deco_html($deco); endif; ?>
+    <?php if (!empty($photo)): ?>
+    <div class="deco-layer" aria-hidden="true">
+        <div class="deco-item" style="bottom:5%;right:18%;transform:rotate(-8deg);opacity:0.55">
+            <img src="<?= asset('assets/brand/' . e($photo)) ?>" width="180" alt="">
+        </div>
+    </div>
+    <?php endif; ?>
     <div class="container">
         <?php if (!empty($title) || !empty($subtitle)): ?>
         <div class="section-header">
