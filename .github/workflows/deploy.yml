@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - claude/akrasia-website-setup-etol2
+      - claude/fix-akrasia-access-error-PSeDb
 
 jobs:
   deploy:
