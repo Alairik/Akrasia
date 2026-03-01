@@ -2372,10 +2372,15 @@ ul  { list-style: none; }
     --header-bg-rgb: 255, 155, 66;
 
     --text:          #1c0e00;
-    --text-muted:    #7a3d10;
-    --text-light:    #a05825;
+    /* Muted texty: teplá neutrální šedá místo brownish #7a3d10
+       – čte se jako "sekundární text", ne "tmavá oranžová"
+       Kontrast #6b5a52 na bílé = 6.2:1 ✓  #7a6558 = 5.3:1 ✓  EAA splněno */
+    --text-muted:    #6b5a52;
+    --text-light:    #7a6558;
 
-    --bg:            #fffbf5;
+    /* Stránkové pozadí: lehce teplejší než čistá bílá
+       → plain sekce (Hodnoty, Partneři…) mají tepelný charakter */
+    --bg:            #fff8f3;
     --bg-alt:        #fff3e0;
 
     --vanilla:       #fff3e0;
