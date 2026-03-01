@@ -24,6 +24,38 @@ Po prvním nasazení spusť `install.php` přes prohlížeč pro vytvoření DB 
 
 ---
 
+## Brand paleta (z grafického manuálu)
+
+> **Pouze tyto barvy** – žádné jiné se nesmí přidávat bez souhlasu.
+
+| HEX | CSS proměnná | Název |
+|---|---|---|
+| `#ff9b42` | `--orange` | Oranžová (primární) |
+| `#4e5699` | `--navy` | Navy |
+| `#428aa1` | `--petrol` | Petrolejová |
+| `#b55397` | `--purple` | Purpurová |
+| `#cad636` | `--pear` | Hrušková |
+| `#f7f0c1` | `--vanilla` | Vanilková |
+| `#ddfbd2` | `--mint` | Mint |
+| `#eb9fef` | `--lilac` | Lila |
+| `#f1deeb` | `--old-rose` | Starorůžová |
+| `#fffdfa` | `--powder` | Pudrová |
+
+### Kontrastní dvojice (orange-v3 téma)
+
+| Sekce | Pozadí | Text/nadpisy |
+|---|---|---|
+| Hero | `#ff9b42` oranžová | `#4e5699` navy |
+| Stats | `#4e5699` navy | `#fffdfa` pudrová |
+| Features/Hodnoty | `#f7f0c1` vanilková | `#4e5699` navy |
+| Junction | `#f1deeb` starorůžová | `#4e5699` navy |
+| FAQ | `#ddfbd2` mint | `#4e5699` navy |
+| Testimonials | `#eb9fef` lila | `#4e5699` navy |
+| Donate/CTA | `#4e5699` navy | `#ff9b42` oranžová |
+| Footer | `#4e5699` navy | `#fffdfa` pudrová |
+
+---
+
 ## ⚠️ KRITICKÉ: .htaccess
 
 **`.htaccess` ovládá celý hlavní webový server**, na kterém běží i jiné projekty kromě Akrasie.

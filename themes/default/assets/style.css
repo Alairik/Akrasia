@@ -493,6 +493,12 @@ ul  { list-style: none; }
 .section--old-rose {
     background: var(--old-rose);
 }
+.section--lilac {
+    background: var(--lilac);
+}
+.section--pear {
+    background: var(--pear);
+}
 .section--dark {
     background: var(--navy);
     color: var(--powder);
@@ -2346,182 +2352,265 @@ ul  { list-style: none; }
 
 
 /* ============================================================
-   BAREVNÁ TÉMATA: ORANŽOVÁ – dvě varianty
-
-   [data-theme="orange"]    – světlý hero (krémovoranžový gradient)
-                              nadpisy: #e06000 (3.4:1 large text ✓ EAA)
-
-   [data-theme="orange-v3"] – tmavý hero (hluboká navy)
-                              nadpisy: #ff9b42 (6.3:1 na tmavém ✓)
-                              ↔ inspirace: brandový navy jako komplementár
-
-   Sdílené principy (M3 / 60-30-10):
-   • #ff9b42  primární brand orange  – header, ikony, tmavé nadpisy
-   • #e06000  display nadpisy (světlé bg) – 3.44:1 ✓ EAA large text
-   • #9e4600  linky / interaktivní  – 5.6:1 ✓ EAA normal text
-   • #2a2e5e  on-primary / kotevní  – tmavé sekce, zápatí, nav text
+   BAREVNÉ TÉMA: ORANŽOVÁ
+   Světlý krémovoranžový styl (oranžový header + světlý hero gradient)
+   Nadpisy: #e06000 (3.4:1 large text ✓ EAA) na krémovém bg
    ============================================================ */
 
-/* ── SDÍLENÉ TOKENY (obě varianty) ──────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) {
-    /* Linky / interaktivní: #9e4600 = 5.6:1 na krémovém bg ✓ EAA */
-    --navy:          #9e4600;
+[data-theme="orange"] {
+    --navy:          #9e4600;   /* 5.6:1 na krémovém bg ✓ EAA */
     --petrol:        #7a3200;
     --purple:        #e87a1a;
-
     --navy-rgb:      158, 70, 0;
     --header-bg-rgb: 255, 155, 66;
-
-    /* Tělesné texty: navy-modrá – 60-30-10: krém / navy-text / oranžová */
-    --text:          #1c2060;   /* tmavá navy-modrá – 13.2:1 na krému ✓ */
-    --text-muted:    #4a5480;   /* desaturovaná navy – 6.45:1 ✓ */
-    --text-light:    #5a5e8a;   /* světlejší navy – 5.1:1 ✓ */
-
-    /* Stránkové pozadí: jasně krémová, viditelně odlišená od bílé
-       #e06000 nadpisy: 3.20:1 na #fff0d8 ✓ / 3.09:1 na #ffebd0 ✓ EAA large text */
+    --text:          #1c2060;
+    --text-muted:    #4a5480;
+    --text-light:    #5a5e8a;
     --bg:            #fff0d8;
     --bg-alt:        #ffebd0;
-
+    --bg-hero: linear-gradient(135deg, #fff0d8 0%, #ffecd0 50%, #ffebce 100%);
     --vanilla:       #ffebd0;
     --old-rose:      #ffd4a4;
     --powder:        #fff5ed;
     --mint:          #fff0c8;
     --lilac:         #ffcc80;
-
     scrollbar-color: #ff9b42 #ffebd0;
 }
 
-/* ── HERO GRADIENT: varianta A – světlý ─────────────────────── */
-/* #e06000 nadpis: 3.14:1 na #fff0d8 ✓ / 3.09:1 na #ffebce ✓ EAA large text */
-[data-theme="orange"] {
-    --bg-hero: linear-gradient(135deg, #fff0d8 0%, #ffecd0 50%, #ffebce 100%);
-}
+[data-theme="orange"] ::-webkit-scrollbar-track { background: #ffebd0; }
+[data-theme="orange"] ::-webkit-scrollbar-thumb { background: #ff9b42; }
+[data-theme="orange"] ::-webkit-scrollbar-thumb:hover { background: #7a3200; }
 
-/* ── HERO GRADIENT: varianta B – tmavý navy ─────────────────── */
-/* #ff9b42 nadpis na #2a2e5e = 6.3:1 ✓ — barvy přímo z brand manuálu */
-[data-theme="orange-v3"] {
-    --bg-hero: linear-gradient(135deg, #1a1e3e 0%, #2a2e5e 100%);
-}
+[data-theme="orange"] .site-header { border-bottom-color: rgba(255,255,255,0.20); }
+[data-theme="orange"] .site-logo-text                  { color: #2a2e5e; }
+[data-theme="orange"] .site-logo:hover .site-logo-text { color: #fff; }
+[data-theme="orange"] .nav-toggle span                 { background: #2a2e5e; }
+[data-theme="orange"] .nav-link                        { color: #2a2e5e !important; }
+[data-theme="orange"] .nav-link:hover                  { background: rgba(255,255,255,0.22); color: #fff !important; }
+[data-theme="orange"] .nav-link.active                 { background: rgba(255,255,255,0.28); color: #1c2060 !important; }
+[data-theme="orange"] .nav-link--donate                { background: #2a2e5e; color: #ff9b42 !important; }
+[data-theme="orange"] .nav-link--donate:hover          { background: #1c1f3e; }
+[data-theme="orange"] .dropdown                        { background: #ffebd0; border-color: rgba(158,70,0,0.18); }
+[data-theme="orange"] .nav-mobile-logo                 { border-bottom-color: rgba(255,255,255,0.20); }
+[data-theme="orange"] .nav-mobile-logo .site-logo-text { color: #2a2e5e; }
 
-/* ── Scrollbar ───────────────────────────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-track { background: #ffebd0; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb { background: #ff9b42; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb:hover { background: #7a3200; }
-
-/* ── Header ─────────────────────────────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .site-header { border-bottom-color: rgba(255,255,255,0.20); }
-
-/* ── Navigace (na oranžovém headeru) ────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .site-logo-text                  { color: #2a2e5e; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .site-logo:hover .site-logo-text { color: #fff; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-toggle span                 { background: #2a2e5e; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link                        { color: #2a2e5e !important; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link:hover                  { background: rgba(255,255,255,0.22); color: #fff !important; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link.active                 { background: rgba(255,255,255,0.28); color: #1c2060 !important; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link--donate                { background: #2a2e5e; color: #ff9b42 !important; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link--donate:hover          { background: #1c1f3e; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .dropdown                        { background: #ffebd0; border-color: rgba(158,70,0,0.18); }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-mobile-logo                 { border-bottom-color: rgba(255,255,255,0.20); }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-mobile-logo .site-logo-text { color: #2a2e5e; }
-
-/* ── Tlačítka ────────────────────────────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .btn-primary {
+[data-theme="orange"] .btn-primary {
     background: linear-gradient(135deg, #ff9b42 0%, #e8821a 100%);
     color: #2a2e5e !important;
 }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .btn-primary:hover {
+[data-theme="orange"] .btn-primary:hover {
     background: linear-gradient(135deg, #c07010 0%, #7a3200 100%);
     color: #fff !important;
 }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
+[data-theme="orange"] .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
 
-/* ── Tmavé sekce + zápatí: komplementární navy ───────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .section--dark,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .site-footer   { background: #2a2e5e; }
+[data-theme="orange"] .section--dark,
+[data-theme="orange"] .donate-section,
+[data-theme="orange"] .site-footer   { background: #2a2e5e; }
 
-:is([data-theme="orange"], [data-theme="orange-v3"]) .site-footer::before,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section::before { background: rgba(255,155,66,0.07); }
+[data-theme="orange"] .site-footer::before,
+[data-theme="orange"] .donate-section::before { background: rgba(255,155,66,0.07); }
 
-:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section .btn-primary {
+[data-theme="orange"] .donate-section .btn-primary {
     background: #ff9b42; color: #2a2e5e !important; border-color: #ff9b42;
 }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section .btn-primary:hover {
+[data-theme="orange"] .donate-section .btn-primary:hover {
     background: #e8821a; border-color: #e8821a; color: #fff !important;
 }
 
-/* ── Ikony, dekorativní prvky ────────────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--old-rose  { background: rgba(158,70,0,0.12); color: #9e4600; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--old-rose { background: rgba(158,70,0,0.12); color: #9e4600; }
-/* Teal/pear/mint/lilac → teplé tony (orange = burnt orange; kompl. = navy) */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--petrol,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--petrol   { background: rgba(42,46,94,0.12);  color: #2a2e5e; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--pear,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--pear     { background: rgba(232,130,26,0.16); color: #7a3200; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--mint,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--mint     { background: rgba(255,155,66,0.18); color: #9e4600; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--lilac,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--lilac    { background: rgba(42,46,94,0.10);  color: #2a2e5e; }
-/* Junction card ikony */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card--support .junction-icon { background: rgba(158,70,0,0.10);  color: #9e4600; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card--company .junction-icon { background: rgba(42,46,94,0.12);  color: #2a2e5e; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card--school  .junction-icon { background: rgba(232,130,26,0.14); color: #7a3200; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-quote    { color: #ff9b42; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .not-found-number     { color: #ff9b42; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .article-content blockquote {
+[data-theme="orange"] .card-icon--old-rose  { background: rgba(158,70,0,0.12); color: #9e4600; }
+[data-theme="orange"] .value-icon--old-rose { background: rgba(158,70,0,0.12); color: #9e4600; }
+[data-theme="orange"] .card-icon--petrol,
+[data-theme="orange"] .value-icon--petrol   { background: rgba(42,46,94,0.12);  color: #2a2e5e; }
+[data-theme="orange"] .card-icon--pear,
+[data-theme="orange"] .value-icon--pear     { background: rgba(232,130,26,0.16); color: #7a3200; }
+[data-theme="orange"] .card-icon--mint,
+[data-theme="orange"] .value-icon--mint     { background: rgba(255,155,66,0.18); color: #9e4600; }
+[data-theme="orange"] .card-icon--lilac,
+[data-theme="orange"] .value-icon--lilac    { background: rgba(42,46,94,0.10);  color: #2a2e5e; }
+[data-theme="orange"] .junction-card--support .junction-icon { background: rgba(158,70,0,0.10);  color: #9e4600; }
+[data-theme="orange"] .junction-card--company .junction-icon { background: rgba(42,46,94,0.12);  color: #2a2e5e; }
+[data-theme="orange"] .junction-card--school  .junction-icon { background: rgba(232,130,26,0.14); color: #7a3200; }
+[data-theme="orange"] .testimonial-quote    { color: #ff9b42; }
+[data-theme="orange"] .not-found-number     { color: #ff9b42; }
+[data-theme="orange"] .article-content blockquote {
     border-left-color: #ff9b42;
     background: rgba(255,155,66,0.08);
 }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .filter-group select {
+[data-theme="orange"] .filter-group select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239e4600' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
-/* ── NADPISY NA KRÉMOVÉM BG: #e06000 (≥3.09:1 large text ✓ EAA) ── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .section-header h2,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .page-hero h1,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card h3,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .blog-card-title,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .blog-card-title a,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-body h3,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-author,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .article-title,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .page-content-body h2,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .page-content-body h3 { color: #e06000; }
+[data-theme="orange"] .section-header h2,
+[data-theme="orange"] .page-hero h1,
+[data-theme="orange"] .junction-card h3,
+[data-theme="orange"] .blog-card-title,
+[data-theme="orange"] .blog-card-title a,
+[data-theme="orange"] .value-body h3,
+[data-theme="orange"] .testimonial-author,
+[data-theme="orange"] .article-title,
+[data-theme="orange"] .page-content-body h2,
+[data-theme="orange"] .page-content-body h3 { color: #e06000; }
 
-/* Tmavé sekce → plná oranžová (6.3:1 ✓) */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .section--dark .section-header h2,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section h2    { color: #ff9b42; }
+[data-theme="orange"] .section--dark .section-header h2,
+[data-theme="orange"] .donate-section h2    { color: #ff9b42; }
+[data-theme="orange"] .terapeutka-name { color: #2a2e5e; }
+[data-theme="orange"] .section--old-rose .section-header h2 { color: #2a2e5e; }
 
-/* Terapeutka: header gradient #ffd4a4 → #e06000 by dál jen 2.6:1 ✗
-   Navy (#2a2e5e) na #ffd4a4 = 8.9:1 ✓ + brandový komplement */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .terapeutka-name { color: #2a2e5e; }
+[data-theme="orange"] .hero h1      { color: #e06000; }
+[data-theme="orange"] .hero::before { background: radial-gradient(circle, rgba(255,155,66,0.28) 0%, transparent 70%); }
 
-/* Old-rose sekce: --old-rose = #ffd4a4 (sytý peach) → #e06000 = 2.6:1 ✗
-   Navy heading 8.9:1 ✓ – soulad orange-peach + navy-komplement */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .section--old-rose .section-header h2 { color: #2a2e5e; }
 
-/* ── HERO h1: liší se mezi variantami ───────────────────────── */
+/* ============================================================
+   BAREVNÉ TÉMA: ORANŽOVÁ V3 – plná brand paleta
+   Pouze 10 barev z grafického manuálu. Kontrastní dvojice:
+   • Hero:         #ff9b42 oranžová  + #4e5699 navy
+   • Stats:        #4e5699 navy      + #fffdfa pudrová
+   • Hodnoty:      #f7f0c1 vanilková + #4e5699 navy
+   • Co děláme:    #f1deeb starorůžová + #4e5699 navy
+   • Rozcestník:   #cad636 hrušková  + #4e5699 navy
+   • FAQ:          #ddfbd2 mint      + #4e5699 navy
+   • Příběhy:      #eb9fef lila      + #4e5699 navy
+   • Donate/Footer:#4e5699 navy      + #ff9b42 oranžová
+   ============================================================ */
 
-/* A – světlý hero: #e06000 (3.1:1 na světlé oranžové ✓) */
-[data-theme="orange"] .hero h1          { color: #e06000; }
-[data-theme="orange"] .hero::before     { background: radial-gradient(circle, rgba(255,155,66,0.28) 0%, transparent 70%); }
-
-/* B – tmavý hero: plná #ff9b42 (6.3:1 na #2a2e5e ✓) */
-[data-theme="orange-v3"] .hero h1       { color: #ff9b42; }
-[data-theme="orange-v3"] .hero-subtitle { color: rgba(255,243,224,0.82); }  /* čitelné na dark */
-[data-theme="orange-v3"] .hero-tagline  {                                    /* badge na dark bg */
-    background: rgba(255,155,66,0.22);
-    color: #fff3e0;
-    border-color: rgba(255,155,66,0.45);
+[data-theme="orange-v3"] {
+    --header-bg-rgb: 255, 155, 66;   /* oranžový header */
+    --bg-hero: linear-gradient(135deg, #ff9b42 0%, #e8821a 100%);
+    scrollbar-color: #ff9b42 #f7f0c1;
+    /* Všechny ostatní tokeny zůstávají brandové z :root */
 }
-[data-theme="orange-v3"] .hero::before  { background: radial-gradient(circle, rgba(255,155,66,0.40) 0%, transparent 65%); }
-[data-theme="orange-v3"] .hero-btns .btn-secondary {  /* outline btn na dark hero */
-    color: #fff3e0 !important;
-    border-color: rgba(255,243,224,0.55);
+
+[data-theme="orange-v3"] ::-webkit-scrollbar-track { background: #f7f0c1; }
+[data-theme="orange-v3"] ::-webkit-scrollbar-thumb { background: #ff9b42; }
+[data-theme="orange-v3"] ::-webkit-scrollbar-thumb:hover { background: #4e5699; }
+
+/* ── Header/Nav na oranžovém podkladu ─────────────────────── */
+[data-theme="orange-v3"] .site-header { border-bottom-color: rgba(78,86,153,0.15); }
+[data-theme="orange-v3"] .site-logo-text                  { color: #4e5699; }
+[data-theme="orange-v3"] .site-logo:hover .site-logo-text { color: #fffdfa; }
+[data-theme="orange-v3"] .nav-toggle span                 { background: #4e5699; }
+[data-theme="orange-v3"] .nav-link                        { color: #4e5699 !important; font-weight: 600; }
+[data-theme="orange-v3"] .nav-link:hover                  { background: rgba(78,86,153,0.12); }
+[data-theme="orange-v3"] .nav-link.active                 { background: rgba(78,86,153,0.15); }
+[data-theme="orange-v3"] .nav-link--donate                { background: #4e5699; color: #ff9b42 !important; }
+[data-theme="orange-v3"] .nav-link--donate:hover          { background: #428aa1; color: #fffdfa !important; }
+[data-theme="orange-v3"] .dropdown                        { background: #f7f0c1; border-color: rgba(78,86,153,0.18); }
+[data-theme="orange-v3"] .nav-mobile-logo                 { border-bottom-color: rgba(78,86,153,0.12); }
+[data-theme="orange-v3"] .nav-mobile-logo .site-logo-text { color: #4e5699; }
+
+/* ── Tlačítka ─────────────────────────────────────────────── */
+[data-theme="orange-v3"] .btn-primary {
+    background: linear-gradient(135deg, #ff9b42 0%, #e8821a 100%);
+    color: #4e5699 !important;
+}
+[data-theme="orange-v3"] .btn-primary:hover {
+    background: #4e5699;
+    border-color: #4e5699;
+    color: #fffdfa !important;
+}
+[data-theme="orange-v3"] .btn-accent:hover { background: #428aa1; border-color: #428aa1; }
+
+/* ── Hero: oranžová bg + navy text ────────────────────────── */
+[data-theme="orange-v3"] .hero h1       { color: #4e5699; }
+[data-theme="orange-v3"] .hero-subtitle { color: #4e5699; opacity: 0.85; }
+[data-theme="orange-v3"] .hero-tagline  {
+    background: rgba(78,86,153,0.12);
+    color: #4e5699;
+    border-color: rgba(78,86,153,0.30);
+}
+[data-theme="orange-v3"] .hero::before  { background: radial-gradient(circle, rgba(78,86,153,0.10) 0%, transparent 70%); }
+[data-theme="orange-v3"] .hero-btns .btn-secondary {
+    color: #4e5699 !important;
+    border-color: rgba(78,86,153,0.45);
 }
 [data-theme="orange-v3"] .hero-btns .btn-secondary:hover {
-    background: rgba(255,243,224,0.12);
-    border-color: rgba(255,243,224,0.80);
+    background: rgba(78,86,153,0.10);
+    border-color: #4e5699;
+}
+
+/* ── Stats: navy bg (#4e5699) + pudrová text ──────────────── */
+[data-theme="orange-v3"] .section:has(.stats-grid) { background: #4e5699; color: #fffdfa; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .section-header h2 { color: #ff9b42; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .section-header p  { color: rgba(255,253,250,0.75); }
+[data-theme="orange-v3"] .section:has(.stats-grid) .stat-number       { color: #ff9b42; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .stat-label        { color: rgba(255,253,250,0.80); }
+
+/* ── Rozcestník: hrušková bg (#cad636) ────────────────────── */
+[data-theme="orange-v3"] .section--logo-bg-left                        { background: #cad636; }
+[data-theme="orange-v3"] .section--logo-bg-left .section-header h2    { color: #4e5699; }
+[data-theme="orange-v3"] .section--logo-bg-left .section-header p     { color: #4e5699; opacity: 0.80; }
+[data-theme="orange-v3"] .section--logo-bg-left .junction-card        { background: #fffdfa; }
+
+/* ── FAQ: mint bg (#ddfbd2) ───────────────────────────────── */
+[data-theme="orange-v3"] .section:has(.faq-list)                      { background: #ddfbd2; }
+[data-theme="orange-v3"] .section:has(.faq-list) .section-header h2  { color: #4e5699; }
+
+/* ── Příběhy: section--mint → lila (#eb9fef) ──────────────── */
+[data-theme="orange-v3"] .section--mint                               { background: #eb9fef; }
+[data-theme="orange-v3"] .section--mint .section-header h2           { color: #4e5699; }
+[data-theme="orange-v3"] .section--mint .section-header p            { color: #4e5699; opacity: 0.80; }
+[data-theme="orange-v3"] .section--mint .testimonial-quote           { color: #ff9b42; }
+
+/* ── Donate/CTA: navy + oranžová ─────────────────────────── */
+[data-theme="orange-v3"] .donate-section                              { background: #4e5699; }
+[data-theme="orange-v3"] .donate-section::before                      { background: rgba(255,155,66,0.07); }
+[data-theme="orange-v3"] .donate-section h2                           { color: #ff9b42; }
+[data-theme="orange-v3"] .donate-section p                            { color: rgba(255,253,250,0.85); }
+[data-theme="orange-v3"] .donate-section .btn-primary {
+    background: #ff9b42; color: #4e5699 !important; border-color: #ff9b42;
+}
+[data-theme="orange-v3"] .donate-section .btn-primary:hover {
+    background: #fffdfa; border-color: #fffdfa; color: #4e5699 !important;
+}
+
+/* ── Footer: navy ─────────────────────────────────────────── */
+[data-theme="orange-v3"] .site-footer         { background: #4e5699; }
+[data-theme="orange-v3"] .site-footer::before { background: rgba(255,155,66,0.07); }
+
+/* ── section--dark fallback ───────────────────────────────── */
+[data-theme="orange-v3"] .section--dark { background: #4e5699; color: #fffdfa; }
+[data-theme="orange-v3"] .section--dark .section-header h2 { color: #ff9b42; }
+[data-theme="orange-v3"] .section--dark .section-header p  { color: rgba(255,253,250,0.75); }
+
+/* ── Nadpisy na světlých sekcích → navy ──────────────────── */
+[data-theme="orange-v3"] .section-header h2,
+[data-theme="orange-v3"] .page-hero h1,
+[data-theme="orange-v3"] .junction-card h3,
+[data-theme="orange-v3"] .blog-card-title,
+[data-theme="orange-v3"] .blog-card-title a,
+[data-theme="orange-v3"] .value-body h3,
+[data-theme="orange-v3"] .testimonial-author,
+[data-theme="orange-v3"] .article-title,
+[data-theme="orange-v3"] .page-content-body h2,
+[data-theme="orange-v3"] .page-content-body h3 { color: #4e5699; }
+
+/* ── Ikony: brand barvy ───────────────────────────────────── */
+[data-theme="orange-v3"] .card-icon--old-rose,
+[data-theme="orange-v3"] .value-icon--old-rose { background: rgba(241,222,235,0.65); color: #b55397; }
+[data-theme="orange-v3"] .card-icon--petrol,
+[data-theme="orange-v3"] .value-icon--petrol   { background: rgba(66,138,161,0.15);  color: #428aa1; }
+[data-theme="orange-v3"] .card-icon--pear,
+[data-theme="orange-v3"] .value-icon--pear     { background: rgba(202,214,54,0.20);  color: #4e5699; }
+[data-theme="orange-v3"] .card-icon--mint,
+[data-theme="orange-v3"] .value-icon--mint     { background: rgba(221,251,210,0.70); color: #428aa1; }
+[data-theme="orange-v3"] .card-icon--lilac,
+[data-theme="orange-v3"] .value-icon--lilac    { background: rgba(235,159,239,0.25); color: #b55397; }
+[data-theme="orange-v3"] .junction-card--support .junction-icon { background: rgba(181,83,151,0.12); color: #b55397; }
+[data-theme="orange-v3"] .junction-card--company .junction-icon { background: rgba(66,138,161,0.12);  color: #428aa1; }
+[data-theme="orange-v3"] .junction-card--school  .junction-icon { background: rgba(78,86,153,0.12);   color: #4e5699; }
+[data-theme="orange-v3"] .junction-card--involve .junction-icon { background: rgba(255,155,66,0.18);   color: #ff9b42; }
+
+/* ── Ostatní prvky ────────────────────────────────────────── */
+[data-theme="orange-v3"] .testimonial-quote { color: #ff9b42; }
+[data-theme="orange-v3"] .not-found-number  { color: #ff9b42; }
+[data-theme="orange-v3"] .terapeutka-name   { color: #4e5699; }
+[data-theme="orange-v3"] .article-content blockquote {
+    border-left-color: #ff9b42;
+    background: rgba(255,155,66,0.08);
+}
+[data-theme="orange-v3"] .filter-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234e5699' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 
