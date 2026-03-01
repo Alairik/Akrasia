@@ -13,8 +13,10 @@
     RewriteEngine On
     RewriteBase /akrasia/
 
-    # HTTPS vynucení
+    # HTTPS vynucení (Wedos-compatible: SSL terminuje na proxy, %{HTTPS} bývá vždy "off")
+    # Proto kontrolujeme i X-Forwarded-Proto – přeskočí redirect pokud je https na proxy vrstvě
     RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # Ochrana interních složek
