@@ -148,4 +148,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ── Theme Switcher ────────────────────────────────────────────
+    const THEME_KEY = 'akrasia_theme';
+    const tsToggle  = document.getElementById('themeSwitcherToggle');
+    const tsPanel   = document.getElementById('themeSwitcherPanel');
+    const tsOpts    = document.querySelectorAll('.theme-switcher__opt');
+
+    function applyTheme(theme) {
+        document.body.dataset.theme = theme;
+        if (theme) {
+            localStorage.setItem(THEME_KEY, theme);
+        } else {
+            localStorage.removeItem(THEME_KEY);
+            delete document.body.dataset.theme;
+        }
+        tsOpts.forEach(btn => {
+            btn.classList.toggle('is-active', btn.dataset.themeSet === theme);
+        });
+    }
+
+    // Načti uložené téma
+    applyTheme(localStorage.getItem(THEME_KEY) || '');
+
+    if (tsToggle && tsPanel) {
+        tsToggle.addEventListener('click', () => {
+            const open = tsPanel.hidden;
+            tsPanel.hidden = !open;
+            tsToggle.setAttribute('aria-expanded', String(open));
+        });
+
+        tsOpts.forEach(btn => {
+            btn.addEventListener('click', () => {
+                applyTheme(btn.dataset.themeSet);
+                tsPanel.hidden = true;
+                tsToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Zavřít kliknutím mimo
+        document.addEventListener('click', e => {
+            if (!e.target.closest('#themeSwitcher')) {
+                tsPanel.hidden = true;
+                tsToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
 });

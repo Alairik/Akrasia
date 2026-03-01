@@ -1976,7 +1976,9 @@ ul  { list-style: none; }
         border-bottom: 1px solid rgba(78,86,153,0.12);
         margin-bottom: var(--space-2);
     }
-    .nav-mobile-logo img { height: 48px; width: auto; }
+    .nav-mobile-logo { gap: var(--space-3); }
+    .nav-mobile-logo img { height: 36px; width: auto; }
+    .nav-mobile-logo .site-logo-text { display: block; font-size: var(--text-2xl); }
     .site-nav.active {
         transform: translateY(0);
         visibility: visible;
@@ -2338,4 +2340,113 @@ ul  { list-style: none; }
         align-self: flex-end;
     }
     .cookie-panel__footer { flex-direction: column; }
+}
+
+
+/* ============================================================
+   BAREVNÉ TÉMA: ORANŽOVÁ
+   Přepnout: <body data-theme="orange">
+   Dominantní barva = --orange (#ff9b42), navy jako akcent
+   ============================================================ */
+[data-theme="orange"] {
+    --navy:      #b85000;   /* burnt orange – primární (5.1:1 na bílé) */
+    --petrol:    #9a4200;   /* tmavší orange – hover / active */
+    --purple:    #d4920a;   /* zlatá/jantarová – sekundární akcent */
+
+    --text:        #1c0e00;
+    --text-muted:  #7a3d10;
+    --text-light:  #a05825;
+
+    --bg:          #fffbf5;
+    --bg-alt:      #fff3e0;
+    --bg-dark:     #b85000;
+    --bg-hero:     linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffd0a0 100%);
+
+    --vanilla:     #fff3e0;
+    --old-rose:    #ffe5d4;
+    --powder:      #fffbf5;
+    --mint:        #fff0d4;
+    --lilac:       #ffd4a0;
+
+    --shadow-sm:   0 2px 8px  rgba(184,80,0,0.10);
+    --shadow:      0 4px 16px rgba(184,80,0,0.14);
+    --shadow-md:   0 8px 32px rgba(184,80,0,0.18);
+    --shadow-lg:   0 16px 48px rgba(184,80,0,0.22);
+
+    scrollbar-color: #b85000 #fff3e0;
+}
+[data-theme="orange"] ::-webkit-scrollbar-track { background: #fff3e0; }
+[data-theme="orange"] ::-webkit-scrollbar-thumb { background: #b85000; }
+[data-theme="orange"] ::-webkit-scrollbar-thumb:hover { background: #9a4200; }
+
+/* ============================================================
+   THEME SWITCHER (testovací widget)
+   Skryj v produkci odstraněním .theme-switcher bloku z base.php
+   ============================================================ */
+.theme-switcher {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+}
+.theme-switcher__toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: background var(--ease), transform var(--ease);
+}
+.theme-switcher__toggle:hover { background: var(--petrol); transform: scale(1.08); }
+.theme-switcher__panel {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 180px;
+}
+.theme-switcher__panel[hidden] { display: none; }
+.theme-switcher__label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    margin-bottom: var(--space-1);
+}
+.theme-switcher__opt {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    background: var(--bg-alt);
+    color: var(--text);
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--ease), border-color var(--ease);
+}
+.theme-switcher__opt:hover { background: var(--vanilla); }
+.theme-switcher__opt.is-active {
+    border-color: var(--navy);
+    background: var(--bg-alt);
+    color: var(--navy);
+    font-weight: 600;
 }

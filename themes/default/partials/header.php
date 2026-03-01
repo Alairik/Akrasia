@@ -13,11 +13,10 @@ $logoId    = setting('site_logo_id');
 
         <a href="<?= url('/') ?>" class="site-logo" aria-label="<?= e($siteName) ?> – domovská stránka">
             <?php if ($logoId): ?>
-                <img src="<?= e(Template::mediaUrl((int)$logoId)) ?>" alt="<?= e($siteName) ?>" height="40">
+                <img src="<?= e(Template::mediaUrl((int)$logoId)) ?>" alt="<?= e($siteName) ?>" height="36">
             <?php else: ?>
-                <img src="<?= asset('assets/brand/akrasia_logo_rect.svg') ?>" alt="<?= e($siteName) ?>" height="40"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-                <span class="site-logo-text" style="display:none"><?= e($siteName) ?></span>
+                <img src="<?= asset('assets/akrasia-logo.svg') ?>" alt="" aria-hidden="true" height="36">
+                <span class="site-logo-text"><?= e($siteName) ?></span>
             <?php endif; ?>
         </a>
 
@@ -29,7 +28,8 @@ $logoId    = setting('site_logo_id');
 
             <!-- Logo v mobilním menu -->
             <div class="nav-mobile-logo">
-                <img src="<?= asset('assets/brand/akrasia_logo_rect.svg') ?>" alt="<?= e($siteName) ?>" height="48">
+                <img src="<?= asset('assets/akrasia-logo.svg') ?>" alt="" aria-hidden="true" height="36">
+                <span class="site-logo-text"><?= e($siteName) ?></span>
             </div>
 
             <?php foreach ($menuItems as $item):

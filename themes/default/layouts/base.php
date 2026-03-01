@@ -90,5 +90,17 @@
     <?php if (!empty($extraScript)): ?>
     <script src="<?= asset('assets/js/' . $extraScript) ?>" defer></script>
     <?php endif; ?>
+
+    <!-- Theme Switcher (testovací widget – odstraň .theme-switcher blok z base.php až nebude potřeba) -->
+    <div class="theme-switcher" id="themeSwitcher">
+        <div class="theme-switcher__panel" id="themeSwitcherPanel" hidden>
+            <p class="theme-switcher__label">Barevná varianta</p>
+            <button class="theme-switcher__opt" data-theme-set="">Výchozí – navy</button>
+            <button class="theme-switcher__opt" data-theme-set="orange">Oranžová</button>
+        </div>
+        <button class="theme-switcher__toggle" id="themeSwitcherToggle" title="Přepnout barevnou variantu" aria-label="Přepnout barevnou variantu" aria-expanded="false" aria-controls="themeSwitcherPanel">
+            🎨
+        </button>
+    </div>
 </body>
 </html>
