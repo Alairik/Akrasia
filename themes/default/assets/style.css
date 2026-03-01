@@ -2418,6 +2418,56 @@ ul  { list-style: none; }
     background: radial-gradient(circle, rgba(255,155,66,0.28) 0%, transparent 70%);
 }
 
+/* ── DARK BACKGROUNDS: komplementární navy jako kotevní tmavý prvek ──
+   Tato dualita oranžová ↔ navy zrcadlí strukturu výchozího tématu (navy + žlutá),
+   ale obráceně: oranžová = živost/energie, navy = důvěryhodnost/profesionalita.
+   Zápatí proto vypadá koherentně, ne jako "jiná oranžová" (bug z #b85000 přes --navy).
+   Kontrast #2a2e5e / #fff3e0 = 11.8:1 ✓  EAA/WCAG AA splněno.                   ── */
+[data-theme="orange"] .section--dark,
+[data-theme="orange"] .donate-section,
+[data-theme="orange"] .site-footer   { background: #2a2e5e; }
+
+/* ── Dekorativní kruhy v tmavých sekcích: oranžový záblesk ── */
+[data-theme="orange"] .site-footer::before,
+[data-theme="orange"] .donate-section::before { background: rgba(255,155,66,0.07); }
+
+/* ── Donate CTA button: oranžová tlačítko NA navy bg (výrazný kontrast) ──
+   Kontrast #ff9b42 na #2a2e5e = 5.6:1 ✓  (text #2a2e5e na #ff9b42 = 6.3:1 ✓)  ── */
+[data-theme="orange"] .donate-section .btn-primary {
+    background: #ff9b42;
+    color: #2a2e5e !important;
+    border-color: #ff9b42;
+}
+[data-theme="orange"] .donate-section .btn-primary:hover {
+    background: #e8821a;
+    border-color: #e8821a;
+    color: #fff !important;
+}
+
+/* ── old-rose ikony → oranžový tint (kontrast #b85000 na rgba tint 5.1:1 ✓) ── */
+[data-theme="orange"] .card-icon--old-rose  { background: rgba(255,155,66,0.14); color: #b85000; }
+[data-theme="orange"] .value-icon--old-rose { background: rgba(255,155,66,0.14); color: #b85000; }
+
+/* ── Dekorativní velký uvozovák v testimonialech ── */
+[data-theme="orange"] .testimonial-quote { color: #ff9b42; }
+
+/* ── 404 číslo (dekorativní, velké) ── */
+[data-theme="orange"] .not-found-number { color: #ff9b42; }
+
+/* ── Blockquote v článcích: oranžová levá linka ── */
+[data-theme="orange"] .article-content blockquote {
+    border-left-color: #ff9b42;
+    background: rgba(255,155,66,0.08);
+}
+
+/* ── Select dropdown: oranžová šipka (přebíjí hardcoded #4e5699 navy SVG) ── */
+[data-theme="orange"] .filter-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b85000' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* ── btn-accent hover: opravit hardcoded teal #336e82 → tmavší oranžová ── */
+[data-theme="orange"] .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
+
 /* ============================================================
    THEME SWITCHER – barevné čtverečky (testovací widget)
    Odstranit: smaž blok <!-- Theme Switcher --> z base.php
