@@ -2350,15 +2350,16 @@ ul  { list-style: none; }
    Přepnout: <body data-theme="orange">
 
    Principy (dle M3 / 60-30-10):
-   - Primární (#ff9b42): header, hero, CTA tlačítka, ikony
-   - Tmavá varianta (#b85000): linky, texty, tmavé sekce, hover
+   - Primární (#ff9b42): header, hero, CTA tlačítka, ikony, nadpisy na tmavém bg
+   - Nadpisy světlé bg (#e06000): display headings – vibrantní oranžová (3.4:1 large text ✓)
+   - Linky / interactive (#b85000): tmavší pro normální text (5.1:1 ✓ EAA)
    - Tint (rgba): borders, card bg, subtilní akcenty
    - On-primary (#2a2e5e): text NA oranžovém pozadí (kontrast 6:1 ✓)
    ============================================================ */
 
 /* — CSS tokeny — */
 [data-theme="orange"] {
-    --navy:          #b85000;   /* tmavá oranžová – linky, nadpisy na světlém bg (5.1:1 ✓) */
+    --navy:          #b85000;   /* linky, interaktivní prvky na světlém bg – 5.1:1 ✓ */
     --petrol:        #9a4200;   /* hover / active stav */
     --purple:        #e87a1a;   /* světlejší oranžová – sekundární akcent */
 
@@ -2371,7 +2372,8 @@ ul  { list-style: none; }
 
     --bg:            #fffbf5;
     --bg-alt:        #fff3e0;
-    --bg-hero:       linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffd0a0 100%);
+    /* Hero gradient zesvětlen: #e06000 nadpis má 3.1:1 na nejsvětlejším místě ✓ */
+    --bg-hero:       linear-gradient(135deg, #fff3e0 0%, #ffebd0 50%, #ffebce 100%);
 
     --vanilla:       #fff3e0;
     --old-rose:      #ffe5d4;
@@ -2467,6 +2469,35 @@ ul  { list-style: none; }
 
 /* ── btn-accent hover: opravit hardcoded teal #336e82 → tmavší oranžová ── */
 [data-theme="orange"] .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
+
+/* ── NADPISY: vibrantní #e06000 místo hnědavého #b85000 ──────────────────────
+   Proč dva tóny:
+   • #e06000  = display nadpisy na světlém bg  – kontrast 3.44:1 na bílé (EAA large text ✓)
+   • #ff9b42  = nadpisy NA tmavém (navy) bg    – kontrast  6.3:1 ✓
+   • #b85000  = zůstává pro linky a interakt.  – kontrast  5.1:1 normální text ✓
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Hlavní display nadpisy (hero, page-hero, sekce) */
+[data-theme="orange"] .hero h1,
+[data-theme="orange"] .section-header h2,
+[data-theme="orange"] .page-hero h1       { color: #e06000; }
+
+/* Kartové nadpisy */
+[data-theme="orange"] .junction-card h3,
+[data-theme="orange"] .blog-card-title,
+[data-theme="orange"] .blog-card-title a,
+[data-theme="orange"] .value-body h3,
+[data-theme="orange"] .terapeutka-name,
+[data-theme="orange"] .testimonial-author { color: #e06000; }
+
+/* Stránkový obsah (podstránky, článek) */
+[data-theme="orange"] .article-title,
+[data-theme="orange"] .page-content-body h2,
+[data-theme="orange"] .page-content-body h3 { color: #e06000; }
+
+/* Tmavé sekce (navy bg) → plná #ff9b42, kontrast 6.3:1 ✓ */
+[data-theme="orange"] .section--dark .section-header h2,
+[data-theme="orange"] .donate-section h2  { color: #ff9b42; }
 
 /* ============================================================
    THEME SWITCHER – barevné čtverečky (testovací widget)
