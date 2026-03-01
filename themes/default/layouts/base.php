@@ -94,7 +94,8 @@
     <!-- Theme Switcher (testovací widget – odstraň tento blok z base.php až nebude potřeba) -->
     <div class="theme-switcher" id="themeSwitcher" role="group" aria-label="Barevná varianta">
         <button class="theme-swatch" data-theme-set="" style="background:#4e5699" title="Výchozí – navy"></button>
-        <button class="theme-swatch" data-theme-set="orange" style="background:#ff9b42" title="Oranžová"></button>
+        <button class="theme-swatch" data-theme-set="orange" style="background:#ff9b42" title="Oranžová – světlý hero"></button>
+        <button class="theme-swatch" data-theme-set="orange-v3" style="background:linear-gradient(135deg,#2a2e5e 45%,#ff9b42 45%)" title="Oranžová v3 – tmavý hero"></button>
     </div>
 </body>
 </html>

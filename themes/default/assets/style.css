@@ -2346,25 +2346,30 @@ ul  { list-style: none; }
 
 
 /* ============================================================
-   BAREVNÉ TÉMA: ORANŽOVÁ  (#ff9b42 brandová)
-   Přepnout: <body data-theme="orange">
+   BAREVNÁ TÉMATA: ORANŽOVÁ – dvě varianty
 
-   Principy (dle M3 / 60-30-10):
-   - Primární (#ff9b42): header, hero, CTA tlačítka, ikony, nadpisy na tmavém bg
-   - Nadpisy světlé bg (#e06000): display headings – vibrantní oranžová (3.4:1 large text ✓)
-   - Linky / interactive (#b85000): tmavší pro normální text (5.1:1 ✓ EAA)
-   - Tint (rgba): borders, card bg, subtilní akcenty
-   - On-primary (#2a2e5e): text NA oranžovém pozadí (kontrast 6:1 ✓)
+   [data-theme="orange"]    – světlý hero (krémovoranžový gradient)
+                              nadpisy: #e06000 (3.4:1 large text ✓ EAA)
+
+   [data-theme="orange-v3"] – tmavý hero (hluboká navy)
+                              nadpisy: #ff9b42 (6.3:1 na tmavém ✓)
+                              ↔ inspirace: brandový navy jako komplementár
+
+   Sdílené principy (M3 / 60-30-10):
+   • #ff9b42  primární brand orange  – header, ikony, tmavé nadpisy
+   • #e06000  display nadpisy (světlé bg) – 3.44:1 ✓ EAA large text
+   • #b85000  linky / interaktivní  – 5.1:1 ✓ EAA normal text
+   • #2a2e5e  on-primary / kotevní  – tmavé sekce, zápatí, nav text
    ============================================================ */
 
-/* — CSS tokeny — */
-[data-theme="orange"] {
-    --navy:          #b85000;   /* linky, interaktivní prvky na světlém bg – 5.1:1 ✓ */
-    --petrol:        #9a4200;   /* hover / active stav */
-    --purple:        #e87a1a;   /* světlejší oranžová – sekundární akcent */
+/* ── SDÍLENÉ TOKENY (obě varianty) ──────────────────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) {
+    --navy:          #b85000;
+    --petrol:        #9a4200;
+    --purple:        #e87a1a;
 
-    --navy-rgb:      184, 80, 0;    /* → všechny rgba(var(--navy-rgb),...) jsou oranžové */
-    --header-bg-rgb: 255, 155, 66;  /* → header + nav overlay = #ff9b42 */
+    --navy-rgb:      184, 80, 0;
+    --header-bg-rgb: 255, 155, 66;
 
     --text:          #1c0e00;
     --text-muted:    #7a3d10;
@@ -2372,8 +2377,6 @@ ul  { list-style: none; }
 
     --bg:            #fffbf5;
     --bg-alt:        #fff3e0;
-    /* Hero gradient zesvětlen: #e06000 nadpis má 3.1:1 na nejsvětlejším místě ✓ */
-    --bg-hero:       linear-gradient(135deg, #fff3e0 0%, #ffebd0 50%, #ffebce 100%);
 
     --vanilla:       #fff3e0;
     --old-rose:      #ffe5d4;
@@ -2383,121 +2386,120 @@ ul  { list-style: none; }
 
     scrollbar-color: #ff9b42 #fff3e0;
 }
-[data-theme="orange"] ::-webkit-scrollbar-track { background: #fff3e0; }
-[data-theme="orange"] ::-webkit-scrollbar-thumb { background: #ff9b42; }
-[data-theme="orange"] ::-webkit-scrollbar-thumb:hover { background: #b85000; }
 
-/* — Header: border viditelný na oranžovém bg — */
-[data-theme="orange"] .site-header         { border-bottom-color: rgba(255,255,255,0.20); }
+/* ── HERO GRADIENT: varianta A – světlý ─────────────────────── */
+/* Zesvětlen oproti původnímu: #e06000 nadpis má 3.1:1 na nejsvětlejším bodu ✓ */
+[data-theme="orange"] {
+    --bg-hero: linear-gradient(135deg, #fff3e0 0%, #ffebd0 50%, #ffebce 100%);
+}
 
-/* — Navigace: text/ikony na oranžovém bg — */
-[data-theme="orange"] .site-logo-text                  { color: #2a2e5e; }
-[data-theme="orange"] .site-logo:hover .site-logo-text { color: #fff; }
-[data-theme="orange"] .nav-toggle span                 { background: #2a2e5e; }
-[data-theme="orange"] .nav-link                        { color: #2a2e5e !important; }
-[data-theme="orange"] .nav-link:hover                  { background: rgba(255,255,255,0.22); color: #fff !important; }
-[data-theme="orange"] .nav-link.active                 { background: rgba(255,255,255,0.28); color: #1c0e00 !important; }
-[data-theme="orange"] .nav-link--donate                { background: #2a2e5e; color: #ff9b42 !important; }
-[data-theme="orange"] .nav-link--donate:hover          { background: #1c1f3e; }
-[data-theme="orange"] .dropdown                        { background: #fff3e0; border-color: rgba(184,80,0,0.15); }
+/* ── HERO GRADIENT: varianta B – tmavý navy ─────────────────── */
+/* #ff9b42 nadpis na #2a2e5e = 6.3:1 ✓ — barvy přímo z brand manuálu */
+[data-theme="orange-v3"] {
+    --bg-hero: linear-gradient(135deg, #1a1e3e 0%, #2a2e5e 100%);
+}
 
-/* — Mobilní menu logo — */
-[data-theme="orange"] .nav-mobile-logo                     { border-bottom-color: rgba(255,255,255,0.20); }
-[data-theme="orange"] .nav-mobile-logo .site-logo-text     { color: #2a2e5e; }
+/* ── Scrollbar ───────────────────────────────────────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-track { background: #fff3e0; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb { background: #ff9b42; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb:hover { background: #b85000; }
 
-/* — Primární tlačítka: plná #ff9b42 s tmavým textem (dle M3 filled button) — */
-[data-theme="orange"] .btn-primary {
+/* ── Header ─────────────────────────────────────────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .site-header { border-bottom-color: rgba(255,255,255,0.20); }
+
+/* ── Navigace (na oranžovém headeru) ────────────────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .site-logo-text                  { color: #2a2e5e; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .site-logo:hover .site-logo-text { color: #fff; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-toggle span                 { background: #2a2e5e; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link                        { color: #2a2e5e !important; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link:hover                  { background: rgba(255,255,255,0.22); color: #fff !important; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link.active                 { background: rgba(255,255,255,0.28); color: #1c0e00 !important; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link--donate                { background: #2a2e5e; color: #ff9b42 !important; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link--donate:hover          { background: #1c1f3e; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .dropdown                        { background: #fff3e0; border-color: rgba(184,80,0,0.15); }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-mobile-logo                 { border-bottom-color: rgba(255,255,255,0.20); }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-mobile-logo .site-logo-text { color: #2a2e5e; }
+
+/* ── Tlačítka ────────────────────────────────────────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .btn-primary {
     background: linear-gradient(135deg, #ff9b42 0%, #e8821a 100%);
     color: #2a2e5e !important;
 }
-[data-theme="orange"] .btn-primary:hover {
+:is([data-theme="orange"], [data-theme="orange-v3"]) .btn-primary:hover {
     background: linear-gradient(135deg, #e8821a 0%, #b85000 100%);
     color: #fff !important;
 }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
 
-/* — Hero ozdobný kruh: oranžový záblesk místo růžového — */
-[data-theme="orange"] .hero::before {
-    background: radial-gradient(circle, rgba(255,155,66,0.28) 0%, transparent 70%);
+/* ── Tmavé sekce + zápatí: komplementární navy ───────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .section--dark,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .site-footer   { background: #2a2e5e; }
+
+:is([data-theme="orange"], [data-theme="orange-v3"]) .site-footer::before,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section::before { background: rgba(255,155,66,0.07); }
+
+:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section .btn-primary {
+    background: #ff9b42; color: #2a2e5e !important; border-color: #ff9b42;
+}
+:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section .btn-primary:hover {
+    background: #e8821a; border-color: #e8821a; color: #fff !important;
 }
 
-/* ── DARK BACKGROUNDS: komplementární navy jako kotevní tmavý prvek ──
-   Tato dualita oranžová ↔ navy zrcadlí strukturu výchozího tématu (navy + žlutá),
-   ale obráceně: oranžová = živost/energie, navy = důvěryhodnost/profesionalita.
-   Zápatí proto vypadá koherentně, ne jako "jiná oranžová" (bug z #b85000 přes --navy).
-   Kontrast #2a2e5e / #fff3e0 = 11.8:1 ✓  EAA/WCAG AA splněno.                   ── */
-[data-theme="orange"] .section--dark,
-[data-theme="orange"] .donate-section,
-[data-theme="orange"] .site-footer   { background: #2a2e5e; }
-
-/* ── Dekorativní kruhy v tmavých sekcích: oranžový záblesk ── */
-[data-theme="orange"] .site-footer::before,
-[data-theme="orange"] .donate-section::before { background: rgba(255,155,66,0.07); }
-
-/* ── Donate CTA button: oranžová tlačítko NA navy bg (výrazný kontrast) ──
-   Kontrast #ff9b42 na #2a2e5e = 5.6:1 ✓  (text #2a2e5e na #ff9b42 = 6.3:1 ✓)  ── */
-[data-theme="orange"] .donate-section .btn-primary {
-    background: #ff9b42;
-    color: #2a2e5e !important;
-    border-color: #ff9b42;
-}
-[data-theme="orange"] .donate-section .btn-primary:hover {
-    background: #e8821a;
-    border-color: #e8821a;
-    color: #fff !important;
-}
-
-/* ── old-rose ikony → oranžový tint (kontrast #b85000 na rgba tint 5.1:1 ✓) ── */
-[data-theme="orange"] .card-icon--old-rose  { background: rgba(255,155,66,0.14); color: #b85000; }
-[data-theme="orange"] .value-icon--old-rose { background: rgba(255,155,66,0.14); color: #b85000; }
-
-/* ── Dekorativní velký uvozovák v testimonialech ── */
-[data-theme="orange"] .testimonial-quote { color: #ff9b42; }
-
-/* ── 404 číslo (dekorativní, velké) ── */
-[data-theme="orange"] .not-found-number { color: #ff9b42; }
-
-/* ── Blockquote v článcích: oranžová levá linka ── */
-[data-theme="orange"] .article-content blockquote {
+/* ── Ikony, dekorativní prvky ────────────────────────────────── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--old-rose  { background: rgba(255,155,66,0.14); color: #b85000; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--old-rose { background: rgba(255,155,66,0.14); color: #b85000; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-quote    { color: #ff9b42; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .not-found-number     { color: #ff9b42; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .article-content blockquote {
     border-left-color: #ff9b42;
     background: rgba(255,155,66,0.08);
 }
-
-/* ── Select dropdown: oranžová šipka (přebíjí hardcoded #4e5699 navy SVG) ── */
-[data-theme="orange"] .filter-group select {
+:is([data-theme="orange"], [data-theme="orange-v3"]) .filter-group select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b85000' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
-/* ── btn-accent hover: opravit hardcoded teal #336e82 → tmavší oranžová ── */
-[data-theme="orange"] .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
+/* ── NADPISY NA SVĚTLÉM BG: #e06000 (3.44:1 large text ✓ EAA) ── */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .section-header h2,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .page-hero h1,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card h3,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .blog-card-title,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .blog-card-title a,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-body h3,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .terapeutka-name,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-author,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .article-title,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .page-content-body h2,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .page-content-body h3 { color: #e06000; }
 
-/* ── NADPISY: vibrantní #e06000 místo hnědavého #b85000 ──────────────────────
-   Proč dva tóny:
-   • #e06000  = display nadpisy na světlém bg  – kontrast 3.44:1 na bílé (EAA large text ✓)
-   • #ff9b42  = nadpisy NA tmavém (navy) bg    – kontrast  6.3:1 ✓
-   • #b85000  = zůstává pro linky a interakt.  – kontrast  5.1:1 normální text ✓
-   ──────────────────────────────────────────────────────────────────────────── */
+/* Tmavé sekce → plná oranžová (6.3:1 ✓) */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .section--dark .section-header h2,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section h2    { color: #ff9b42; }
 
-/* Hlavní display nadpisy (hero, page-hero, sekce) */
-[data-theme="orange"] .hero h1,
-[data-theme="orange"] .section-header h2,
-[data-theme="orange"] .page-hero h1       { color: #e06000; }
+/* ── HERO h1: liší se mezi variantami ───────────────────────── */
 
-/* Kartové nadpisy */
-[data-theme="orange"] .junction-card h3,
-[data-theme="orange"] .blog-card-title,
-[data-theme="orange"] .blog-card-title a,
-[data-theme="orange"] .value-body h3,
-[data-theme="orange"] .terapeutka-name,
-[data-theme="orange"] .testimonial-author { color: #e06000; }
+/* A – světlý hero: #e06000 (3.1:1 na světlé oranžové ✓) */
+[data-theme="orange"] .hero h1          { color: #e06000; }
+[data-theme="orange"] .hero::before     { background: radial-gradient(circle, rgba(255,155,66,0.28) 0%, transparent 70%); }
 
-/* Stránkový obsah (podstránky, článek) */
-[data-theme="orange"] .article-title,
-[data-theme="orange"] .page-content-body h2,
-[data-theme="orange"] .page-content-body h3 { color: #e06000; }
+/* B – tmavý hero: plná #ff9b42 (6.3:1 na #2a2e5e ✓) */
+[data-theme="orange-v3"] .hero h1       { color: #ff9b42; }
+[data-theme="orange-v3"] .hero-subtitle { color: rgba(255,243,224,0.82); }  /* čitelné na dark */
+[data-theme="orange-v3"] .hero-tagline  {                                    /* badge na dark bg */
+    background: rgba(255,155,66,0.22);
+    color: #fff3e0;
+    border-color: rgba(255,155,66,0.45);
+}
+[data-theme="orange-v3"] .hero::before  { background: radial-gradient(circle, rgba(255,155,66,0.40) 0%, transparent 65%); }
+[data-theme="orange-v3"] .hero-btns .btn-secondary {  /* outline btn na dark hero */
+    color: #fff3e0 !important;
+    border-color: rgba(255,243,224,0.55);
+}
+[data-theme="orange-v3"] .hero-btns .btn-secondary:hover {
+    background: rgba(255,243,224,0.12);
+    border-color: rgba(255,243,224,0.80);
+}
 
-/* Tmavé sekce (navy bg) → plná #ff9b42, kontrast 6.3:1 ✓ */
-[data-theme="orange"] .section--dark .section-header h2,
-[data-theme="orange"] .donate-section h2  { color: #ff9b42; }
 
 /* ============================================================
    THEME SWITCHER – barevné čtverečky (testovací widget)
