@@ -1,19 +1,22 @@
 # =============================================================================
-# REFERENČNÍ SOUBOR – kořenový .htaccess serveru zvelebil.online (/www/.htaccess)
+# /www/.htaccess — kořenový soubor serveru zvelebil.online
 #
-# POZOR: Tento soubor je zde pouze jako dokumentace. Kořenový .htaccess
-# je nyní spravován v repozitáři Alairik/CMS (soubor .htaccess v kořeni).
-# Pravidla pro subdoménu akrasia.zvelebil.online jsou součástí CMS .htaccess.
+# Spravován v Alairik/Akrasia (_server/.htaccess).
+# GitHub Actions workflow ho nahrává jako /www/.htaccess při každém deploy.
 #
-# Při ruční správě serveru: obsah tohoto souboru musí být sloučen s CMS .htaccess.
+# Obsahuje:
+#   1. Security headers
+#   2. Akrasia subdomain routing (akrasia.zvelebil.online → /akrasia/)
+#   3. ZveleCMS routing pro hlavní web zvelebil.online
 # =============================================================================
 
 # Security headers
 <IfModule mod_headers.c>
-    Header always set X-Content-Type-Options "nosniff"
-    Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set X-XSS-Protection "1; mode=block"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Content-Type-Options  "nosniff"
+    Header always set X-Frame-Options         "SAMEORIGIN"
+    Header always set X-XSS-Protection        "1; mode=block"
+    Header always set Referrer-Policy         "strict-origin-when-cross-origin"
+    Header always unset X-Powered-By
 </IfModule>
 
 # Block access to sensitive files
@@ -22,14 +25,11 @@
     Deny from all
 </FilesMatch>
 
-# Disable directory listing
-Options -Indexes
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
 
-    # ── Akrasia subdomain routing ─────────────────────────────────────────
+    # ── Akrasia subdomain routing ─────────────────────────────────────────────
     # Force HTTPS for akrasia.zvelebil.online before the internal subfolder rewrite.
     # Wedos: SSL terminates at proxy, so %{HTTPS} is always "off" — check X-Forwarded-Proto.
     RewriteCond %{HTTP_HOST} ^akrasia\.zvelebil\.online$ [NC]
@@ -42,8 +42,64 @@ Options -Indexes
     RewriteCond %{REQUEST_URI} !^/akrasia/
     RewriteRule ^(.*)$ /akrasia/$1 [L]
 
-    # Pass all /akrasia/ requests to Akrasia's own .htaccess.
+    # Pass all /akrasia/ requests through to Akrasia's own .htaccess.
+    # Without this, the ZveleCMS front-controller below would catch non-file/dir paths.
     RewriteCond %{REQUEST_URI} ^/akrasia(/|$)
     RewriteRule ^ - [L]
 
+    # ── ZveleCMS routing (zvelebil.online) ────────────────────────────────────
+
+    # Force HTTPS (uncomment on production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Remove trailing slash (except root)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Serve existing files/dirs directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Serve static content files directly
+    RewriteRule ^content/(sitemap\.xml|robots\.txt|llms\.txt)$ content/$1 [L]
+
+    # Route everything else to ZveleCMS front controller
+    RewriteRule ^ index.php [L,QSA]
+
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Prevent access to hidden files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Block access to CMS config
+<Files "config.php">
+    Require all denied
+</Files>
+<Files "config.example.php">
+    Require all denied
+</Files>
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css                "access plus 1 year"
+    ExpiresByType application/javascript  "access plus 1 year"
+    ExpiresByType image/jpeg              "access plus 1 year"
+    ExpiresByType image/png               "access plus 1 year"
+    ExpiresByType image/webp              "access plus 1 year"
+    ExpiresByType image/gif               "access plus 1 year"
+    ExpiresByType image/svg+xml           "access plus 1 year"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/xml image/svg+xml
 </IfModule>
