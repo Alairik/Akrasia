@@ -2344,14 +2344,17 @@ ul  { list-style: none; }
 
 
 /* ============================================================
-   BAREVNÉ TÉMA: ORANŽOVÁ
+   BAREVNÉ TÉMA: ORANŽOVÁ  (#ff9b42 brandová)
    Přepnout: <body data-theme="orange">
-   Dominantní barva = --orange (#ff9b42), navy jako akcent
+   Header/menu má oranžové pozadí; interaktivní prvky v těle
+   stránky používají tmavší #b85000 (kontrast 5.1:1 na bílé).
    ============================================================ */
+
+/* — Globální přepis proměnných — */
 [data-theme="orange"] {
-    --navy:      #b85000;   /* burnt orange – primární (5.1:1 na bílé) */
-    --petrol:    #9a4200;   /* tmavší orange – hover / active */
-    --purple:    #d4920a;   /* zlatá/jantarová – sekundární akcent */
+    --navy:       #b85000;   /* tmavá oranžová – odkazy, tlačítka na světlém bg */
+    --petrol:     #9a4200;   /* hover / active stav */
+    --purple:     #e87a1a;   /* světlejší oranžová – sekundární akcent */
 
     --text:        #1c0e00;
     --text-muted:  #7a3d10;
@@ -2359,13 +2362,13 @@ ul  { list-style: none; }
 
     --bg:          #fffbf5;
     --bg-alt:      #fff3e0;
-    --bg-dark:     #b85000;
+    --bg-dark:     #ff9b42;  /* tmavé sekce (patička apod.) dostávají oranžovou */
     --bg-hero:     linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffd0a0 100%);
 
     --vanilla:     #fff3e0;
     --old-rose:    #ffe5d4;
     --powder:      #fffbf5;
-    --mint:        #fff0d4;
+    --mint:        #fff8d4;
     --lilac:       #ffd4a0;
 
     --shadow-sm:   0 2px 8px  rgba(184,80,0,0.10);
@@ -2373,15 +2376,48 @@ ul  { list-style: none; }
     --shadow-md:   0 8px 32px rgba(184,80,0,0.18);
     --shadow-lg:   0 16px 48px rgba(184,80,0,0.22);
 
-    scrollbar-color: #b85000 #fff3e0;
+    scrollbar-color: #ff9b42 #fff3e0;
 }
 [data-theme="orange"] ::-webkit-scrollbar-track { background: #fff3e0; }
-[data-theme="orange"] ::-webkit-scrollbar-thumb { background: #b85000; }
-[data-theme="orange"] ::-webkit-scrollbar-thumb:hover { background: #9a4200; }
+[data-theme="orange"] ::-webkit-scrollbar-thumb { background: #ff9b42; }
+[data-theme="orange"] ::-webkit-scrollbar-thumb:hover { background: #b85000; }
+
+/* — Header + navigace – orange pozadí — */
+[data-theme="orange"] .site-header {
+    background: rgba(255,155,66,0.96);
+    border-bottom-color: rgba(255,255,255,0.20);
+}
+@media (max-width: 768px) {
+    [data-theme="orange"] .site-header {
+        background: rgba(255,155,66,0.98);
+    }
+}
+[data-theme="orange"] .site-logo-text             { color: #2a2e5e; } /* navy na orange bg (6:1 ✓) */
+[data-theme="orange"] .site-logo:hover .site-logo-text { color: #fff; }
+[data-theme="orange"] .nav-toggle span             { background: #2a2e5e; }
+[data-theme="orange"] .nav-link                    { color: #2a2e5e !important; }
+[data-theme="orange"] .nav-link:hover              { background: rgba(255,255,255,0.22); color: #fff !important; }
+[data-theme="orange"] .nav-link.active             { background: rgba(255,255,255,0.28); color: #1c0e00 !important; }
+[data-theme="orange"] .nav-link--donate            { background: #2a2e5e; color: #ff9b42 !important; }
+[data-theme="orange"] .nav-link--donate:hover      { background: #1c1f3e; }
+[data-theme="orange"] .dropdown                    { background: #fff3e0; border-color: rgba(184,80,0,0.15); }
+
+/* — Mobilní menu – orange overlay — */
+@media (max-width: 900px) {
+    [data-theme="orange"] .site-nav {
+        background: rgba(255,155,66,0.98);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+    }
+    [data-theme="orange"] .nav-mobile-logo {
+        border-bottom-color: rgba(255,255,255,0.20);
+    }
+    [data-theme="orange"] .nav-mobile-logo .site-logo-text { color: #2a2e5e; }
+}
 
 /* ============================================================
-   THEME SWITCHER (testovací widget)
-   Skryj v produkci odstraněním .theme-switcher bloku z base.php
+   THEME SWITCHER – barevné čtverečky (testovací widget)
+   Odstranit: smaž blok <!-- Theme Switcher --> z base.php
    ============================================================ */
 .theme-switcher {
     position: fixed;
@@ -2389,64 +2425,25 @@ ul  { list-style: none; }
     right: var(--space-6);
     z-index: 9000;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--space-2);
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-}
-.theme-switcher__toggle {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-full);
-    background: var(--navy);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
+    gap: 6px;
     align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-md);
-    transition: background var(--ease), transform var(--ease);
 }
-.theme-switcher__toggle:hover { background: var(--petrol); transform: scale(1.08); }
-.theme-switcher__panel {
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.10);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-lg);
-    padding: var(--space-4);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    min-width: 180px;
-}
-.theme-switcher__panel[hidden] { display: none; }
-.theme-switcher__label {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-light);
-    margin-bottom: var(--space-1);
-}
-.theme-switcher__opt {
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-sm);
-    border: 2px solid transparent;
-    background: var(--bg-alt);
-    color: var(--text);
-    font-family: inherit;
-    font-size: var(--text-sm);
-    font-weight: 500;
+.theme-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 2px solid rgba(255,255,255,0.7);
     cursor: pointer;
-    text-align: left;
-    transition: background var(--ease), border-color var(--ease);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    transition: transform .15s, box-shadow .15s;
+    padding: 0;
 }
-.theme-switcher__opt:hover { background: var(--vanilla); }
-.theme-switcher__opt.is-active {
-    border-color: var(--navy);
-    background: var(--bg-alt);
-    color: var(--navy);
-    font-weight: 600;
+.theme-swatch:hover {
+    transform: scale(1.18);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.30);
+}
+.theme-swatch.is-active {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25);
+    transform: scale(1.05);
 }
