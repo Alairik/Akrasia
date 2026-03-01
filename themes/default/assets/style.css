@@ -207,6 +207,10 @@ ul  { list-style: none; }
     height: 36px;
     width: auto;
 }
+.site-logo-img {
+    transition: opacity var(--ease);
+}
+.site-logo:hover .site-logo-img { opacity: 0.75; }
 .site-logo-text {
     font-family: var(--font-display);
     font-size: var(--text-2xl);
