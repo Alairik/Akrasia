@@ -2453,6 +2453,19 @@ ul  { list-style: none; }
 /* ── Ikony, dekorativní prvky ────────────────────────────────── */
 :is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--old-rose  { background: rgba(158,70,0,0.12); color: #9e4600; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--old-rose { background: rgba(158,70,0,0.12); color: #9e4600; }
+/* Teal/pear/mint/lilac → teplé tony (orange = burnt orange; kompl. = navy) */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--petrol,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--petrol   { background: rgba(42,46,94,0.12);  color: #2a2e5e; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--pear,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--pear     { background: rgba(232,130,26,0.16); color: #7a3200; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--mint,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--mint     { background: rgba(255,155,66,0.18); color: #9e4600; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--lilac,
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--lilac    { background: rgba(42,46,94,0.10);  color: #2a2e5e; }
+/* Junction card ikony */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card--support .junction-icon { background: rgba(158,70,0,0.10);  color: #9e4600; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card--company .junction-icon { background: rgba(42,46,94,0.12);  color: #2a2e5e; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card--school  .junction-icon { background: rgba(232,130,26,0.14); color: #7a3200; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-quote    { color: #ff9b42; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .not-found-number     { color: #ff9b42; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .article-content blockquote {
@@ -2460,17 +2473,16 @@ ul  { list-style: none; }
     background: rgba(255,155,66,0.08);
 }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .filter-group select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b85000' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239e4600' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
-/* ── NADPISY NA SVĚTLÉM BG: #e06000 (3.44:1 large text ✓ EAA) ── */
+/* ── NADPISY NA KRÉMOVÉM BG: #e06000 (≥3.09:1 large text ✓ EAA) ── */
 :is([data-theme="orange"], [data-theme="orange-v3"]) .section-header h2,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .page-hero h1,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .junction-card h3,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .blog-card-title,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .blog-card-title a,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .value-body h3,
-:is([data-theme="orange"], [data-theme="orange-v3"]) .terapeutka-name,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-author,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .article-title,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .page-content-body h2,
@@ -2479,6 +2491,14 @@ ul  { list-style: none; }
 /* Tmavé sekce → plná oranžová (6.3:1 ✓) */
 :is([data-theme="orange"], [data-theme="orange-v3"]) .section--dark .section-header h2,
 :is([data-theme="orange"], [data-theme="orange-v3"]) .donate-section h2    { color: #ff9b42; }
+
+/* Terapeutka: header gradient #ffd4a4 → #e06000 by dál jen 2.6:1 ✗
+   Navy (#2a2e5e) na #ffd4a4 = 8.9:1 ✓ + brandový komplement */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .terapeutka-name { color: #2a2e5e; }
+
+/* Old-rose sekce: --old-rose = #ffd4a4 (sytý peach) → #e06000 = 2.6:1 ✗
+   Navy heading 8.9:1 ✓ – soulad orange-peach + navy-komplement */
+:is([data-theme="orange"], [data-theme="orange-v3"]) .section--old-rose .section-header h2 { color: #2a2e5e; }
 
 /* ── HERO h1: liší se mezi variantami ───────────────────────── */
 
