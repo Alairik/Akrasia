@@ -609,7 +609,7 @@ ul  { list-style: none; }
 .hero h1 {
     font-family: var(--font-display);
     font-size: var(--text-5xl);
-    color: var(--powder);
+    color: var(--orange);
     line-height: 1.15;
     margin-bottom: var(--space-6);
     max-width: 800px;
@@ -981,23 +981,28 @@ ul  { list-style: none; }
    PAGE HERO (podstránky)
    ============================================================ */
 .page-hero {
-    background: var(--vanilla);
+    background: var(--bg-hero);
     padding: var(--space-16) 0 var(--space-12);
     text-align: center;
 }
 .page-hero h1 {
     font-family: var(--font-display);
     font-size: var(--text-4xl);
-    color: var(--navy);
+    color: var(--orange);
     margin-bottom: var(--space-4);
     line-height: 1.2;
 }
 .page-hero p {
     font-size: var(--text-xl);
-    color: var(--text-muted);
+    color: rgba(255, 253, 250, 0.82);
     max-width: 600px;
     margin: 0 auto;
 }
+/* Breadcrumb inside dark page-hero */
+.page-hero .breadcrumb       { color: rgba(255,253,250,0.55); }
+.page-hero .breadcrumb a     { color: rgba(255,253,250,0.80); }
+.page-hero .breadcrumb a:hover { color: var(--powder); }
+.page-hero .breadcrumb-sep   { color: rgba(255,253,250,0.40); }
 
 /* Breadcrumb */
 .breadcrumb {
@@ -2473,7 +2478,8 @@ ul  { list-style: none; }
 [data-theme="orange"] .terapeutka-name { color: #2a2e5e; }
 [data-theme="orange"] .section--old-rose .section-header h2 { color: #2a2e5e; }
 
-[data-theme="orange"] .hero h1       { color: #e06000; }
+[data-theme="orange"] .hero h1,
+[data-theme="orange"] .page-hero h1  { color: #e06000; }
 [data-theme="orange"] .hero-subtitle { color: var(--text-muted); }
 [data-theme="orange"] .hero-tagline  {
     background: rgba(var(--navy-rgb), 0.1);
@@ -2489,6 +2495,12 @@ ul  { list-style: none; }
     color: var(--powder) !important;
 }
 [data-theme="orange"] .hero::before { background: radial-gradient(circle, rgba(255,155,66,0.28) 0%, transparent 70%); }
+/* page-hero on orange's light gradient */
+[data-theme="orange"] .page-hero p             { color: var(--text-muted); }
+[data-theme="orange"] .page-hero .breadcrumb   { color: var(--text-light); }
+[data-theme="orange"] .page-hero .breadcrumb a { color: var(--navy); }
+[data-theme="orange"] .page-hero .breadcrumb a:hover { color: var(--petrol); }
+[data-theme="orange"] .page-hero .breadcrumb-sep     { color: var(--text-light); }
 
 
 /* ============================================================
@@ -2602,6 +2614,13 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] .section--dark { background: #4e5699; color: #fffdfa; }
 [data-theme="orange-v3"] .section--dark .section-header h2 { color: #ff9b42; }
 [data-theme="orange-v3"] .section--dark .section-header p  { color: rgba(255,253,250,0.75); }
+
+/* page-hero on orange-v3's orange gradient → dark text */
+[data-theme="orange-v3"] .page-hero p             { color: #4e5699; opacity: 0.85; }
+[data-theme="orange-v3"] .page-hero .breadcrumb   { color: rgba(78,86,153,0.65); }
+[data-theme="orange-v3"] .page-hero .breadcrumb a { color: #4e5699; }
+[data-theme="orange-v3"] .page-hero .breadcrumb a:hover { color: #2a2e5e; }
+[data-theme="orange-v3"] .page-hero .breadcrumb-sep     { color: rgba(78,86,153,0.45); }
 
 /* ── Nadpisy na světlých sekcích → navy ──────────────────── */
 [data-theme="orange-v3"] .section-header h2,
