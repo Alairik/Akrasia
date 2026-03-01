@@ -2358,44 +2358,43 @@ ul  { list-style: none; }
    Sdílené principy (M3 / 60-30-10):
    • #ff9b42  primární brand orange  – header, ikony, tmavé nadpisy
    • #e06000  display nadpisy (světlé bg) – 3.44:1 ✓ EAA large text
-   • #b85000  linky / interaktivní  – 5.1:1 ✓ EAA normal text
+   • #9e4600  linky / interaktivní  – 5.6:1 ✓ EAA normal text
    • #2a2e5e  on-primary / kotevní  – tmavé sekce, zápatí, nav text
    ============================================================ */
 
 /* ── SDÍLENÉ TOKENY (obě varianty) ──────────────────────────── */
 :is([data-theme="orange"], [data-theme="orange-v3"]) {
-    --navy:          #b85000;
-    --petrol:        #9a4200;
+    /* Linky / interaktivní: #9e4600 = 5.6:1 na krémovém bg ✓ EAA */
+    --navy:          #9e4600;
+    --petrol:        #7a3200;
     --purple:        #e87a1a;
 
-    --navy-rgb:      184, 80, 0;
+    --navy-rgb:      158, 70, 0;
     --header-bg-rgb: 255, 155, 66;
 
-    --text:          #1c0e00;
-    /* Muted texty: teplá neutrální šedá místo brownish #7a3d10
-       – čte se jako "sekundární text", ne "tmavá oranžová"
-       Kontrast #6b5a52 na bílé = 6.2:1 ✓  #7a6558 = 5.3:1 ✓  EAA splněno */
-    --text-muted:    #6b5a52;
-    --text-light:    #7a6558;
+    /* Tělesné texty: navy-modrá – 60-30-10: krém / navy-text / oranžová */
+    --text:          #1c2060;   /* tmavá navy-modrá – 13.2:1 na krému ✓ */
+    --text-muted:    #4a5480;   /* desaturovaná navy – 6.45:1 ✓ */
+    --text-light:    #5a5e8a;   /* světlejší navy – 5.1:1 ✓ */
 
-    /* Stránkové pozadí: lehce teplejší než čistá bílá
-       → plain sekce (Hodnoty, Partneři…) mají tepelný charakter */
-    --bg:            #fff8f3;
-    --bg-alt:        #fff3e0;
+    /* Stránkové pozadí: jasně krémová, viditelně odlišená od bílé
+       #e06000 nadpisy: 3.20:1 na #fff0d8 ✓ / 3.09:1 na #ffebd0 ✓ EAA large text */
+    --bg:            #fff0d8;
+    --bg-alt:        #ffebd0;
 
-    --vanilla:       #fff3e0;
-    --old-rose:      #ffe5d4;
-    --powder:        #fffbf5;
-    --mint:          #fff8d4;
-    --lilac:         #ffd4a0;
+    --vanilla:       #ffebd0;
+    --old-rose:      #ffd4a4;
+    --powder:        #fff5ed;
+    --mint:          #fff0c8;
+    --lilac:         #ffcc80;
 
-    scrollbar-color: #ff9b42 #fff3e0;
+    scrollbar-color: #ff9b42 #ffebd0;
 }
 
 /* ── HERO GRADIENT: varianta A – světlý ─────────────────────── */
-/* Zesvětlen oproti původnímu: #e06000 nadpis má 3.1:1 na nejsvětlejším bodu ✓ */
+/* #e06000 nadpis: 3.14:1 na #fff0d8 ✓ / 3.09:1 na #ffebce ✓ EAA large text */
 [data-theme="orange"] {
-    --bg-hero: linear-gradient(135deg, #fff3e0 0%, #ffebd0 50%, #ffebce 100%);
+    --bg-hero: linear-gradient(135deg, #fff0d8 0%, #ffecd0 50%, #ffebce 100%);
 }
 
 /* ── HERO GRADIENT: varianta B – tmavý navy ─────────────────── */
@@ -2405,9 +2404,9 @@ ul  { list-style: none; }
 }
 
 /* ── Scrollbar ───────────────────────────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-track { background: #fff3e0; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-track { background: #ffebd0; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb { background: #ff9b42; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb:hover { background: #b85000; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) ::-webkit-scrollbar-thumb:hover { background: #7a3200; }
 
 /* ── Header ─────────────────────────────────────────────────── */
 :is([data-theme="orange"], [data-theme="orange-v3"]) .site-header { border-bottom-color: rgba(255,255,255,0.20); }
@@ -2418,10 +2417,10 @@ ul  { list-style: none; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-toggle span                 { background: #2a2e5e; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link                        { color: #2a2e5e !important; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link:hover                  { background: rgba(255,255,255,0.22); color: #fff !important; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link.active                 { background: rgba(255,255,255,0.28); color: #1c0e00 !important; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link.active                 { background: rgba(255,255,255,0.28); color: #1c2060 !important; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link--donate                { background: #2a2e5e; color: #ff9b42 !important; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-link--donate:hover          { background: #1c1f3e; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .dropdown                        { background: #fff3e0; border-color: rgba(184,80,0,0.15); }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .dropdown                        { background: #ffebd0; border-color: rgba(158,70,0,0.18); }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-mobile-logo                 { border-bottom-color: rgba(255,255,255,0.20); }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .nav-mobile-logo .site-logo-text { color: #2a2e5e; }
 
@@ -2431,7 +2430,7 @@ ul  { list-style: none; }
     color: #2a2e5e !important;
 }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .btn-primary:hover {
-    background: linear-gradient(135deg, #e8821a 0%, #b85000 100%);
+    background: linear-gradient(135deg, #c07010 0%, #7a3200 100%);
     color: #fff !important;
 }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .btn-accent:hover { background: #7a3200; border-color: #7a3200; }
@@ -2452,8 +2451,8 @@ ul  { list-style: none; }
 }
 
 /* ── Ikony, dekorativní prvky ────────────────────────────────── */
-:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--old-rose  { background: rgba(255,155,66,0.14); color: #b85000; }
-:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--old-rose { background: rgba(255,155,66,0.14); color: #b85000; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .card-icon--old-rose  { background: rgba(158,70,0,0.12); color: #9e4600; }
+:is([data-theme="orange"], [data-theme="orange-v3"]) .value-icon--old-rose { background: rgba(158,70,0,0.12); color: #9e4600; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .testimonial-quote    { color: #ff9b42; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .not-found-number     { color: #ff9b42; }
 :is([data-theme="orange"], [data-theme="orange-v3"]) .article-content blockquote {
