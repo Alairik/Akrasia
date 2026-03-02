@@ -15,7 +15,7 @@ $logoId    = setting('site_logo_id');
             <?php if ($logoId): ?>
                 <img src="<?= e(Template::mediaUrl((int)$logoId)) ?>" alt="<?= e($siteName) ?>" height="36">
             <?php else: ?>
-                <img src="<?= asset('assets/akrasia-logo-rect.svg') ?>" alt="<?= e($siteName) ?>" height="36" class="site-logo-img">
+                <img src="<?= asset('themes/default/assets/akrasia-logo-rect.svg') ?>" alt="<?= e($siteName) ?>" height="36" class="site-logo-img">
             <?php endif; ?>
         </a>
 
@@ -27,7 +27,7 @@ $logoId    = setting('site_logo_id');
 
             <!-- Logo v mobilním menu -->
             <div class="nav-mobile-logo">
-                <img src="<?= asset('assets/akrasia-logo-rect.svg') ?>" alt="<?= e($siteName) ?>" height="44" class="site-logo-img">
+                <img src="<?= asset('themes/default/assets/akrasia-logo-rect.svg') ?>" alt="<?= e($siteName) ?>" height="44" class="site-logo-img">
             </div>
 
             <?php foreach ($menuItems as $item):

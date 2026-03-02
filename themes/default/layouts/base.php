@@ -13,6 +13,8 @@
     <meta name="robots" content="noindex, nofollow">
     <?php endif; ?>
 
+    <link rel="icon" type="image/png" href="<?= asset('themes/default/assets/Akrasia_FAV.png') ?>">
+    <link rel="apple-touch-icon" href="<?= asset('themes/default/assets/Akrasia_FAV.png') ?>">
     <link rel="canonical" href="<?= e($seo['canonical'] ?? url(request_uri())) ?>">
 
     <meta property="og:site_name" content="<?= e(setting('site_name', 'Akrasia')) ?>">
