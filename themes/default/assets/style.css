@@ -2544,29 +2544,53 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] .page-hero .breadcrumb a:hover  { color: var(--powder); }
 [data-theme="orange-v3"] .page-hero .breadcrumb-sep      { color: rgba(255,253,250,0.40); }
 
-/* ── Stats: pudrová bg, vanilkové boxy, navy texty ────────── */
-[data-theme="orange-v3"] .section:has(.stats-grid) { background: #fffdfa; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .section-header h2 { color: #4e5699; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .section-header p  { color: rgba(78,86,153,0.70); }
-[data-theme="orange-v3"] .section:has(.stats-grid) .stat-card         { background: #f7f0c1; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .stat-number       { color: #4e5699; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .stat-label        { color: rgba(78,86,153,0.70); }
+/* ── H3 nadpisy s brandovým prvkem (jako v sekci Kdo jste) ── */
+[data-theme="orange-v3"] .section h3::before {
+    content: '';
+    display: block;
+    height: 10px;
+    width: 72px;
+    background: url('../brand/prvek_horizontal.svg') no-repeat left center / 100% 100%;
+    margin-bottom: var(--space-2);
+    border-radius: 3px;
+    opacity: 0.85;
+}
+/* Rozcestník má prvek přímo na kartě – nezdvojovat na H3 */
+[data-theme="orange-v3"] .junction-card h3::before { content: none; }
 
-/* ── Rozcestník: hrušková bg (#cad636) ────────────────────── */
-[data-theme="orange-v3"] .section--logo-bg-left                        { background: #cad636; }
-[data-theme="orange-v3"] .section--logo-bg-left .section-header h2    { color: #4e5699; }
-[data-theme="orange-v3"] .section--logo-bg-left .section-header p     { color: #4e5699; opacity: 0.80; }
-[data-theme="orange-v3"] .section--logo-bg-left .junction-card        { background: #fffdfa; }
+/* ── Střídání: každá sudá .section v main → pudrová (0,3,1)  */
+[data-theme="orange-v3"] main > .section:nth-child(even) { background: #fffdfa; }
 
-/* ── FAQ: mint bg (#ddfbd2) ───────────────────────────────── */
-[data-theme="orange-v3"] .section:has(.faq-list)                      { background: #ddfbd2; }
-[data-theme="orange-v3"] .section:has(.faq-list) .section-header h2  { color: #4e5699; }
+/* Specifičtější pravidla (0,3,1, za nth-child) přebijí sudé: */
 
-/* ── Příběhy: section--mint → old-rose, ne zářivá fialová ── */
-[data-theme="orange-v3"] .section--mint                               { background: #f1deeb; }
-[data-theme="orange-v3"] .section--mint .section-header h2           { color: #4e5699; }
-[data-theme="orange-v3"] .section--mint .section-header p            { color: rgba(78,86,153,0.75); }
-[data-theme="orange-v3"] .section--mint .testimonial-quote           { color: #b55397; }
+/* Stats: pudrová bg + vanilkové boxy + navy texty            */
+[data-theme="orange-v3"] main .section:has(.stats-grid)                     { background: #fffdfa; }
+[data-theme="orange-v3"] main .section:has(.stats-grid) .section-header h2  { color: #4e5699; }
+[data-theme="orange-v3"] main .section:has(.stats-grid) .section-header p   { color: rgba(78,86,153,0.70); }
+[data-theme="orange-v3"] main .section:has(.stats-grid) .stat-card          { background: #f7f0c1; }
+[data-theme="orange-v3"] main .section:has(.stats-grid) .stat-number        { color: #4e5699; }
+[data-theme="orange-v3"] main .section:has(.stats-grid) .stat-label         { color: rgba(78,86,153,0.70); }
+
+/* Rozcestník (Kdo jste): hrušková bg – zachovat              */
+[data-theme="orange-v3"] main .section.section--logo-bg-left                      { background: #cad636; }
+[data-theme="orange-v3"] main .section.section--logo-bg-left .section-header h2  { color: #4e5699; }
+[data-theme="orange-v3"] main .section.section--logo-bg-left .section-header p   { color: #4e5699; opacity: 0.80; }
+[data-theme="orange-v3"] main .section.section--logo-bg-left .junction-card      { background: #fffdfa; }
+
+/* FAQ: mint bg                                                */
+[data-theme="orange-v3"] main .section:has(.faq-list)                      { background: #ddfbd2; }
+[data-theme="orange-v3"] main .section:has(.faq-list) .section-header h2   { color: #4e5699; }
+
+/* Příběhy: old-rose – zachovat                               */
+[data-theme="orange-v3"] main .section.section--mint                               { background: #f1deeb; }
+[data-theme="orange-v3"] main .section.section--mint .section-header h2           { color: #4e5699; }
+[data-theme="orange-v3"] main .section.section--mint .section-header p            { color: rgba(78,86,153,0.75); }
+[data-theme="orange-v3"] main .section.section--mint .testimonial-quote           { color: #b55397; }
+
+/* Tmavé sekce: navy – přebijí nth-child i na sudých          */
+[data-theme="orange-v3"] main .section.section--dark                              { background: #4e5699; color: #fffdfa; }
+[data-theme="orange-v3"] main .section.section--dark .section-header h2           { color: #ff9b42; }
+[data-theme="orange-v3"] main .section.section--dark .section-header p            { color: rgba(255,253,250,0.75); }
 
 /* ── Donate/CTA: pudrová bg (nad navy patičkou nesmí být navy) */
 [data-theme="orange-v3"] .donate-section                              { background: #fffdfa; }
@@ -2585,7 +2609,7 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] .site-footer         { background: #4e5699; }
 [data-theme="orange-v3"] .site-footer::before { background: rgba(255,155,66,0.07); }
 
-/* ── section--dark fallback ───────────────────────────────── */
+/* ── section--dark fallback (mimo main, např. podstránky) ─── */
 [data-theme="orange-v3"] .section--dark { background: #4e5699; color: #fffdfa; }
 [data-theme="orange-v3"] .section--dark .section-header h2 { color: #ff9b42; }
 [data-theme="orange-v3"] .section--dark .section-header p  { color: rgba(255,253,250,0.75); }
