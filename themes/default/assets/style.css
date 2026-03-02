@@ -2550,7 +2550,7 @@ ul  { list-style: none; }
     display: block;
     height: 10px;
     width: 72px;
-    background: url('../brand/prvek_horizontal.svg') no-repeat left center / 100% 100%;
+    background: url('../../../assets/brand/prvek_horizontal.svg') no-repeat left center / 100% 100%;
     margin-bottom: var(--space-2);
     border-radius: 3px;
     opacity: 0.85;
@@ -2558,10 +2558,19 @@ ul  { list-style: none; }
 /* Rozcestník má prvek přímo na kartě – nezdvojovat na H3 */
 [data-theme="orange-v3"] .junction-card h3::before { content: none; }
 
-/* ── Střídání: každá sudá .section v main → pudrová (0,3,1)  */
+/* ── Střídání sekcí (0,3,1):                                  */
+/*   sudé  → pudrová (#fffdfa) – neutrální, vzdušná            */
+/*   liché → vanilková (#f7f0c1) – teplá, odlišitelná         */
 [data-theme="orange-v3"] main > .section:nth-child(even) { background: #fffdfa; }
+[data-theme="orange-v3"] main > .section:nth-child(odd)  { background: #f7f0c1; }
 
-/* Specifičtější pravidla (0,3,1, za nth-child) přebijí sudé: */
+/* Karty dostávají kontrastní bg vůči sekci (0,4,1)            */
+[data-theme="orange-v3"] main > .section:nth-child(even) .card,
+[data-theme="orange-v3"] main > .section:nth-child(even) .testimonial-card { background: #f7f0c1; }
+[data-theme="orange-v3"] main > .section:nth-child(odd)  .card,
+[data-theme="orange-v3"] main > .section:nth-child(odd)  .testimonial-card { background: #fffdfa; }
+
+/* Specifičtější přepsání (0,3,1 nebo výše) – za nth-child:   */
 
 /* Stats: pudrová bg + vanilkové boxy + navy texty            */
 [data-theme="orange-v3"] main .section:has(.stats-grid)                     { background: #fffdfa; }
@@ -2581,16 +2590,15 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] main .section:has(.faq-list)                      { background: #ddfbd2; }
 [data-theme="orange-v3"] main .section:has(.faq-list) .section-header h2   { color: #4e5699; }
 
-/* Příběhy: old-rose – zachovat                               */
-[data-theme="orange-v3"] main .section.section--mint                               { background: #f1deeb; }
-[data-theme="orange-v3"] main .section.section--mint .section-header h2           { color: #4e5699; }
-[data-theme="orange-v3"] main .section.section--mint .section-header p            { color: rgba(78,86,153,0.75); }
-[data-theme="orange-v3"] main .section.section--mint .testimonial-quote           { color: #b55397; }
+/* Příběhy (section--mint): řídí nth-child, ne pevná barva    */
+/* Testimonial quote na libovolném bg                         */
+[data-theme="orange-v3"] .section--mint .testimonial-quote { color: #b55397; }
 
-/* Tmavé sekce: navy – přebijí nth-child i na sudých          */
+/* Tmavé sekce: navy – přebijí nth-child i na sudých/lichých  */
 [data-theme="orange-v3"] main .section.section--dark                              { background: #4e5699; color: #fffdfa; }
 [data-theme="orange-v3"] main .section.section--dark .section-header h2           { color: #ff9b42; }
 [data-theme="orange-v3"] main .section.section--dark .section-header p            { color: rgba(255,253,250,0.75); }
+[data-theme="orange-v3"] main .section.section--dark .card                         { background: rgba(255,253,250,0.08); }
 
 /* ── Donate/CTA: pudrová bg (nad navy patičkou nesmí být navy) */
 [data-theme="orange-v3"] .donate-section                              { background: #fffdfa; }
