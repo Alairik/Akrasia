@@ -2544,18 +2544,25 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] .page-hero .breadcrumb a:hover  { color: var(--powder); }
 [data-theme="orange-v3"] .page-hero .breadcrumb-sep      { color: rgba(255,253,250,0.40); }
 
-/* ── H3 nadpisy s brandovým prvkem (jako v sekci Kdo jste) ── */
+/* ── H3 nadpisy s brandovým prvkem (prvek prochází textem) ── */
+[data-theme="orange-v3"] .section h3 {
+    position: relative;
+    z-index: 0;
+}
 [data-theme="orange-v3"] .section h3::before {
     content: '';
-    display: block;
-    height: 10px;
-    width: 72px;
-    background: url('../../../assets/brand/prvek_horizontal.svg') no-repeat left center / 100% 100%;
-    margin-bottom: var(--space-2);
+    position: absolute;
+    left: -4px;
+    top: 8%;
+    width: 90%;
+    height: 52%;
+    background: url('../../../assets/brand/prvek_horizontal.svg') repeat-x left center / 432px 100%;
+    z-index: -1;
     border-radius: 3px;
-    opacity: 0.85;
+    opacity: 0.80;
 }
-/* Rozcestník má prvek přímo na kartě – nezdvojovat na H3 */
+/* Rozcestník má prvek přímo na kartě – na H3 nezdvojovat */
+[data-theme="orange-v3"] .junction-card h3 { position: static; }
 [data-theme="orange-v3"] .junction-card h3::before { content: none; }
 
 /* ── Střídání sekcí (0,3,1):                                  */
