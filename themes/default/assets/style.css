@@ -2544,12 +2544,13 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] .page-hero .breadcrumb a:hover  { color: var(--powder); }
 [data-theme="orange-v3"] .page-hero .breadcrumb-sep      { color: rgba(255,253,250,0.40); }
 
-/* ── Stats: navy bg (#4e5699) + pudrová text ──────────────── */
-[data-theme="orange-v3"] .section:has(.stats-grid) { background: #4e5699; color: #fffdfa; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .section-header h2 { color: #ff9b42; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .section-header p  { color: rgba(255,253,250,0.75); }
-[data-theme="orange-v3"] .section:has(.stats-grid) .stat-number       { color: #ff9b42; }
-[data-theme="orange-v3"] .section:has(.stats-grid) .stat-label        { color: rgba(255,253,250,0.80); }
+/* ── Stats: pudrová bg, vanilkové boxy, navy texty ────────── */
+[data-theme="orange-v3"] .section:has(.stats-grid) { background: #fffdfa; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .section-header h2 { color: #4e5699; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .section-header p  { color: rgba(78,86,153,0.70); }
+[data-theme="orange-v3"] .section:has(.stats-grid) .stat-card         { background: #f7f0c1; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .stat-number       { color: #4e5699; }
+[data-theme="orange-v3"] .section:has(.stats-grid) .stat-label        { color: rgba(78,86,153,0.70); }
 
 /* ── Rozcestník: hrušková bg (#cad636) ────────────────────── */
 [data-theme="orange-v3"] .section--logo-bg-left                        { background: #cad636; }
@@ -2561,22 +2562,23 @@ ul  { list-style: none; }
 [data-theme="orange-v3"] .section:has(.faq-list)                      { background: #ddfbd2; }
 [data-theme="orange-v3"] .section:has(.faq-list) .section-header h2  { color: #4e5699; }
 
-/* ── Příběhy: section--mint → lila (#eb9fef) ──────────────── */
-[data-theme="orange-v3"] .section--mint                               { background: #eb9fef; }
+/* ── Příběhy: section--mint → old-rose, ne zářivá fialová ── */
+[data-theme="orange-v3"] .section--mint                               { background: #f1deeb; }
 [data-theme="orange-v3"] .section--mint .section-header h2           { color: #4e5699; }
-[data-theme="orange-v3"] .section--mint .section-header p            { color: #4e5699; opacity: 0.80; }
-[data-theme="orange-v3"] .section--mint .testimonial-quote           { color: #ff9b42; }
+[data-theme="orange-v3"] .section--mint .section-header p            { color: rgba(78,86,153,0.75); }
+[data-theme="orange-v3"] .section--mint .testimonial-quote           { color: #b55397; }
 
-/* ── Donate/CTA: navy + oranžová ─────────────────────────── */
-[data-theme="orange-v3"] .donate-section                              { background: #4e5699; }
-[data-theme="orange-v3"] .donate-section::before                      { background: rgba(255,155,66,0.07); }
-[data-theme="orange-v3"] .donate-section h2                           { color: #ff9b42; }
-[data-theme="orange-v3"] .donate-section p                            { color: rgba(255,253,250,0.85); }
+/* ── Donate/CTA: pudrová bg (nad navy patičkou nesmí být navy) */
+[data-theme="orange-v3"] .donate-section                              { background: #fffdfa; }
+[data-theme="orange-v3"] .donate-section::before                      { background: rgba(78,86,153,0.03); }
+[data-theme="orange-v3"] .donate-section.section--logo-bg::after      { filter: none; opacity: 0.06; }
+[data-theme="orange-v3"] .donate-section h2                           { color: #4e5699; }
+[data-theme="orange-v3"] .donate-section p                            { color: rgba(78,86,153,0.75); }
 [data-theme="orange-v3"] .donate-section .btn-primary {
-    background: #ff9b42; color: #4e5699 !important; border-color: #ff9b42;
+    background: #4e5699; color: #fffdfa !important; border-color: #4e5699;
 }
 [data-theme="orange-v3"] .donate-section .btn-primary:hover {
-    background: #fffdfa; border-color: #fffdfa; color: #4e5699 !important;
+    background: #3a4175; border-color: #3a4175; color: #fffdfa !important;
 }
 
 /* ── Footer: navy ─────────────────────────────────────────── */
