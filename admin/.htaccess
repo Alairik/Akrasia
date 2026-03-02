@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /akrasia/admin/
+RewriteBase /admin/
 
 # Serve existing files directly
 RewriteCond %{REQUEST_FILENAME} -f

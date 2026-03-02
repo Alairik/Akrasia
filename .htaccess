@@ -11,7 +11,7 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /akrasia/
+    RewriteBase /
 
     # HTTPS vynucení (Wedos-compatible: SSL terminuje na proxy, %{HTTPS} bývá vždy "off")
     # Proto kontrolujeme i X-Forwarded-Proto – přeskočí redirect pokud je https na proxy vrstvě
