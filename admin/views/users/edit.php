@@ -22,9 +22,20 @@
         </div>
         <div>
             <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-            <select id="role" name="role" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            <select id="role" name="role" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    onchange="document.getElementById('member-level-row').style.display = this.value === 'member' ? '' : 'none'">
                 <option value="editor" <?= ($user['role'] ?? 'editor') === 'editor' ? 'selected' : '' ?>>Editor</option>
                 <option value="admin" <?= ($user['role'] ?? '') === 'admin' ? 'selected' : '' ?>>Admin</option>
+                <option value="member" <?= ($user['role'] ?? '') === 'member' ? 'selected' : '' ?>>Člen (member)</option>
+            </select>
+        </div>
+        <div id="member-level-row" <?= ($user['role'] ?? '') !== 'member' ? 'style="display:none"' : '' ?>>
+            <label for="member_level" class="block text-sm font-medium text-gray-700 mb-1">Úroveň přístupu</label>
+            <select id="member_level" name="member_level" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <option value="0" <?= (int)($user['member_level'] ?? 0) === 0 ? 'selected' : '' ?>>0 – žádný přístup</option>
+                <option value="1" <?= (int)($user['member_level'] ?? 0) === 1 ? 'selected' : '' ?>>1 – základní</option>
+                <option value="2" <?= (int)($user['member_level'] ?? 0) === 2 ? 'selected' : '' ?>>2 – pokročilý</option>
+                <option value="3" <?= (int)($user['member_level'] ?? 0) === 3 ? 'selected' : '' ?>>3 – plný přístup</option>
             </select>
         </div>
         <div class="flex gap-2">

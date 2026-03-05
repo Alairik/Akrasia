@@ -76,6 +76,128 @@ Router::post('/form/submit', function () {
     Form::handleSubmission();
 });
 
+// ── Členská sekce ────────────────────────────────────────────────
+// Login
+Router::get('/login', function () {
+    require_once CORE_PATH . '/MemberAuth.php';
+    require_once CORE_PATH . '/Template.php';
+    if (MemberAuth::check()) { redirect(url('clen')); }
+    Template::render('member-login', ['error' => $_GET['chyba'] ?? null]);
+});
+
+Router::post('/login', function () {
+    Security::validateCsrf();
+    require_once CORE_PATH . '/MemberAuth.php';
+    $ok = MemberAuth::attempt(
+        trim($_POST['email'] ?? ''),
+        $_POST['password'] ?? ''
+    );
+    if ($ok) {
+        redirect(url('clen'));
+    } else {
+        redirect(url('login') . '?chyba=1');
+    }
+});
+
+// Registrace
+Router::get('/registrace', function () {
+    require_once CORE_PATH . '/MemberAuth.php';
+    require_once CORE_PATH . '/Template.php';
+    if (MemberAuth::check()) { redirect(url('clen')); }
+    Template::render('member-register', ['error' => null, 'old' => []]);
+});
+
+Router::post('/registrace', function () {
+    Security::validateCsrf();
+    require_once CORE_PATH . '/MemberAuth.php';
+
+    $rateKey = 'member_register:' . client_ip();
+    if (!Security::checkRateLimit($rateKey, 3, 3600)) {
+        require_once CORE_PATH . '/Template.php';
+        Template::render('member-register', [
+            'error' => 'Příliš mnoho pokusů o registraci. Zkuste to za hodinu.',
+            'old'   => $_POST,
+        ]);
+        return;
+    }
+
+    $name     = Security::sanitize($_POST['name'] ?? '');
+    $email    = Security::sanitizeEmail($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $confirm  = $_POST['password_confirm'] ?? '';
+
+    $error = null;
+    if (!$name || !$email || !$password) {
+        $error = 'Vyplňte všechna povinná pole.';
+    } elseif (strlen($password) < 8) {
+        $error = 'Heslo musí mít alespoň 8 znaků.';
+    } elseif ($password !== $confirm) {
+        $error = 'Hesla se neshodují.';
+    }
+
+    if ($error) {
+        require_once CORE_PATH . '/Template.php';
+        Template::render('member-register', ['error' => $error, 'old' => $_POST]);
+        return;
+    }
+
+    try {
+        Security::recordRateLimit($rateKey);
+        $userId = MemberAuth::register($name, $email, $password);
+        MemberAuth::attempt($email, $password);
+        redirect(url('clen') . '?vitej=1');
+    } catch (RuntimeException $e) {
+        require_once CORE_PATH . '/Template.php';
+        Template::render('member-register', ['error' => $e->getMessage(), 'old' => $_POST]);
+    }
+});
+
+// Odhlášení člena
+Router::get('/logout-clen', function () {
+    require_once CORE_PATH . '/MemberAuth.php';
+    MemberAuth::logout();
+    redirect(url('login'));
+});
+
+// Přehled člena (dashboard)
+Router::get('/clen', function () {
+    require_once CORE_PATH . '/MemberAuth.php';
+    require_once CORE_PATH . '/MemberContent.php';
+    require_once CORE_PATH . '/Template.php';
+    MemberAuth::requireLogin();
+    $items = MemberContent::listForLevel(MemberAuth::level());
+    Template::render('member-dashboard', ['items' => $items, 'welcome' => isset($_GET['vitej'])]);
+});
+
+// Přehrávač videa
+Router::get('/clen/video/{id}', function (string $id) {
+    require_once CORE_PATH . '/MemberAuth.php';
+    require_once CORE_PATH . '/MemberContent.php';
+    require_once CORE_PATH . '/Template.php';
+    MemberAuth::requireLogin();
+    $item = MemberContent::getById((int) $id);
+    if (!$item || $item['type'] !== 'video') { Router::notFound(); }
+    if (!MemberContent::canAccess((int) $id)) {
+        flash('error', 'Nemáte oprávnění k tomuto obsahu.');
+        redirect(url('clen'));
+    }
+    Template::render('member-video', ['item' => $item]);
+});
+
+// Streamování videa (Range-based)
+Router::get('/clen/stream/{id}', function (string $id) {
+    require_once CORE_PATH . '/MemberAuth.php';
+    require_once CORE_PATH . '/MemberContent.php';
+    MemberContent::streamVideo($id);
+});
+
+// Stažení dokumentu/PDF
+Router::get('/clen/stahnout/{id}', function (string $id) {
+    require_once CORE_PATH . '/MemberAuth.php';
+    require_once CORE_PATH . '/MemberContent.php';
+    MemberContent::downloadFile($id);
+});
+
 // ── CMS stránka (slug) ──────────────────────────────────────────
 Router::get('/{slug}', function (string $slug) {
     if ($slug === 'admin') return;

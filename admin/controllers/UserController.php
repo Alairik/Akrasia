@@ -24,7 +24,7 @@ class UserController
     {
         Auth::requireAdmin();
 
-        $user = ['id' => null, 'email' => '', 'name' => '', 'role' => 'editor'];
+        $user = ['id' => null, 'email' => '', 'name' => '', 'role' => 'editor', 'member_level' => 0];
         $pageTitle = 'Nový uživatel';
         $section = 'users';
 
@@ -41,7 +41,7 @@ class UserController
         if (!$id) redirect(url('admin/users'));
 
         $db = Database::getInstance();
-        $user = $db->fetchOne("SELECT id, email, name, role, last_login, created_at FROM zvele_users WHERE id = ?", [(int)$id]);
+        $user = $db->fetchOne("SELECT id, email, name, role, member_level, last_login, created_at FROM zvele_users WHERE id = ?", [(int)$id]);
         if (!$user) {
             flash('error', 'Uživatel nenalezen.');
             redirect(url('admin/users'));
@@ -62,10 +62,15 @@ class UserController
         Auth::requireAdmin();
         $db = Database::getInstance();
 
+        $memberLevel = (int) ($_POST['member_level'] ?? 0);
+        $allowedRoles = ['admin', 'editor', 'member'];
+        $role = in_array($_POST['role'] ?? '', $allowedRoles) ? $_POST['role'] : 'editor';
+
         $data = [
-            'email' => Security::sanitizeEmail($_POST['email'] ?? ''),
-            'name' => Security::sanitize($_POST['name'] ?? ''),
-            'role' => in_array($_POST['role'] ?? '', ['admin', 'editor']) ? $_POST['role'] : 'editor',
+            'email'        => Security::sanitizeEmail($_POST['email'] ?? ''),
+            'name'         => Security::sanitize($_POST['name'] ?? ''),
+            'role'         => $role,
+            'member_level' => ($role === 'member') ? max(0, min(3, $memberLevel)) : 0,
         ];
 
         if (empty($data['email']) || empty($data['name'])) {

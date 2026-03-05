@@ -28,3 +28,4 @@ define('THEME_PATH', ROOT_PATH . '/themes/default');
 define('UPLOAD_PATH', ROOT_PATH . '/uploads');
 define('CACHE_PATH', ROOT_PATH . '/cache');
 define('CONTENT_PATH', ROOT_PATH . '/content');
+define('PROTECTED_PATH', ROOT_PATH . '/protected');

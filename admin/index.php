@@ -65,6 +65,7 @@ $controllerMap = [
     'settings' => 'SettingsController',
     'redirects' => 'RedirectController',
     'users' => 'UserController',
+    'member' => 'MemberAdminController',
 ];
 
 if (!isset($controllerMap[$section])) {
