@@ -35,4 +35,6 @@ jobs:
             _server/**
             uploads/**
             Akrasia/**
+            protected/videos/**
+            protected/documents/**
             CLAUDE.md

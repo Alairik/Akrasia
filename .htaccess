@@ -1,4 +1,9 @@
 # Akrasia – Apache URL Rewriting pro ZveleCMS
+# Nasazeno do /www/akrasia/.htaccess
+#
+# POZNÁMKA: HTTPS vynucení a subdomain routing řeší root /www/.htaccess
+# (_server/.htaccess). Zde stačí jen Akrasia-specifická pravidla.
+# RewriteBase /akrasia/ je nutné – WEDOS alias přepíše URI na /akrasia/path.
 
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options  "nosniff"
@@ -11,21 +16,15 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /akrasia/
 
-    # HTTPS vynucení – hardcode akrasia.zvelebil.online, aby nedošlo k přesměrování
-    # na hlavní doménu (na WEDOS %{HTTP_HOST} v alias konfiguraci vrací zvelebil.online)
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP:X-Forwarded-Proto} !https
-    RewriteRule ^ https://akrasia.zvelebil.online%{REQUEST_URI} [L,R=301]
-
-    # Ochrana interních složek
+    # Ochrana interních složek (přímý přístup zakázán)
     RewriteRule ^includes(/.*)?$  - [F,L]
     RewriteRule ^pages(/.*)?$     - [F,L]
     RewriteRule ^core(/.*)?$      - [F,L]
     RewriteRule ^protected(/.*)?$ - [F,L]
 
-    # Průchodné složky (nerewritovat)
+    # Průchodné složky (nerewritovat, Apache obslouží přímo)
     RewriteRule ^admin(/.*)?$     - [L]
     RewriteRule ^assets(/.*)?$    - [L]
     RewriteRule ^uploads(/.*)?$   - [L]
