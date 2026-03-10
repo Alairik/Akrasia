@@ -13,16 +13,17 @@
     RewriteEngine On
     RewriteBase /
 
-    # HTTPS vynucení (Wedos-compatible: SSL terminuje na proxy, %{HTTPS} bývá vždy "off")
-    # Proto kontrolujeme i X-Forwarded-Proto – přeskočí redirect pokud je https na proxy vrstvě
+    # HTTPS vynucení – hardcode akrasia.zvelebil.online, aby nedošlo k přesměrování
+    # na hlavní doménu (na WEDOS %{HTTP_HOST} v alias konfiguraci vrací zvelebil.online)
     RewriteCond %{HTTPS} off
     RewriteCond %{HTTP:X-Forwarded-Proto} !https
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    RewriteRule ^ https://akrasia.zvelebil.online%{REQUEST_URI} [L,R=301]
 
     # Ochrana interních složek
     RewriteRule ^includes(/.*)?$  - [F,L]
     RewriteRule ^pages(/.*)?$     - [F,L]
     RewriteRule ^core(/.*)?$      - [F,L]
+    RewriteRule ^protected(/.*)?$ - [F,L]
 
     # Průchodné složky (nerewritovat)
     RewriteRule ^admin(/.*)?$     - [L]
@@ -32,11 +33,12 @@
     RewriteRule ^themes(/.*)?$    - [L]
 
     # Statické soubory
-    RewriteRule ^sitemap\.xml$    - [L]
-    RewriteRule ^robots\.txt$     - [L]
-    RewriteRule ^favicon\.ico$    - [L]
-    RewriteRule ^install\.php$    - [L]
-    RewriteRule ^seed\.php$       - [L]
+    RewriteRule ^sitemap\.xml$        - [L]
+    RewriteRule ^robots\.txt$         - [L]
+    RewriteRule ^favicon\.ico$        - [L]
+    RewriteRule ^install\.php$        - [L]
+    RewriteRule ^seed\.php$           - [L]
+    RewriteRule ^member-migrate\.php$ - [L]
 
     # Existující soubory a složky nechej projít
     RewriteCond %{REQUEST_FILENAME} -f [OR]
